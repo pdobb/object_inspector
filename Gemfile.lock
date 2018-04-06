@@ -1,0 +1,34 @@
+PATH
+  remote: .
+  specs:
+    object_inspector (0.1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    byebug (10.0.2)
+    coderay (1.1.2)
+    method_source (0.9.0)
+    minitest (5.11.3)
+    pry (0.11.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry-byebug (3.6.0)
+      byebug (~> 10.0)
+      pry (~> 0.10)
+    rake (10.4.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.16)
+  byebug
+  minitest (~> 5.0)
+  object_inspector!
+  pry
+  pry-byebug
+  rake (~> 10.0)
+
+BUNDLED WITH
+   1.16.1
