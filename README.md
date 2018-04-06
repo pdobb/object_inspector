@@ -20,7 +20,161 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Given, an object of any type, call ObjectInspector::Inspect#to_s:
+
+```ruby
+class MyObject
+  def inspect
+    ObjectInspector::Inspector.new(self).to_s
+  end
+end
+
+MyObject.new.inspect  # => "<MyObject>"
+```
+
+### Output Customization
+
+Use ObjectInspector::Inspector#initialize's `identification`, `flags`, `info`, and `name` options to customize inspect output.
+
+```ruby
+class MyObject
+  def inspect
+    ObjectInspector::Inspector.new(
+      self,
+      identification: "My Object",
+      flags: "FLAG1",
+      info: "INFO",
+      name: "NAME").to_s
+  end
+end
+
+MyObject.new.inspect  # => "<My Object[FLAG1] (INFO) :: NAME>"
+```
+
+Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspect_name` in Object.
+
+```ruby
+class MyObject
+  def inspect
+    ObjectInspector::Inspector.new(self).to_s
+  end
+
+private
+
+  def inspect_identification
+    "My Object"
+  end
+
+  def inspect_flags
+    "FLAG1"
+  end
+
+  def inspect_info
+    "INFO"
+  end
+
+  def inspect_name
+    "NAME"
+  end
+end
+
+MyObject.new.inspect  # => "<My Object[FLAG1] (INFO) :: NAME>"
+```
+
+## Helper
+
+To save a little typing, include ObjectInspector::InspectHelper into an object and  ObjectInspector::Inspector#to_s will be called for you on `self`.
+
+```ruby
+class MyObject
+  include ObjectInspector::InspectorsHelper
+end
+
+MyObject.new.inspect  # => "<MyObject>"
+```
+
+To access the ObjectInspector::Inspector's options via the helper, call into `super`.
+
+```ruby
+class MyObject
+  include ObjectInspector::InspectorsHelper
+
+  def inspect
+    super(identification: "My Object",
+          flags: "FLAG1",
+          info: "INFO",
+          name: "NAME")
+  end
+end
+
+MyObject.new.inspect  # => "<My Object[FLAG1] (INFO) :: NAME>"
+```
+
+Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspect_name` in Object.
+
+```ruby
+class MyObject
+  include ObjectInspector::InspectorsHelper
+
+private
+
+  def inspect_identification
+    "My Object"
+  end
+
+  def inspect_flags
+    "FLAG1"
+  end
+
+  def inspect_info
+    "INFO"
+  end
+
+  def inspect_name
+    "NAME"
+  end
+end
+
+MyObject.new.inspect  # => "<My Object[FLAG1] (INFO) :: NAME>"
+```
+
+## Supporting Libraries
+
+ObjectInspector works great with the [ObjectIdentifier](https://github.com/pdobb/object_identifier) gem.
+
+```ruby
+class MyObject
+  include ObjectInspector::InspectorsHelper
+
+  def my_method1
+    "R1"
+  end
+
+  def my_method1
+    "R1"
+  end
+
+private
+
+  def inspect_identification
+    identify(:m1, :m2)
+  end
+
+  def inspect_flags
+    "FLAG1"
+  end
+
+  def inspect_info
+    "INFO"
+  end
+
+  def inspect_name
+    "NAME"
+  end
+end
+
+MyObject.new.inspect  # => "<MyObject[m1:R1, m2:R2][FLAG1] (INFO) :: NAME>"
+```
 
 ## Development
 

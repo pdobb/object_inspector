@@ -3,3 +3,7 @@ require "object_inspector"
 
 require "minitest/autorun"
 require "pry"
+
+def context(*args, &block)
+  describe(*args, &block)
+end
