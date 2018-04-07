@@ -5,7 +5,7 @@ module ObjectInspector
   module InspectorsHelper
     # @return [String]
     def inspect(object = self, **kargs)
-      Inspector.new(object, **kargs).to_s
+      Inspector.inspect(object, **kargs)
     end
   end
 end

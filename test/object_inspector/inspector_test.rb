@@ -17,6 +17,16 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     let(:full_object1) { FullTestObject.new }
     let(:simple_object1) { SimpleTestObject.new }
 
+    describe ".inspect" do
+      subject { klazz }
+
+      it "returns a String in the expected format" do
+        result = subject.inspect(simple_object1)
+        result.must_be_kind_of String
+        result.must_equal "<ObjectInspector::InspectorTest::SimpleTestObject>"
+      end
+    end
+
     describe "#to_s" do
       subject { klazz.new(simple_object1) }
 

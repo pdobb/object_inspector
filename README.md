@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-Given, an object of any type, call ObjectInspector::Inspect#to_s:
+Given, an object of any type, call ObjectInspector::Inspect#to_s.
 
 ```ruby
 class MyObject
@@ -32,6 +32,20 @@ end
 MyObject.new.inspect  # => "<MyObject>"
 ```
 
+Or, just use the ObjectInspector::Inspector.inspect method.
+
+```ruby
+class MyObject
+  def inspect
+    ObjectInspector::Inspector.inspect(self)
+  end
+end
+
+MyObject.new.inspect  # => "<MyObject>"
+```
+
+See also [Helper](#helper) for an even simpler usage option.
+
 ### Output Customization
 
 Use ObjectInspector::Inspector#initialize's `identification`, `flags`, `info`, and `name` options to customize inspect output.
@@ -39,12 +53,12 @@ Use ObjectInspector::Inspector#initialize's `identification`, `flags`, `info`, a
 ```ruby
 class MyObject
   def inspect
-    ObjectInspector::Inspector.new(
+    ObjectInspector::Inspector.inspect(
       self,
       identification: "My Object",
       flags: "FLAG1",
       info: "INFO",
-      name: "NAME").to_s
+      name: "NAME")
   end
 end
 
@@ -56,7 +70,7 @@ Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspe
 ```ruby
 class MyObject
   def inspect
-    ObjectInspector::Inspector.new(self).to_s
+    ObjectInspector::Inspector.inspect(self)
   end
 
 private

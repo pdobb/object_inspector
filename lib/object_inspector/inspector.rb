@@ -10,6 +10,14 @@ module ObjectInspector
       "inspect".freeze
     end
 
+    # ObjectInspector::Inspector.inspect shortcuts the instantiation and {#to_s}
+    # flow that would normally be required to use ObjectInspector::Inspector.
+    #
+    # @return [String]
+    def self.inspect(object, **kargs)
+      new(object, **kargs).to_s
+    end
+
     def initialize(
           object,
           formatter: DefaultFormatter,
