@@ -52,19 +52,19 @@ module ObjectInspector
       ].compact
     end
 
-    def build_identification_string
+    def build_identification_string(*)
       raise NotImplementedError
     end
 
-    def build_flags_string
+    def build_flags_string(*)
       raise NotImplementedError
     end
 
-    def build_info_string
+    def build_info_string(*)
       raise NotImplementedError
     end
 
-    def build_name_string
+    def build_name_string(*)
       raise NotImplementedError
     end
   end

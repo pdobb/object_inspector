@@ -8,19 +8,19 @@ module ObjectInspector
 
   private
 
-    def build_identification_string
+    def build_identification_string(identification = self.identification)
       identification.to_s
     end
 
-    def build_flags_string
+    def build_flags_string(flags = self.flags)
       "[#{flags.to_s.upcase}]" if flags
     end
 
-    def build_info_string
+    def build_info_string(info = self.info)
       " (#{info})" if info
     end
 
-    def build_name_string
+    def build_name_string(name = self.name)
       " :: #{name}" if name
     end
   end
