@@ -5,6 +5,9 @@ module ObjectInspector
   #
   # @attr (see BaseFormatter)
   class DefaultFormatter < BaseFormatter
+    # Perform the formatting routine.
+    #
+    # @return [String]
     def call
       "<#{combine_strings}>"
     end

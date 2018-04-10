@@ -1,5 +1,6 @@
 module ObjectInspector
-  # ObjectInspector::Inspector organizes inspection of the associated {#object}.
+  # ObjectInspector organizes inspection of the associated {#object} via the
+  # passed in options and via a {ObjectInspector::BaseFormatter} instance.
   #
   # @attr object [Object] the object being inspected
   # @attr scope [Symbol] Object inspection type. For example:
@@ -8,20 +9,23 @@ module ObjectInspector
   #   :all            -- Means: Interrogate self as well as neighboring objects
   #   <custom>        -- Any value that {#object} recognizes can mean anything
   #                      that makes sense for {#object}
-  # @attr formatter [BaseFormatter] the formatter object to use for combining
-  #   the output of into the inspect String
+  # @attr formatter [ObjectInspector::BaseFormatter] the formatter object to use
+  #   for combining the output of into the inspect String
+  # @attr kargs [Hash] options to be sent to {#object}
   class Inspector
     attr_reader :object,
                 :scope,
                 :formatter_klass,
                 :kargs
 
+    # The prefix for all methods called on {#object} for inspect
+    # details/strings.
     def self.object_method_prefix
       "inspect".freeze
     end
 
-    # ObjectInspector::Inspector.inspect shortcuts the instantiation and {#to_s}
-    # flow that would normally be required to use ObjectInspector::Inspector.
+    # Shortcuts the instantiation -> {#to_s} flow that would normally be
+    # required to use ObjectInspector::Inspector.
     #
     # @return [String]
     def self.inspect(object, **kargs)
@@ -39,27 +43,38 @@ module ObjectInspector
       @kargs = kargs
     end
 
+    # Generate the formatted inspect String.
+    #
+    # @return [String]
     def to_s
       formatter.call
     end
 
+    # Core object identification details, such as the {#object} class name and
+    # any core-level attributes.
+    #
     # @return [String]
     def identification
       (value(key: :identification) || object.class).to_s
     end
 
+    # Boolean flags/states applicable to {#object}.
+    #
     # @return [String] if given
     # @return [NilClass] if not given
     def flags
       value(key: :flags)
     end
 
+    # Informational details applicable to {#object}.
+    #
     # @return [String] if given
     # @return [NilClass] if not given
     def info
       value(key: :info)
     end
 
+    # The generally human-friendly unique identifier for {#object}.
     # @return [String] if given
     # @return [NilClass] if not given
     def name
