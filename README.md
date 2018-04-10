@@ -1,6 +1,6 @@
 # ObjectInspector
 
-[![Gem Version](https://badge.fury.io/rb/object_inspector.png)](http://badge.fury.io/rb/object_inspector)
+[![Gem Version](https://badge.fury.io/rb/object_inspector.svg)](https://badge.fury.io/rb/object_inspector)
 [![Build Status](https://travis-ci.org/objects-on-rails/display-case.svg?branch=master)](https://travis-ci.org/objects-on-rails/display-case)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/34e821263d9e0c33d536/test_coverage)](https://codeclimate.com/github/pdobb/object_inspector/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/34e821263d9e0c33d536/maintainability)](https://codeclimate.com/github/pdobb/object_inspector/maintainability)
@@ -70,12 +70,11 @@ Use ObjectInspector::Inspector#initialize options -- `identification`, `flags`, 
 ```ruby
 class MyObject
   def inspect
-    ObjectInspector::Inspector.inspect(
-      self,
-      identification: "My Object",
-      flags: "FLAG1",
-      info: "INFO",
-      name: "NAME")
+    ObjectInspector::Inspector.inspect(self,
+                                       identification: "My Object",
+                                       flags: "FLAG1",
+                                       info: "INFO",
+                                       name: "NAME")
   end
 end
 
@@ -115,7 +114,7 @@ MyObject.new.inspect  # => "<My Object[FLAG1] (INFO) :: NAME>"
 
 ## Helper Usage
 
-To save a little typing, include ObjectInspector::InspectHelper into an object and  ObjectInspector::Inspector#to_s will be called for you on `self`.
+To save some typing, include ObjectInspector::InspectHelper into an object and ObjectInspector::Inspector#to_s will be called for you on `self`.
 
 ```ruby
 class MyObject
@@ -173,16 +172,14 @@ MyObject.new.inspect  # => "<My Object[FLAG1] (INFO) :: NAME>"
 
 #### Scope
 
-Use the `scope` option to define the scope of the `inspect_` methods.
+Use the `scope` option to define the scope of the `inspect_*` methods.
 
 If ActiveSupport::StringInquirer is defined then the default `scope` is `"self".inquiry`.
 The default value is `:self` if ActiveSupport::StringInquirer is not defined.
 
 ```ruby
 class MyObject
-  def inspect(scope: :self)
-    ObjectInspector::Inspector.inspect(self, scope: scope)
-  end
+  include ObjectInspector::InspectorsHelper
 
   def inspect_flags(scope:, separator: " / ".freeze)
     flags = ["FLAG1"]
@@ -263,7 +260,7 @@ MyObject.new.inspect  # => "(IDENTIFICATION FLAG1 (INFO) -- NAME)"
 See also: [ObjectInspector::DefaultFormatter](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/default_formatter.rb).
 
 
-## Supporting Libraries
+## Supporting Gems
 
 ObjectInspector works great with the [ObjectIdentifier](https://github.com/pdobb/object_identifier) gem.
 
