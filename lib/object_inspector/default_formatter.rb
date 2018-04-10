@@ -1,6 +1,9 @@
 module ObjectInspector
-  # ObjectInspector::DefaultFormatter implements ObjectInspector::BaseFormatter
-  # to return a standard/default inspect output format.
+  # ObjectInspector::DefaultFormatter implements
+  # {ObjectInspector::BaseFormatter} to return a standard/default inspect output
+  # format.
+  #
+  # @attr (see BaseFormatter)
   class DefaultFormatter < BaseFormatter
     def call
       "<#{combine_strings}>"

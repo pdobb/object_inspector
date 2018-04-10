@@ -2,10 +2,21 @@ require "test_helper"
 
 class ObjectInspector::InspectorTest < Minitest::Spec
   class FullTestObject
-    def inspect_identification; "Identification[]" end
-    def inspect_flags; "FLAG1 / FLAG2" end
-    def inspect_info; "Info: 1" end
-    def inspect_name; "Name 1" end
+    def inspect_identification
+      "Identification[id:1]"
+    end
+
+    def inspect_flags(scope: :self)
+      scope == :self ? "FLAG1" : "FLAG1 | FLAG2"
+    end
+
+    def inspect_info(scope: :self)
+      scope == :self ? "Info: 1" : "Info: 1 | Info: 2"
+    end
+
+    def inspect_name(scope: :self)
+      scope == :self ? "Name: 1" : "Name: 1 | Name: 2"
+    end
   end
 
   class SimpleTestObject
@@ -28,12 +39,26 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     describe "#to_s" do
-      subject { klazz.new(simple_object1) }
+      context "GIVEN the default #scope (:self)" do
+        subject { klazz.new(full_object1) }
 
-      it "returns a String in the expected format" do
-        result = subject.to_s
-        result.must_be_kind_of String
-        result.must_equal "<ObjectInspector::InspectorTest::SimpleTestObject>"
+        it "returns a String in the expected format for the Object" do
+          result = subject.to_s
+          result.must_be_kind_of String
+          result.must_equal(
+            "<Identification[id:1][FLAG1] (Info: 1) :: Name: 1>")
+        end
+      end
+
+      context "GIVEN a non-default #scope" do
+        subject { klazz.new(full_object1, scope: :all) }
+
+        it "returns a String in the expected format for the Object" do
+          result = subject.to_s
+          result.must_be_kind_of String
+          result.must_equal(
+            "<Identification[id:1][FLAG1 | FLAG2] (Info: 1 | Info: 2) :: Name: 1 | Name: 2>")
+        end
       end
     end
 

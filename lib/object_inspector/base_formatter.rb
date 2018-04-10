@@ -3,6 +3,9 @@ module ObjectInspector
   # with ObjectInspector::Inspector objects to combine the supplied
   # {#identification}, {#flags}, {#info}, and {#name} strings into a friendly
   # "inspect" String.
+  #
+  # @attr inspector [ObjectInspector::Inspector] the object from which Strings
+  #   are queried for building the formatted inspect String
   class BaseFormatter
     def initialize(inspector)
       @inspector = inspector

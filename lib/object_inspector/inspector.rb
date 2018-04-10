@@ -1,9 +1,19 @@
 module ObjectInspector
   # ObjectInspector::Inspector organizes inspection of the associated {#object}.
+  #
+  # @attr object [Object] the object being inspected
+  # @attr scope [Symbol] Object inspection type. For example:
+  #   :self (default) -- Means: Only interrogate self; Don't interrogate
+  #                      neighboring objects
+  #   :all            -- Means: Interrogate self as well as neighboring objects
+  #   <custom>        -- Any value that {#object} recognizes can mean anything
+  #                      that makes sense for {#object}
+  # @attr formatter [BaseFormatter] the formatter object to use for combining
+  #   the output of into the inspect String
   class Inspector
     attr_reader :object,
+                :scope,
                 :formatter_klass,
-                :type,
                 :kargs
 
     def self.object_method_prefix
@@ -20,12 +30,12 @@ module ObjectInspector
 
     def initialize(
           object,
+          scope: :self,
           formatter: DefaultFormatter,
-          type: :simple,
           **kargs)
       @object = object
       @formatter_klass = formatter
-      @type = type
+      @scope = "".respond_to?(:inquiry) ? scope.to_s.inquiry : scope.to_sym
       @kargs = kargs
     end
 
@@ -62,22 +72,26 @@ module ObjectInspector
       formatter_klass.new(self)
     end
 
-    # @return [String] if `key` is found in {#kargs} or if Object responds to
+    # @return [String] if `key` is found in {#kargs} or if {#object} responds to
     #   `#{object_method_prefix}_#{key}` (e.g. `inspect_flags`)
-    # @return [NilClass] if not found in {#kargs} or Object
+    # @return [NilClass] if not found in {#kargs} or {#object}
     def value(key:)
-      result =
-        kargs.fetch(key) {
-          interrogator =
-            ObjectInterrogator.new(
-              object: object,
-              method_name: build_method_name(key),
-              kargs: object_method_keyword_arguments)
-
-          interrogator.call
-        }
+      result = kargs.fetch(key) { interrogate_object(key) }
 
       result.to_s if result
+    end
+
+    # @return [String] if {#object} responds to `#{object_method_prefix}_#{key}`
+    #   (e.g. `inspect_flags`)
+    # @return [NilClass] if not found on {#object}
+    def interrogate_object(key)
+      interrogator =
+        ObjectInterrogator.new(
+          object: object,
+          method_name: build_method_name(key),
+          kargs: object_method_keyword_arguments)
+
+      interrogator.call
     end
 
     def build_method_name(key)
@@ -89,7 +103,9 @@ module ObjectInspector
     end
 
     def object_method_keyword_arguments
-      { type => true }
+      {
+        scope: scope,
+      }
     end
   end
 end
