@@ -46,7 +46,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
           result = subject.to_s
           result.must_be_kind_of String
           result.must_equal(
-            "<Identification[id:1][FLAG1] (Info: 1) :: Name: 1>")
+            "<Identification[id:1](FLAG1) Info: 1 :: Name: 1>")
         end
       end
 
@@ -57,7 +57,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
           result = subject.to_s
           result.must_be_kind_of String
           result.must_equal(
-            "<Identification[id:1][FLAG1 | FLAG2] (Info: 1 | Info: 2) :: Name: 1 | Name: 2>")
+            "<Identification[id:1](FLAG1 | FLAG2) Info: 1 | Info: 2 :: Name: 1 | Name: 2>")
         end
       end
     end

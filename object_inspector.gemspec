@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["paul.dobbins@icloud.com"]
 
   spec.summary       = %q{ObjectInspector generates uniformly formatted inspect output with customizable amounts of detail.}
-  spec.description   = %q{ObjectInspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, info, and/or a name along with a self-definable scope option to represent an object in the console, in logging, or otherwise.}
+  spec.description   = %q{ObjectInspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, info, and/or a name along with an optional self-definable scope option to represent an object in the console, in logging, etc.}
   spec.homepage      = "https://github.com/pdobb/object_inspector"
   spec.license       = "MIT"
 
@@ -37,4 +37,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "byebug", "~> 10.0"
   spec.add_development_dependency "pry", "~> 0.11"
   spec.add_development_dependency "pry-byebug", "~> 3.6"
+  spec.add_development_dependency "benchmark-ips", "~> 2.7"
+  # spec.add_development_dependency "object_identifier", "~> 0.1"  # Add when new version is released
 end

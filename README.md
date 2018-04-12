@@ -5,7 +5,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/34e821263d9e0c33d536/test_coverage)](https://codeclimate.com/github/pdobb/object_inspector/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/34e821263d9e0c33d536/maintainability)](https://codeclimate.com/github/pdobb/object_inspector/maintainability)
 
-ObjectInspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, info, and/or a name along with a self-definable scope option to represent an object in the console, in logging, or otherwise.
+ObjectInspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, info, and/or a name along with an optional self-definable scope option to represent an object in the console, in logging, etc.
 
 
 ## Installation
@@ -36,19 +36,7 @@ Tested MRI Ruby Versions:
 
 ## Usage
 
-Given, an object of any type, call ObjectInspector::Inspect#to_s.
-
-```ruby
-class MyObject
-  def inspect
-    ObjectInspector::Inspector.new(self).to_s
-  end
-end
-
-MyObject.new.inspect  # => "<MyObject>"
-```
-
-Or, just use the ObjectInspector::Inspector.inspect method.
+Given, an object of any type, call ObjectInspector::Inspector.inspect.
 
 ```ruby
 class MyObject
@@ -78,7 +66,7 @@ class MyObject
   end
 end
 
-MyObject.new.inspect  # => "<My Object[FLAG1] (INFO) :: NAME>"
+MyObject.new.inspect  # => "<My Object(FLAG1) INFO :: NAME>"
 ```
 
 Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspect_name` in Object.
@@ -91,30 +79,19 @@ class MyObject
 
 private
 
-  def inspect_identification
-    "My Object"
-  end
-
-  def inspect_flags
-    "FLAG1"
-  end
-
-  def inspect_info
-    "INFO"
-  end
-
-  def inspect_name
-    "NAME"
-  end
+  def inspect_identification; "My Object" end
+  def inspect_flags; "FLAG1" end
+  def inspect_info; "INFO" end
+  def inspect_name; "NAME" end
 end
 
-MyObject.new.inspect  # => "<My Object[FLAG1] (INFO) :: NAME>"
+MyObject.new.inspect  # => "<My Object(FLAG1) INFO :: NAME>"
 ```
 
 
 ## Helper Usage
 
-To save some typing, include ObjectInspector::InspectHelper into an object and ObjectInspector::Inspector#to_s will be called for you on `self`.
+To save some typing, include ObjectInspector::InspectHelper into an object and ObjectInspector::Inspector.inspect will be called on `self` automatically.
 
 ```ruby
 class MyObject
@@ -138,7 +115,7 @@ class MyObject
   end
 end
 
-MyObject.new.inspect  # => "<My Object[FLAG1] (INFO) :: NAME>"
+MyObject.new.inspect  # => "<My Object(FLAG1) INFO :: NAME>"
 ```
 
 Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspect_name` in Object.
@@ -149,24 +126,13 @@ class MyObject
 
 private
 
-  def inspect_identification
-    "My Object"
-  end
-
-  def inspect_flags
-    "FLAG1"
-  end
-
-  def inspect_info
-    "INFO"
-  end
-
-  def inspect_name
-    "NAME"
-  end
+  def inspect_identification; "My Object" end
+  def inspect_flags; "FLAG1" end
+  def inspect_info; "INFO" end
+  def inspect_name; "NAME" end
 end
 
-MyObject.new.inspect  # => "<My Object[FLAG1] (INFO) :: NAME>"
+MyObject.new.inspect  # => "<My Object(FLAG1) INFO :: NAME>"
 ```
 
 
@@ -194,37 +160,19 @@ class MyObject
   end
 end
 
-MyObject.new.inspect  # => "<MyObject[FLAG1]>"
-MyObject.new.inspect(scope: :all)  # => "<MyObject[FLAG1 / FLAG2]>"
+MyObject.new.inspect  # => "<MyObject(FLAG1)>"
+MyObject.new.inspect(scope: :all)  # => "<MyObject(FLAG1 / FLAG2)>"
 ```
 
 
 ## Custom Formatters
 
-A custom inspect formatter can be defined by implementing the interface defined by [ObjectInspector::BaseFormatter](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/base_formatter.rb) and then passing that into ObjectInspector::Inspector.new.
+A custom inspect formatter can be defined by implementing the interface defined by [ObjectInspector::BaseFormatter](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/base_formatter.rb) and then passing that into ObjectInspector::Inspector.new.
 
 ```ruby
 class MyCustomFormatter < ObjectInspector::BaseFormatter
   def call
-    "(#{combine_strings})"
-  end
-
-private
-
-  def build_identification_string(identification = self.identification)
-    identification.to_s
-  end
-
-  def build_flags_string(flags = self.flags)
-    " #{flags}" if flags
-  end
-
-  def build_info_string(info = self.info)
-    " (#{info})" if info
-  end
-
-  def build_name_string(name = self.name)
-    " -- #{name}" if name
+    "[#{identification} Flags: #{flags} -- Info: #{info} -- Name: #{name}]"
   end
 end
 
@@ -232,32 +180,57 @@ class MyObject
   include ObjectInspector::InspectorsHelper
 
   def inspect
-    super(formatter: MyCustomFormatter)
-  end
-
-private
-
-  def inspect_identification
-    "IDENTIFICATION"
-  end
-
-  def inspect_flags
-    "FLAG1"
-  end
-
-  def inspect_info
-    "INFO"
-  end
-
-  def inspect_name
-    "NAME"
+    super(formatter: MyCustomFormatter,
+          identification: "IDENTIFICATION",
+          flags: "FLAG1 | FLAG2",
+          info: "INFO",
+          name: "NAME")
   end
 end
 
-MyObject.new.inspect  # => "(IDENTIFICATION FLAG1 (INFO) -- NAME)"
+MyObject.new.inspect
+# => "[IDENTIFICATION Flags: FLAG1 | FLAG2 -- Info: INFO -- Name: NAME]"
 ```
 
-See also: [ObjectInspector::DefaultFormatter](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/default_formatter.rb).
+See also: [ObjectInspector::TemplatingFormatter].
+See also: [ObjectInspector::CombiningFormatter].
+
+
+## Performance
+
+[ObjectInspector::TemplatingFormatter] -- which is the default Formatter -- outperforms [ObjectInspector::CombiningFormatter] by about 30% on average. This can be demonstrated by playing the [Benchmarking Scripts] in the pry console for this gem.
+
+```ruby
+play scripts/bm/formatters.rb
+# == Averaged =============================================================
+# ...
+#
+# Comparison:
+# ObjectInspector::TemplatingFormatter:    45725.3 i/s
+# ObjectInspector::CombiningFormatter:    34973.9 i/s - 1.31x  slower
+#
+# == Done
+```
+
+
+### Benchmarking Custom Formatters
+
+Custom Formatters may be similarly gauged for comparison by adding them to the `custom_formatter_klasses` array before playing the script.
+
+```ruby
+custom_formatter_klasses = [MyCustomFormatter]
+
+play scripts/bm/formatters.rb
+# == Averaged =============================================================
+# ...
+#
+# Comparison:
+#    MyCustomFormatter:    52001.2 i/s
+# ObjectInspector::TemplatingFormatter:    49854.2 i/s - same-ish: difference falls within error
+# ObjectInspector::CombiningFormatter:    38963.5 i/s - 1.33x  slower
+#
+# == Done
+```
 
 
 ## Supporting Gems
@@ -269,33 +242,23 @@ class MyObject
   include ObjectInspector::InspectorsHelper
 
   def my_method1
-    "R1"
+    "Result1"
   end
 
-  def my_method1
-    "R1"
+  def my_method2
+    "Result2"
   end
 
 private
 
-  def inspect_identification
-    identify(:m1, :m2)
-  end
-
-  def inspect_flags
-    "FLAG1"
-  end
-
-  def inspect_info
-    "INFO"
-  end
-
-  def inspect_name
-    "NAME"
-  end
+  def inspect_identification; identify(:my_method1, :my_method2) end
+  def inspect_flags; "FLAG1" end
+  def inspect_info; "INFO" end
+  def inspect_name; "NAME" end
 end
 
-MyObject.new.inspect  # => "<MyObject[m1:R1, m2:R2][FLAG1] (INFO) :: NAME>"
+MyObject.new.inspect
+# => "<MyObject[my_method1:Result1, my_method2:Result2](FLAG1) INFO :: NAME>"
 ```
 
 
@@ -314,3 +277,8 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/pdobb/
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+
+[ObjectInspector::TemplatingFormatter]: https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/templating_formatter.rb
+[ObjectInspector::CombiningFormatter]: https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/combining_formatter.rb
+[Benchmarking Scripts]: https://github.com/pdobb/object_inspector/blob/master/scripts/bm/formatters.rb

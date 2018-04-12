@@ -23,7 +23,7 @@ module ObjectInspector
     #
     # @return [String] if given
     def identification
-      @inspector.identification
+      @identification ||= inspector.identification
     end
 
     # Delegates to {Inspector#flags}.
@@ -31,7 +31,7 @@ module ObjectInspector
     # @return [String] if given
     # @return [NilClass] if not given
     def flags
-      @inspector.flags
+      @flags ||= inspector.flags
     end
 
     # Delegates to {Inspector#info}.
@@ -39,7 +39,7 @@ module ObjectInspector
     # @return [String] if given
     # @return [NilClass] if not given
     def info
-      @inspector.info
+      @info ||= inspector.info
     end
 
     # Delegates to {Inspector#name}.
@@ -47,39 +47,7 @@ module ObjectInspector
     # @return [String] if given
     # @return [NilClass] if not given
     def name
-      @inspector.name
-    end
-
-  private
-
-    def combine_strings
-      strings.join
-    end
-
-    # Override in subclasses as needed.
-    def strings
-      [
-        build_identification_string,
-        build_flags_string,
-        build_info_string,
-        build_name_string,
-      ].compact
-    end
-
-    def build_identification_string(*)
-      raise NotImplementedError
-    end
-
-    def build_flags_string(*)
-      raise NotImplementedError
-    end
-
-    def build_info_string(*)
-      raise NotImplementedError
-    end
-
-    def build_name_string(*)
-      raise NotImplementedError
+      @name ||= inspector.name
     end
   end
 end

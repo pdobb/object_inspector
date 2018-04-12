@@ -14,10 +14,9 @@ module ObjectInspector
     # passing it the passed in `kargs` (keyword arguments).
     #
     # @return [String]
-    def inspect(
-          object = self,
-          scope: DEFAULT_SCOPE,
-          **kargs)
+    def inspect(object = self,
+                scope: DEFAULT_SCOPE,
+                **kargs)
       Inspector.inspect(object, scope: scope, **kargs)
     end
   end

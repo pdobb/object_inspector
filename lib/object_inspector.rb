@@ -1,11 +1,12 @@
-require "object_inspector/version"
-
 # ObjectInspector is the base namespace for all modules/classes related to the
 # object_inspector gem.
 module ObjectInspector
-  autoload :Inspector, "object_inspector/inspector"
-  autoload :ObjectInterrogator, "object_inspector/object_interrogator"
-  autoload :BaseFormatter, "object_inspector/base_formatter"
-  autoload :DefaultFormatter, "object_inspector/default_formatter"
-  autoload :InspectorsHelper, "object_inspector/inspectors_helper"
 end
+
+require "object_inspector/version"
+require "object_inspector/inspector"
+require "object_inspector/inspectors_helper"
+require "object_inspector/object_interrogator"
+require "object_inspector/formatters/base_formatter"
+require "object_inspector/formatters/combining_formatter"
+require "object_inspector/formatters/templating_formatter"

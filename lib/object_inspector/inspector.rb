@@ -1,6 +1,7 @@
 module ObjectInspector
-  # ObjectInspector organizes inspection of the associated {#object} via the
-  # passed in options and via a {ObjectInspector::BaseFormatter} instance.
+  # ObjectInspector::Inspector organizes inspection of the associated {#object}
+  # via the passed in options and via a {ObjectInspector::BaseFormatter}
+  # instance.
   #
   # @attr object [Object] the object being inspected
   # @attr scope [Symbol] Object inspection type. For example:
@@ -35,7 +36,7 @@ module ObjectInspector
     def initialize(
           object,
           scope: :self,
-          formatter: DefaultFormatter,
+          formatter: TemplatingFormatter,
           **kargs)
       @object = object
       @formatter_klass = formatter
