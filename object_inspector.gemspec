@@ -38,5 +38,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry", "~> 0.11"
   spec.add_development_dependency "pry-byebug", "~> 3.6"
   spec.add_development_dependency "benchmark-ips", "~> 2.7"
+  spec.add_development_dependency "minitest-reporters", "~> 1.2"
   # spec.add_development_dependency "object_identifier", "~> 0.1"  # Add when new version is released
 end
