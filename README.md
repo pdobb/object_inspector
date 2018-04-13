@@ -136,26 +136,6 @@ MyObject.new.inspect  # => "<My Object(FLAG1) INFO :: NAME>"
 ```
 
 
-## On-the-fly Inspect Methods
-
-When passed as an option (as opposed to being called via an Object-defined method) symbols will be called/evaluated on Object on the fly.
-
-```ruby
-class MyObject
-  include ObjectInspector::InspectorsHelper
-
-  def my_method1; "Result1" end
-  def my_method2; "Result2" end
-
-  def inspect_info; :my_method2 end
-end
-
-MyObject.new.inspect(info: "my_method1")  # => "<MyObject my_method1>"
-MyObject.new.inspect(info: :my_method2)   # => "<MyObject Result2>"
-MyObject.new.inspect                      # => "<MyObject my_method2>"
-```
-
-
 #### Scope
 
 Use the `scope` option to define the scope of the `inspect_*` methods.
@@ -216,6 +196,26 @@ MyWrapperObject.new.inspect
 ```
 
 This feature is recursive.
+
+
+## On-the-fly Inspect Methods
+
+When passed as an option (as opposed to being called via an Object-defined method) symbols will be called/evaluated on Object on the fly.
+
+```ruby
+class MyObject
+  include ObjectInspector::InspectorsHelper
+
+  def my_method1; "Result1" end
+  def my_method2; "Result2" end
+
+  def inspect_info; :my_method2 end
+end
+
+MyObject.new.inspect(info: "my_method1")  # => "<MyObject my_method1>"
+MyObject.new.inspect(info: :my_method2)   # => "<MyObject Result2>"
+MyObject.new.inspect                      # => "<MyObject my_method2>"
+```
 
 
 ## Custom Formatters
