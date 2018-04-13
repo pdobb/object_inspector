@@ -76,10 +76,13 @@ module ObjectInspector
     end
 
     # The generally human-friendly unique identifier for {#object}.
+    #
     # @return [String] if given
     # @return [NilClass] if not given
     def name
-      value(key: :name)
+      value(key: :name) ||
+        interrogate_object(method_name: :display_name,
+                           kargs: object_method_keyword_arguments)
     end
 
   private

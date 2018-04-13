@@ -19,6 +19,19 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
   end
 
+  class InspectNameTestObject
+    def inspect_name; "INSPECT_NAME" end
+  end
+
+  class DisplayNameTestObject
+    def display_name; "DISPLAY_NAME" end
+  end
+
+  class InspectAndDisplayNameTestObject
+    def inspect_name; "INSPECT_NAME" end
+    def display_name; "DISPLAY_NAME" end
+  end
+
   class SimpleTestObject
     def my_method1
       "Result1"
@@ -29,6 +42,11 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     let(:klazz) { ObjectInspector::Inspector }
 
     let(:full_object1) { FullTestObject.new }
+    let(:inspect_name_object1) { InspectNameTestObject.new }
+    let(:display_name_object1) { DisplayNameTestObject.new }
+    let(:inspect_and_display_name_object1) {
+      InspectAndDisplayNameTestObject.new
+    }
     let(:simple_object1) { SimpleTestObject.new }
 
     describe ".inspect" do
@@ -121,10 +139,18 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
     describe "#name" do
       context "GIVEN Object#inspect_name is defined" do
-        subject { klazz.new(full_object1) }
+        subject { klazz.new(inspect_name_object1) }
 
         it "returns Object#inspect_name" do
-          subject.name.must_equal full_object1.inspect_name
+          subject.name.must_equal "INSPECT_NAME"
+        end
+
+        context "GIVEN Object#display_name is defined" do
+          subject { klazz.new(inspect_and_display_name_object1) }
+
+          it "returns Object#inspect_name" do
+            subject.name.must_equal "INSPECT_NAME"
+          end
         end
       end
 
@@ -133,6 +159,14 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
         it "returns nil" do
           subject.name.must_be_nil
+        end
+
+        context "GIVEN Object#display_name is defined" do
+          subject { klazz.new(display_name_object1) }
+
+          it "returns Object#display_name" do
+            subject.name.must_equal "DISPLAY_NAME"
+          end
         end
       end
     end
