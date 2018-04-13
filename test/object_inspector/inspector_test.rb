@@ -20,6 +20,9 @@ class ObjectInspector::InspectorTest < Minitest::Spec
   end
 
   class SimpleTestObject
+    def my_method1
+      "Result1"
+    end
   end
 
   describe ObjectInspector::Inspector do
@@ -130,6 +133,29 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
         it "returns nil" do
           subject.name.must_be_nil
+        end
+      end
+    end
+
+    describe "#evaluate_passed_in_value" do
+      subject { klazz.new(simple_object1) }
+
+      context "GIVEN #value is a Symbol" do
+        it "returns Object#<value>, GIVEN Object responds to #value" do
+          subject.send(:evaluate_passed_in_value, :my_method1).
+            must_equal("Result1")
+        end
+
+        it "returns #value, GIVEN Object does not respond to #value" do
+          subject.send(:evaluate_passed_in_value, :unknown_method1).
+            must_equal(:unknown_method1)
+        end
+      end
+
+      context "GIVEN #value is not a Symbol" do
+        it "returns #value" do
+          subject.send(:evaluate_passed_in_value, "my_method1").
+            must_equal("my_method1")
         end
       end
     end

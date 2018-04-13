@@ -21,7 +21,7 @@ module ObjectInspector
 
     # The prefix for all methods called on {#object} for inspect
     # details/strings.
-    def self.object_method_prefix
+    def self.object_inspect_method_prefix
       "inspect".freeze
     end
 
@@ -89,33 +89,61 @@ module ObjectInspector
     end
 
     # @return [String] if `key` is found in {#kargs} or if {#object} responds to
-    #   `#{object_method_prefix}_#{key}` (e.g. `inspect_flags`)
+    #   `#{object_inspect_method_prefix}_#{key}` (e.g. `inspect_flags`)
     # @return [NilClass] if not found in {#kargs} or {#object}
     def value(key:)
-      result = kargs.fetch(key) { interrogate_object(key) }
+      return_value =
+        if (passed_in_value = kargs[key])
+          evaluate_passed_in_value(passed_in_value)
+        else
+          interrogate_object_inspect_method(key)
+        end
 
-      result.to_s if result
+      return_value.to_s if return_value
     end
 
-    # @return [String] if {#object} responds to `#{object_method_prefix}_#{key}`
-    #   (e.g. `inspect_flags`)
+    # Call `value` on {#object} if it responds to it and the result is not nil,
+    # else just return `value`.
+    #
+    # @return [#to_s] if {#object} responds to `value` and if the call result
+    #   isn't nil
+    # @return [#nil] if {#object} doesn't respond to `value` or if the call
+    #   result is nil
+    def evaluate_passed_in_value(value)
+      if value.is_a?(Symbol)
+        interrogate_object(method_name: value) || value
+      else
+        value
+      end
+    end
+
+    # Attempt to call `inspect_*` on {#object} based on the passed in `name`.
+    #
+    # @return [String] if {#object} responds to
+    #   `#{object_inspect_method_prefix}_#{name}` (e.g. `inspect_flags`)
     # @return [NilClass] if not found on {#object}
-    def interrogate_object(key)
+    def interrogate_object_inspect_method(name)
+      interrogate_object(
+        method_name: build_inspet_method_name(name),
+        kargs: object_method_keyword_arguments)
+    end
+
+    def interrogate_object(method_name:, kargs: {})
       interrogator =
         ObjectInterrogator.new(
           object: object,
-          method_name: build_method_name(key),
-          kargs: object_method_keyword_arguments)
+          method_name: method_name,
+          kargs: kargs)
 
       interrogator.call
     end
 
-    def build_method_name(key)
-      "#{object_method_prefix}_#{key}"
+    def build_inspet_method_name(name)
+      "#{object_inspect_method_prefix}_#{name}"
     end
 
-    def object_method_prefix
-      self.class.object_method_prefix
+    def object_inspect_method_prefix
+      self.class.object_inspect_method_prefix
     end
 
     def object_method_keyword_arguments

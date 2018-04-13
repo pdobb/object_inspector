@@ -3,6 +3,7 @@
 * Rename ObjectInspector::DefaultFormatter to ObjectInspector::CombiningFormatter.
 * Add ObjectInspector::TemplatingFormatter, and use it as the new default since it's faster.
 * Update the `flags` and `info` demarcation symbols.
+* Add on-the-fly inspect methods when Symbols are passed in to #inspect.
 
 #### TODO
 * Add "placeholder" symbol (*) for scope exclusions.

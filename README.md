@@ -53,7 +53,7 @@ See also [Helper Usage](#helper-usage) for an even simpler usage option.
 
 ### Output Customization
 
-Use ObjectInspector::Inspector#initialize options -- `identification`, `flags`, `info`, and `name` -- to customize inspect output.
+Use the `identification`, `flags`, `info`, and `name` options to customize inspect output.
 
 ```ruby
 class MyObject
@@ -69,7 +69,7 @@ end
 MyObject.new.inspect  # => "<My Object(FLAG1) INFO :: NAME>"
 ```
 
-Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspect_name` in Object.
+Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspect_name` as either public or private methods on Object.
 
 ```ruby
 class MyObject
@@ -136,6 +136,26 @@ MyObject.new.inspect  # => "<My Object(FLAG1) INFO :: NAME>"
 ```
 
 
+## On-the-fly Inspect Methods
+
+When passed as an option (as opposed to being called via an Object-defined method) symbols will be called/evaluated on Object on the fly.
+
+```ruby
+class MyObject
+  include ObjectInspector::InspectorsHelper
+
+  def my_method1; "Result1" end
+  def my_method2; "Result2" end
+
+  def inspect_info; :my_method2 end
+end
+
+MyObject.new.inspect(info: "my_method1")  # => "<MyObject my_method1>"
+MyObject.new.inspect(info: :my_method2)   # => "<MyObject Result2>"
+MyObject.new.inspect                      # => "<MyObject my_method2>"
+```
+
+
 #### Scope
 
 Use the `scope` option to define the scope of the `inspect_*` methods.
@@ -160,7 +180,7 @@ class MyObject
   end
 end
 
-MyObject.new.inspect  # => "<MyObject(FLAG1)>"
+MyObject.new.inspect               # => "<MyObject(FLAG1)>"
 MyObject.new.inspect(scope: :all)  # => "<MyObject(FLAG1 / FLAG2)>"
 ```
 
