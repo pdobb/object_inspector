@@ -1,5 +1,5 @@
 # Play from the console with:
-#   play scripts/bm/formatters.rb
+#   play scripts/benchmarking/formatters.rb
 
 require "ostruct"
 require "benchmark/ips"
@@ -12,40 +12,40 @@ formatter_klasses = [
   *Array(custom_formatter_klasses),
 ]
 
-INSPECTOR_WITH_FLAGS_AND_INFO_AND_NAME =
+INSPECTOR_WITH_FLAGS_AND_INFO_AND_NAME ||=
   OpenStruct.new(
     identification: "IDENTIFICATION",
     flags: "FLAG1 | FLAG2",
     info: "INFO",
     name: "NAME")
-INSPECTOR_WITH_FLAGS_AND_INFO =
+INSPECTOR_WITH_FLAGS_AND_INFO ||=
   OpenStruct.new(
     identification: "IDENTIFICATION",
     flags: "FLAG1 | FLAG2",
     info: "INFO")
-INSPECTOR_WITH_FLAGS_AND_NAME =
+INSPECTOR_WITH_FLAGS_AND_NAME ||=
   OpenStruct.new(
     identification: "IDENTIFICATION",
     flags: "FLAG1 | FLAG2",
     name: "NAME")
-INSPECTOR_WITH_INFO_AND_NAME =
+INSPECTOR_WITH_INFO_AND_NAME ||=
   OpenStruct.new(
     identification: "IDENTIFICATION",
     info: "INFO",
     name: "NAME")
-INSPECTOR_WITH_NAME =
+INSPECTOR_WITH_NAME ||=
   OpenStruct.new(
     identification: "IDENTIFICATION",
     name: "NAME")
-INSPECTOR_WITH_FLAGS =
+INSPECTOR_WITH_FLAGS ||=
   OpenStruct.new(
     identification: "IDENTIFICATION",
     flags: "FLAG1 | FLAG2")
-INSPECTOR_WITH_INFO =
+INSPECTOR_WITH_INFO ||=
   OpenStruct.new(
     identification: "IDENTIFICATION",
     info: "INFO")
-INSPECTOR_WITH_BASE =
+INSPECTOR_WITH_BASE ||=
   OpenStruct.new(
     identification: "IDENTIFICATION")
 

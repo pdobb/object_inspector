@@ -40,7 +40,12 @@ module ObjectInspector
           **kargs)
       @object = object
       @formatter_klass = formatter
-      @scope = "".respond_to?(:inquiry) ? scope.to_s.inquiry : scope.to_sym
+      @scope =
+        if ObjectInspector.use_string_inquirers?
+          scope.to_s.inquiry
+        else
+          scope.to_sym
+        end
       @kargs = kargs
     end
 
