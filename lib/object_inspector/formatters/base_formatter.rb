@@ -6,6 +6,8 @@ module ObjectInspector
   #
   # @attr inspector [ObjectInspector::Inspector]
   class BaseFormatter
+    RIGHT_ARROW_ICON = [0x21E8].pack("U").freeze
+
     attr_reader :inspector
 
     def initialize(inspector)
@@ -17,6 +19,14 @@ module ObjectInspector
     # @return [String]
     def call
       raise NotImplementedError
+    end
+
+    # Delegates to {Inspector#wrapped_object_inspection}.
+    #
+    # @return [String] if given
+    # @return [NilClass] if not given
+    def wrapped_object_inspection
+      @wrapped_object_inspection ||= inspector.wrapped_object_inspection
     end
 
     # Delegates to {Inspector#identification}.

@@ -9,10 +9,22 @@ module ObjectInspector
     #
     # @return [String]
     def call
-      "<#{combine_strings}>"
+      if wrapped_object_inspection
+        build_wrapped_object_string
+      else
+        build_string
+      end
     end
 
   private
+
+    def build_wrapped_object_string
+      "#{build_string} #{RIGHT_ARROW_ICON} #{wrapped_object_inspection}"
+    end
+
+    def build_string
+      "<#{combine_strings}>"
+    end
 
     def combine_strings
       strings.join

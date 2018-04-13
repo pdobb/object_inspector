@@ -51,6 +51,19 @@ module ObjectInspector
       formatter.call
     end
 
+    # Generate the inspect String for a wrapped object, if applicable.
+    #
+    # @return [String] if {#object_is_a_wrapper}
+    # @return [NilClass] if not {#object_is_a_wrapper}
+    def wrapped_object_inspection
+      if object_is_a_wrapper?
+        self.class.inspect(
+          extract_wrapped_object,
+          scope: scope,
+          formatter: formatter_klass)
+      end
+    end
+
     # Core object identification details, such as the {#object} class name and
     # any core-level attributes.
     #
@@ -153,6 +166,15 @@ module ObjectInspector
       {
         scope: scope,
       }
+    end
+
+    def extract_wrapped_object
+      object.to_model
+    end
+
+    def object_is_a_wrapper?
+      object.respond_to?(:to_model) &&
+        object.to_model != object
     end
   end
 end

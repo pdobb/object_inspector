@@ -38,6 +38,12 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
   end
 
+  class WrapperForFullTestObject
+    def to_model
+      @to_model ||= FullTestObject.new
+    end
+  end
+
   describe ObjectInspector::Inspector do
     let(:klazz) { ObjectInspector::Inspector }
 
@@ -48,6 +54,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
       InspectAndDisplayNameTestObject.new
     }
     let(:simple_object1) { SimpleTestObject.new }
+    let(:wrapper_for_full_test_object1) { WrapperForFullTestObject.new }
 
     describe ".inspect" do
       subject { klazz }
@@ -171,25 +178,44 @@ class ObjectInspector::InspectorTest < Minitest::Spec
       end
     end
 
+    describe "#wrapped_object_inspection" do
+      context "GIVEN #object_is_a_wrapper? is true" do
+        subject { klazz.new(wrapper_for_full_test_object1) }
+
+        it "returns Object#to_model#inspect" do
+          subject.wrapped_object_inspection.
+            must_equal "<Identification[id:1](FLAG1) Info: 1 :: Name: 1>"
+        end
+      end
+
+      context "GIVEN #object_is_a_wrapper? is false" do
+        subject { klazz.new(simple_object1) }
+
+        it "returns nil" do
+          subject.wrapped_object_inspection.must_be_nil
+        end
+      end
+    end
+
     describe "#evaluate_passed_in_value" do
       subject { klazz.new(simple_object1) }
 
       context "GIVEN #value is a Symbol" do
         it "returns Object#<value>, GIVEN Object responds to #value" do
           subject.send(:evaluate_passed_in_value, :my_method1).
-            must_equal("Result1")
+            must_equal "Result1"
         end
 
         it "returns #value, GIVEN Object does not respond to #value" do
           subject.send(:evaluate_passed_in_value, :unknown_method1).
-            must_equal(:unknown_method1)
+            must_equal :unknown_method1
         end
       end
 
       context "GIVEN #value is not a Symbol" do
         it "returns #value" do
           subject.send(:evaluate_passed_in_value, "my_method1").
-            must_equal("my_method1")
+            must_equal "my_method1"
         end
       end
     end

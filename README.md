@@ -185,6 +185,39 @@ MyObject.new.inspect(scope: :all)  # => "<MyObject(FLAG1 / FLAG2)>"
 ```
 
 
+## Wrapped Objects
+
+If the Object being inspected wraps another object -- i.e. defines #to_model and #to_model returns an object other than self -- the inspect output will re-inspect the wrapped object. The wrapper points to the wrapped object with an arrow (⇨).
+
+```ruby
+class MyWrapperObject
+  include ObjectInspector::InspectorsHelper
+
+  def to_model
+    @to_model ||= MyWrappedObject.new
+  end
+
+private
+
+  def inspect_flags; "WRAPPER_FLAG1" end
+end
+
+class MyWrappedObject
+  include ObjectInspector::InspectorsHelper
+
+private
+
+  def inspect_flags; "FLAG1" end
+  def inspect_info; "INFO" end
+end
+
+MyWrapperObject.new.inspect
+# => "<MyWrapperObject(WRAPPER_FLAG1)> ⇨ <MyWrappedObject(FLAG1) INFO>"
+```
+
+This feature is recursive.
+
+
 ## Custom Formatters
 
 A custom inspect formatter can be defined by implementing the interface defined by [ObjectInspector::BaseFormatter](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/base_formatter.rb) and then passing that into ObjectInspector::Inspector.new.

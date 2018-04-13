@@ -1,5 +1,6 @@
 ### Unreleased
 
+* Automatically inspect wrapped Objects, if applicable.
 * Use `display_name` if defined on object, in place of `inspect_name`.
 * Add on-the-fly inspect methods when Symbols are passed in to #inspect.
 * Update the `flags` and `info` demarcation symbols.
@@ -8,7 +9,6 @@
 
 #### TODO
 * Add "placeholder" symbol (*) for scope exclusions.
-* Add WrappedObjectForamtter for presenters.
 * Add gem defaults configuration.
 
 
