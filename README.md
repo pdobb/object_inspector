@@ -313,11 +313,11 @@ class MyObject
   include ObjectInspector::InspectorsHelper
 
   def my_method1
-    "Result1"
+    1
   end
 
   def my_method2
-    "Result2"
+    2
   end
 
 private
@@ -329,7 +329,7 @@ private
 end
 
 MyObject.new.inspect
-# => "<MyObject[my_method1:Result1, my_method2:Result2](FLAG1) INFO :: NAME>"
+# => "<MyObject[my_method1:1, my_method2:2](FLAG1) INFO :: NAME>"
 ```
 
 
