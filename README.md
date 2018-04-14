@@ -61,13 +61,13 @@ class MyObject
   def inspect
     ObjectInspector::Inspector.inspect(self,
                                        identification: "My Object",
-                                       flags: "FLAG1",
+                                       flags: "FLAG1 / FLAG2",
                                        info: "INFO",
                                        name: "NAME")
   end
 end
 
-MyObject.new.inspect  # => "<My Object(FLAG1) INFO :: NAME>"
+MyObject.new.inspect  # => "<My Object(FLAG1 / FLAG2) INFO :: NAME>"
 ```
 
 Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspect_name` as either public or private methods on Object.
@@ -81,12 +81,12 @@ class MyObject
 private
 
   def inspect_identification; "My Object" end
-  def inspect_flags; "FLAG1" end
+  def inspect_flags; "FLAG1 / FLAG2" end
   def inspect_info; "INFO" end
   def inspect_name; "NAME" end
 end
 
-MyObject.new.inspect  # => "<My Object(FLAG1) INFO :: NAME>"
+MyObject.new.inspect  # => "<My Object(FLAG1 / FLAG2) INFO :: NAME>"
 ```
 
 
@@ -128,41 +128,73 @@ class MyObject
 private
 
   def inspect_identification; "My Object" end
-  def inspect_flags; "FLAG1" end
+  def inspect_flags; "FLAG1 / FLAG2" end
   def inspect_info; "INFO" end
   def inspect_name; "NAME" end
 end
 
-MyObject.new.inspect  # => "<My Object(FLAG1) INFO :: NAME>"
+MyObject.new.inspect  # => "<My Object(FLAG1 / FLAG2) INFO :: NAME>"
 ```
 
 
 #### Scope
 
 Use the `scope` option to define the scope of the `inspect_*` methods.
+The default value is `ObjectInspector::Scope.new(:self)` (see [ObjectInspector::Scope](#objectinspectorscope-object)).
 
-If ActiveSupport::StringInquirer is defined then the default `scope` is `"self".inquiry`.
-The default value is `:self` if ActiveSupport::StringInquirer is not defined.
+- `:self` (Default) -- Is meant to confine object interrogation to self (don't interrogate neighboring objects).
+- `<custom>` -- Anything else that makes sense for the object to key on.
 
 ```ruby
 class MyObject
   include ObjectInspector::InspectorsHelper
 
+  def associated_object
+    OpenStruct.new(flags: "FLAG2")
+  end
+
+private
+
   def inspect_flags(scope:, separator: " / ".freeze)
     flags = ["FLAG1"]
 
-    # If ActiveSupport::StringInquirer is defined, use this:
-    # flags << "FLAG2" if scope.all?
-
-    # If ActiveSupport::StringInquirer is not defined, use this:
-    flags << "FLAG2" if scope == :all
+    flags << associated_object.flags if scope.associated?
+    flags << "VERBOSE" if scope.verbose?
 
     flags.join(separator)
   end
 end
 
-MyObject.new.inspect               # => "<MyObject(FLAG1)>"
-MyObject.new.inspect(scope: :all)  # => "<MyObject(FLAG1 / FLAG2)>"
+MyObject.new.inspect                      # => "<MyObject(FLAG1)>"
+MyObject.new.inspect(scope: :associated)  # => "<MyObject(FLAG1 / FLAG2)>"
+MyObject.new.inspect(scope: :verbose)     # => "<MyObject(FLAG1 / VERBOSE)>"
+```
+
+
+#### ObjectInspector::Scope Object
+
+ObjectInspector::Scope acts like [ActiveSupport::StringInquirer](http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html). This is a prettier way to test for a given type of "scope" within objects.
+
+```ruby
+scope = ObjectInspector::Scope.new(:verbose)
+scope.self?     # => false
+scope.verbose?  # => true
+```
+
+
+#### Conversion to ObjectInspector::Scope
+
+ObjectInspector::Conversions.Scope() is available for proper conversion to ObjectInspector::Scope objects.
+
+```ruby
+ObjectInspector::Conversions.Scope(:self)
+# => #<ObjectInspector::Scope:0x007ff78ab8e7f8 @name="self">
+
+scope = ObjectInspector::Scope.new(:verbose)
+result = ObjectInspector::Conversions.Scope(scope)
+# => #<ObjectInspector::Scope:0x007ff78ac9c140 @name="verbose">
+
+scope.object_id == result.object_id  # => true
 ```
 
 
@@ -188,12 +220,12 @@ class MyWrappedObject
 
 private
 
-  def inspect_flags; "FLAG1" end
+  def inspect_flags; "FLAG1 / FLAG2" end
   def inspect_info; "INFO" end
 end
 
 MyWrapperObject.new.inspect
-# => "<MyWrapperObject(WRAPPER_FLAG1)> ⇨ <MyWrappedObject(FLAG1) INFO>"
+# => "<MyWrapperObject(WRAPPER_FLAG1)> ⇨ <MyWrappedObject(FLAG1 / FLAG2) INFO>"
 ```
 
 This feature is recursive.
@@ -236,18 +268,19 @@ class MyObject
   def inspect
     super(formatter: MyCustomFormatter,
           identification: "IDENTIFICATION",
-          flags: "FLAG1 | FLAG2",
+          flags: "FLAG1 / FLAG2",
           info: "INFO",
           name: "NAME")
   end
 end
 
 MyObject.new.inspect
-# => "[IDENTIFICATION Flags: FLAG1 | FLAG2 -- Info: INFO -- Name: NAME]"
+# => "[IDENTIFICATION Flags: FLAG1 / FLAG2 -- Info: INFO -- Name: NAME]"
 ```
 
-See also: [ObjectInspector::TemplatingFormatter].
-See also: [ObjectInspector::CombiningFormatter].
+See examples:
+- [ObjectInspector::TemplatingFormatter]
+- [ObjectInspector::CombiningFormatter]
 
 
 ## Performance
@@ -322,14 +355,17 @@ class MyObject
 
 private
 
-  def inspect_identification; identify(:my_method1, :my_method2) end
-  def inspect_flags; "FLAG1" end
+  def inspect_identification
+    identify(:my_method1, :my_method2)
+  end
+
+  def inspect_flags; "FLAG1 / FLAG2" end
   def inspect_info; "INFO" end
   def inspect_name; "NAME" end
 end
 
 MyObject.new.inspect
-# => "<MyObject[my_method1:1, my_method2:2](FLAG1) INFO :: NAME>"
+# => "<MyObject[my_method1:1, my_method2:2](FLAG1 / FLAG2) INFO :: NAME>"
 ```
 
 

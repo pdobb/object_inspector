@@ -3,6 +3,11 @@
 * Add gem defaults configuration.
 
 
+### Unreleased
+
+* Remove optional dependency on ActiveSupport::StringInquirer. [Scopes are now objects](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/scope.rb) that act like ActiveSupport::StringInquirer objects.
+
+
 ### 0.2.0 - 2018-04-12
 
 * Automatically inspect wrapped Objects, if applicable.

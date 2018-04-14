@@ -5,14 +5,12 @@ module ObjectInspector
   #
   # @attr object [Object] the object being inspected
   # @attr scope [Symbol] Object inspection type. For example:
-  #   :self (default) -- Means: Only interrogate self; Don't interrogate
-  #                      neighboring objects
-  #   :all            -- Means: Interrogate self as well as neighboring objects
-  #   <custom>        -- Any value that {#object} recognizes can mean anything
-  #                      that makes sense for {#object}
-  # @attr formatter [ObjectInspector::BaseFormatter] the formatter object to use
-  #   for combining the output of into the inspect String
-  # @attr kargs [Hash] options to be sent to {#object}
+  #   :self (default) -- Means: Only interrogate self. Don't visit neighbors.
+  #   <custom>        -- Anything else that makes sense for {#object} to key on
+  # @attr formatter [ObjectInspector::BaseFormatter] the formatter object type
+  #   to use for formatting the inspect String
+  # @attr kargs [Hash] options to be sent to {#object} via the
+  #   {ObjectInspector::ObjectInterrogator} when calling the `inspect_*` methods
   class Inspector
     attr_reader :object,
                 :scope,
@@ -40,12 +38,7 @@ module ObjectInspector
           **kargs)
       @object = object
       @formatter_klass = formatter
-      @scope =
-        if ObjectInspector.use_string_inquirers?
-          scope.to_s.inquiry
-        else
-          scope.to_sym
-        end
+      @scope = Conversions.Scope(scope)
       @kargs = kargs
     end
 
@@ -56,7 +49,7 @@ module ObjectInspector
       formatter.call
     end
 
-    # Generate the inspect String for a wrapped object, if applicable.
+    # Generate the inspect String for the wrapped object, if present.
     #
     # @return [String] if {#object_is_a_wrapper}
     # @return [NilClass] if not {#object_is_a_wrapper}

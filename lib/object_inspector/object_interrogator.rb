@@ -22,12 +22,20 @@ module ObjectInspector
     def call
       return unless object_responds_to_method_name?
 
+      if object.method(method_name).arity != 0
+        call_with_kargs
+      else
+        object.send(method_name)
+      end
+    end
+
+  private
+
+    def call_with_kargs
       object.send(method_name, **kargs)
     rescue ArgumentError
       object.send(method_name)
     end
-
-  private
 
     def object_responds_to_method_name?(include_private: true)
       object.respond_to?(method_name, include_private)

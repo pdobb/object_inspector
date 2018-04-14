@@ -6,16 +6,16 @@ class ObjectInspector::InspectorTest < Minitest::Spec
       "Identification[id:1]"
     end
 
-    def inspect_flags(scope: :self)
-      scope == :self ? "FLAG1" : "FLAG1 | FLAG2"
+    def inspect_flags(scope: ObjectInspector::Scope.new)
+      scope.self? ? "FLAG1" : "FLAG1 | FLAG2"
     end
 
-    def inspect_info(scope: :self)
-      scope == :self ? "Info: 1" : "Info: 1 | Info: 2"
+    def inspect_info(scope: ObjectInspector::Scope.new)
+      scope.self? ? "Info: 1" : "Info: 1 | Info: 2"
     end
 
-    def inspect_name(scope: :self)
-      scope == :self ? "Name: 1" : "Name: 1 | Name: 2"
+    def inspect_name(scope: ObjectInspector::Scope.new)
+      scope.self? ? "Name: 1" : "Name: 1 | Name: 2"
     end
   end
 
@@ -79,7 +79,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
       end
 
       context "GIVEN a non-default #scope" do
-        subject { klazz.new(full_object1, scope: :all) }
+        subject { klazz.new(full_object1, scope: :verbose) }
 
         it "returns a String in the expected format for the Object" do
           result = subject.to_s
