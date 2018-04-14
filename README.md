@@ -90,7 +90,7 @@ MyObject.new.inspect  # => "<My Object(FLAG1 / FLAG2) INFO :: NAME>"
 ```
 
 
-## Helper Usage
+### Helper Usage
 
 To save some typing, include ObjectInspector::InspectHelper into an object and ObjectInspector::Inspector.inspect will be called on `self` automatically.
 
@@ -137,48 +137,66 @@ MyObject.new.inspect  # => "<My Object(FLAG1 / FLAG2) INFO :: NAME>"
 ```
 
 
-#### Scope
+### Scope Helper Object
 
-Use the `scope` option to define the scope of the `inspect_*` methods.
-The default value is `ObjectInspector::Scope.new(:self)` (see [ObjectInspector::Scope](#objectinspectorscope-object)).
+Use the `scope` option to define the scope of the `inspect_*` methods. The supplied value will be wrapped by the ObjectInspector::Scope helper object.
+The default value is `ObjectInspector::Scope.new(:self)`.
 
+
+#### Scope Names
+
+ObjectInspector::Scope acts like [ActiveSupport::StringInquirer](http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html). This is a prettier way to test for a given type of "scope" within objects.
+
+Options:
 - `:self` (Default) -- Is meant to confine object interrogation to self (don't interrogate neighboring objects).
 - `<custom>` -- Anything else that makes sense for the object to key on.
+
+```ruby
+scope = ObjectInspector::Scope.new(:verbose)
+scope.self?     # => false
+scope.verbose?  # => true
+```
+
+
+#### Scope Joiners
+
+ObjectInspector::Scope also offers helper methods for uniformly joining inspect elements:
+- `join_flags` -- Joins flags with ` / ` by default
+- `join_info` -- Joins info items with ` | ` by default
+
+
+#### Scope Examples
 
 ```ruby
 class MyObject
   include ObjectInspector::InspectorsHelper
 
   def associated_object
-    OpenStruct.new(flags: "FLAG2")
+    OpenStruct.new(flags: "FLAG2", info: "INFO2")
   end
 
 private
 
-  def inspect_flags(scope:, separator: " / ".freeze)
+  def inspect_flags(scope:)
     flags = ["FLAG1"]
-
     flags << associated_object.flags if scope.associated?
-    flags << "VERBOSE" if scope.verbose?
+    flags << "VERBOSE_FLAG" if scope.verbose?
 
-    flags.join(separator)
+    scope.join_flags(flags)
+  end
+
+  def inspect_info(scope:)
+    info = ["INFO1"]
+    info << associated_object.info if scope.associated?
+
+    scope.join_info(info)
   end
 end
 
-MyObject.new.inspect                      # => "<MyObject(FLAG1)>"
-MyObject.new.inspect(scope: :associated)  # => "<MyObject(FLAG1 / FLAG2)>"
-MyObject.new.inspect(scope: :verbose)     # => "<MyObject(FLAG1 / VERBOSE)>"
-```
-
-
-#### ObjectInspector::Scope Object
-
-ObjectInspector::Scope acts like [ActiveSupport::StringInquirer](http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html). This is a prettier way to test for a given type of "scope" within objects.
-
-```ruby
-scope = ObjectInspector::Scope.new(:verbose)
-scope.self?     # => false
-scope.verbose?  # => true
+my_object = MyObject.new
+my_object.inspect                      # => "<MyObject(FLAG1) INFO1>"
+my_object.inspect(scope: :associated)  # => "<MyObject(FLAG1 / FLAG2) INFO1 | INFO2>"
+my_object.inspect(scope: :verbose)     # => "<MyObject(FLAG1 / VERBOSE_FLAG) INFO1>"
 ```
 
 
@@ -198,7 +216,7 @@ scope.object_id == result.object_id  # => true
 ```
 
 
-## Wrapped Objects
+### Wrapped Objects
 
 If the Object being inspected wraps another object -- i.e. defines #to_model and #to_model returns an object other than self -- the inspect output will re-inspect the wrapped object. The wrapper points to the wrapped object with an arrow (⇨).
 
@@ -231,7 +249,7 @@ MyWrapperObject.new.inspect
 This feature is recursive.
 
 
-## On-the-fly Inspect Methods
+### On-the-fly Inspect Methods
 
 When passed as an option (as opposed to being called via an Object-defined method) symbols will be called/evaluated on Object on the fly.
 
@@ -251,7 +269,7 @@ MyObject.new.inspect                      # => "<MyObject my_method2>"
 ```
 
 
-## Custom Formatters
+### Custom Formatters
 
 A custom inspect formatter can be defined by implementing the interface defined by [ObjectInspector::BaseFormatter](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/base_formatter.rb) and then passing that into ObjectInspector::Inspector.new.
 
@@ -316,6 +334,7 @@ play scripts/benchmarking/formatters.rb
 #
 # == Done
 ```
+
 
 #### Benchmarking Custom Formatters
 

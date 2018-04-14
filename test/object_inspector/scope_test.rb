@@ -8,7 +8,7 @@ class ObjectInspector::ScopeTest < Minitest::Spec
     let(:klazz) { ObjectInspector::Scope }
 
     let(:self_scope) { klazz.new(:self) }
-    let(:all_scope) { klazz.new(:verbose) }
+    let(:verbose_scope) { klazz.new(:verbose) }
 
     describe "#<method_name>?" do
       context "GIVEN method_name matches Scope#name" do
@@ -43,6 +43,22 @@ class ObjectInspector::ScopeTest < Minitest::Spec
         it "returns true" do
           subject.verbose?.must_equal false
         end
+      end
+    end
+
+    describe "#join_flags" do
+      subject { self_scope }
+
+      it "joins the passed in Array with the expected separator" do
+        subject.join_flags(%w[1 2 3]).must_equal("1 / 2 / 3")
+      end
+    end
+
+    describe "#join_info" do
+      subject { self_scope }
+
+      it "joins the passed in Array with the expected separator" do
+        subject.join_info(%w[1 2 3]).must_equal("1 | 2 | 3")
       end
     end
   end
