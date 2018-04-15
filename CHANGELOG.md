@@ -1,7 +1,3 @@
-#### TODO
-- Add gem defaults configuration.
-
-
 ### Unreleased
 
 - Remove optional dependency on ActiveSupport::StringInquirer. [Scopes are now objects](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/scope.rb) that act like ActiveSupport::StringInquirer objects.
@@ -10,6 +6,7 @@
 - Scope: Show an out-of-scope-placeholder symbol (*) when predicate is not matched and a block is given.
 - Scope: Add wild-card "all" scope that is always evaluated as true / a match.
 - Add ability to specify multiple scopes. e.g. my_object.inspect(scope: %i[verbose complex])
+- Add gem defaults configuration.
 
 
 ### 0.2.0 - 2018-04-12

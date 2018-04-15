@@ -35,6 +35,23 @@ Tested MRI Ruby Versions:
 * edge
 
 
+## Configuration
+
+Global/default values for ObjectInspector can be configured via the ObjectInspector::Configuration object.
+
+_Note: In a Rails app, the following would go in e.g. `config/initializers/object_inspector.rb`_
+
+```ruby
+# Default values are shown.
+ObjectInspector.configure do |config|
+  config.wild_card_scope = "all"
+  config.out_of_scope_placeholder = "*"
+  config.flags_separator = " / "
+  config.info_separator = " | "
+end
+```
+
+
 ## Usage
 
 Given, an object of any type, call ObjectInspector::Inspector.inspect.

@@ -17,16 +17,18 @@ module ObjectInspector
     # Join the passed-in flags with the passed in separator.
     #
     # @param items [Array<#to_s>]
-    # @param separator [#to_s] (ObjectInspector.flags_separator)
-    def join_flags(flags, separator: ObjectInspector.flags_separator)
+    # @param separator [#to_s] (ObjectInspector.configuration.flags_separator)
+    def join_flags(flags,
+                   separator: ObjectInspector.configuration.flags_separator)
       Array(flags).join(separator)
     end
 
     # Join the passed-in items with the passed in separator.
     #
     # @param items [Array<#to_s>]
-    # @param separator [#to_s] (ObjectInspector.info_separator)
-    def join_info(items, separator: ObjectInspector.info_separator)
+    # @param separator [#to_s] (ObjectInspector.configuration.info_separator)
+    def join_info(items,
+                   separator: ObjectInspector.configuration.info_separator)
       Array(items).join(separator)
     end
 
@@ -55,7 +57,7 @@ module ObjectInspector
       if condition
         block.call
       else
-        ObjectInspector.out_of_scope_placeholder
+        ObjectInspector.configuration.out_of_scope_placeholder
       end
     end
 
@@ -65,7 +67,8 @@ module ObjectInspector
     end
 
     def wild_card_scope?
-      @is_wild_card_scope ||= any_names_match?(ObjectInspector.wild_card_scope)
+      @is_wild_card_scope ||=
+        any_names_match?(ObjectInspector.configuration.wild_card_scope)
     end
 
     def any_names_match?(other_name)

@@ -17,12 +17,6 @@ module ObjectInspector
                 :formatter_klass,
                 :kargs
 
-    # The prefix for all methods called on {#object} for inspect
-    # details/strings.
-    def self.object_inspect_method_prefix
-      "inspect".freeze
-    end
-
     # Shortcuts the instantiation -> {#to_s} flow that would normally be
     # required to use ObjectInspector::Inspector.
     #
@@ -103,7 +97,7 @@ module ObjectInspector
     end
 
     # @return [String] if `key` is found in {#kargs} or if {#object} responds to
-    #   `#{object_inspect_method_prefix}_#{key}` (e.g. `inspect_flags`)
+    #   `#{object_inspet_method_name}` (e.g. `inspect_flags`)
     # @return [NilClass] if not found in {#kargs} or {#object}
     def value(key:)
       return_value =
@@ -134,11 +128,13 @@ module ObjectInspector
     # Attempt to call `inspect_*` on {#object} based on the passed in `name`.
     #
     # @return [String] if {#object} responds to
-    #   `#{object_inspect_method_prefix}_#{name}` (e.g. `inspect_flags`)
+    #   `#{object_inspet_method_name}` (e.g. `inspect_flags`)
     # @return [NilClass] if not found on {#object}
-    def interrogate_object_inspect_method(name)
+    def interrogate_object_inspect_method(
+          name,
+          prefix: ObjectInspector.configuration.inspect_method_prefix)
       interrogate_object(
-        method_name: build_inspet_method_name(name),
+        method_name: object_inspet_method_name(name, prefix: prefix),
         kargs: object_method_keyword_arguments)
     end
 
@@ -152,12 +148,10 @@ module ObjectInspector
       interrogator.call
     end
 
-    def build_inspet_method_name(name)
-      "#{object_inspect_method_prefix}_#{name}"
-    end
-
-    def object_inspect_method_prefix
-      self.class.object_inspect_method_prefix
+    def object_inspet_method_name(
+          name,
+          prefix: ObjectInspector.configuration.inspect_method_prefix)
+      "#{prefix}_#{name}"
     end
 
     def object_method_keyword_arguments
