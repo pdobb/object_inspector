@@ -32,11 +32,29 @@ module ObjectInspector
 
   private
 
-    def method_missing(method_name, *arguments)
+    def method_missing(method_name, *args, &block)
       if method_name[-1] == "?"
-        @name == method_name[0..-2]
+        evalute_predicate(method_name, &block)
       else
         super
+      end
+    end
+
+    def evalute_predicate(method_name, &block)
+      match = @name == method_name[0..-2]
+
+      if block.nil?
+        match
+      else
+        evaluate_match_and_block(match, &block)
+      end
+    end
+
+    def evaluate_match_and_block(match, &block)
+      if match
+        block.call
+      else
+        ObjectInspector.out_of_scope_placeholder
       end
     end
 

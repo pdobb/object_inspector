@@ -164,39 +164,62 @@ ObjectInspector::Scope also offers helper methods for uniformly joining inspect 
 - `join_flags` -- Joins flags with ` / ` by default
 - `join_info` -- Joins info items with ` | ` by default
 
+```ruby
+scope = ObjectInspector::Scope.new(:verbose)
+scope.join_flags([1, 2, 3])  # => "1 / 2 / 3"
+scope.join_info([1, 2, 3])   # => "1 | 2 | 3"
+```
 
-#### Scope Examples
+
+#### Full Example
 
 ```ruby
 class MyObject
   include ObjectInspector::InspectorsHelper
 
-  def associated_object
-    OpenStruct.new(flags: "FLAG2", info: "INFO2")
+  def associated_object1
+    OpenStruct.new(flags: "AO1_FLAG1")
+  end
+
+  def associated_object2
+    OpenStruct.new(flags: "AO2_FLAG1")
   end
 
 private
 
   def inspect_flags(scope:)
-    flags = ["FLAG1"]
-    flags << associated_object.flags if scope.associated?
-    flags << "VERBOSE_FLAG" if scope.verbose?
+    flags = ["DEFAULT_FLAG"]
+
+    flags <<
+      scope.verbose? {
+        [
+          associated_object1.flags,
+          associated_object2.flags,
+        ]
+      }
 
     scope.join_flags(flags)
   end
 
   def inspect_info(scope:)
-    info = ["INFO1"]
-    info << associated_object.info if scope.associated?
+    info = ["Default Info"]
+    info << scope.other? { "OTHER_INFO" }
+    info << scope.verbose? { "VERBOSE_INFO" }
 
     scope.join_info(info)
   end
 end
 
 my_object = MyObject.new
-my_object.inspect                      # => "<MyObject(FLAG1) INFO1>"
-my_object.inspect(scope: :associated)  # => "<MyObject(FLAG1 / FLAG2) INFO1 | INFO2>"
-my_object.inspect(scope: :verbose)     # => "<MyObject(FLAG1 / VERBOSE_FLAG) INFO1>"
+
+my_object.inspect
+# => "<MyObject(DEFAULT_FLAG / *) Default Info | * | *>"
+
+my_object.inspect(scope: :other)
+# => "<MyObject(DEFAULT_FLAG / *) Default Info | OTHER_INFO | *>"
+
+my_object.inspect(scope: :verbose)
+# => "<MyObject(DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | * | ALL_INFO>"
 ```
 
 

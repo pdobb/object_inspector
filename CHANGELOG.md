@@ -1,13 +1,15 @@
 #### TODO
-- Add "placeholder" symbol (*) for scope exclusions.
+- Add a magical :all scope that is always true.
+- Allow combining of scopes?
 - Add gem defaults configuration.
 
 
 ### Unreleased
 
 - Remove optional dependency on ActiveSupport::StringInquirer. [Scopes are now objects](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/scope.rb) that act like ActiveSupport::StringInquirer objects.
-- Add ObjectInspector::Scope.join_flags helper method
-- Add ObjectInspector::Scope.join_info helper method
+- Add ObjectInspector::Scope.join_flags helper method.
+- Add ObjectInspector::Scope.join_info helper method.
+- Scope: Show an out-of-scope-placeholder symbol (*) when predicate is not matched and a block is given.
 
 
 ### 0.2.0 - 2018-04-12

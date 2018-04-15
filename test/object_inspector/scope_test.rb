@@ -14,16 +14,32 @@ class ObjectInspector::ScopeTest < Minitest::Spec
       context "GIVEN method_name matches Scope#name" do
         subject { self_scope }
 
-        it "returns true" do
-          subject.self?.must_equal true
+        context "GIVEN no block" do
+          it "returns true" do
+            subject.self?.must_equal true
+          end
+        end
+
+        context "GIVEN a block" do
+          it "evaluates the block" do
+            subject.self? { "BLOCK_RESULT" }.must_equal "BLOCK_RESULT"
+          end
         end
       end
 
       context "GIVEN method_name does not match Scope#name" do
-        subject { self_scope }
+        subject { verbose_scope }
 
-        it "returns true" do
-          subject.verbose?.must_equal false
+        context "GIVEN no block" do
+          it "returns true" do
+            subject.self?.must_equal false
+          end
+        end
+
+        context "GIVEN a block" do
+          it "returns the out-of-scope placeholder" do
+            subject.self? { "BLOCK_RESULT" }.must_equal "*"
+          end
         end
       end
     end
@@ -52,6 +68,10 @@ class ObjectInspector::ScopeTest < Minitest::Spec
       it "joins the passed in Array with the expected separator" do
         subject.join_flags(%w[1 2 3]).must_equal("1 / 2 / 3")
       end
+
+      it "flattens nested flags" do
+        subject.join_flags([1, [2]]).must_equal("1 / 2")
+      end
     end
 
     describe "#join_info" do
@@ -59,6 +79,10 @@ class ObjectInspector::ScopeTest < Minitest::Spec
 
       it "joins the passed in Array with the expected separator" do
         subject.join_info(%w[1 2 3]).must_equal("1 | 2 | 3")
+      end
+
+      it "flattens nested info items" do
+        subject.join_info([1, [2]]).must_equal("1 | 2")
       end
     end
   end

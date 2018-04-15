@@ -1,6 +1,10 @@
 # ObjectInspector is the base namespace for all modules/classes related to the
 # object_inspector gem.
 module ObjectInspector
+  def self.out_of_scope_placeholder
+    "*".freeze
+  end
+
   def self.flags_separator
     " / ".freeze
   end
