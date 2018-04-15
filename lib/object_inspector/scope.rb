@@ -6,12 +6,12 @@ module ObjectInspector
   # @see ActiveSupport::StringInquirer
   #   http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html
   #
-  # @attr name [#to_s]
+  # @attr names [Array<#to_s>]
   class Scope
-    attr_reader :name
+    attr_reader :names
 
-    def initialize(name = :self)
-      @name = String(name)
+    def initialize(names = %w[self])
+      @names = Array(names).map { |name| String(name) }
     end
 
     # Join the passed-in flags with the passed in separator.
@@ -34,32 +34,42 @@ module ObjectInspector
 
     def method_missing(method_name, *args, &block)
       if method_name[-1] == "?"
-        evalute_match(method_name[0..-2], &block)
+        scope_name = method_name[0..-2]
+        evaluate_match(scope_name, &block)
       else
         super
       end
     end
 
-    def evalute_match(method_name, &block)
-      is_a_match = @name == method_name || wild_card_scope?
+    def evaluate_match(scope_name, &block)
+      is_a_match = match?(scope_name)
 
-      if block.nil?
-        is_a_match
+      if block
+        evaluate_block_if(is_a_match, &block)
       else
-        evaluate_match_and_block(is_a_match, &block)
+        is_a_match
       end
     end
 
-    def evaluate_match_and_block(is_a_match, &block)
-      if is_a_match
+    def evaluate_block_if(condition, &block)
+      if condition
         block.call
       else
         ObjectInspector.out_of_scope_placeholder
       end
     end
 
+    def match?(scope_name)
+      any_names_match?(scope_name) ||
+        wild_card_scope?
+    end
+
     def wild_card_scope?
-      @name == ObjectInspector.wild_card_scope
+      @is_wild_card_scope ||= any_names_match?(ObjectInspector.wild_card_scope)
+    end
+
+    def any_names_match?(other_name)
+      @names.any? { |name| name == other_name }
     end
 
     def respond_to_missing?(method_name, include_private = false)

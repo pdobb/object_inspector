@@ -90,7 +90,7 @@ MyObject.new.inspect  # => "<My Object(FLAG1 / FLAG2) INFO :: NAME>"
 ```
 
 
-### Helper Usage
+## Helper Usage
 
 To save some typing, include ObjectInspector::InspectHelper into an object and ObjectInspector::Inspector.inspect will be called on `self` automatically.
 
@@ -119,7 +119,7 @@ end
 MyObject.new.inspect  # => "<My Object(FLAG1) INFO :: NAME>"
 ```
 
-Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspect_name` in Object.
+Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspect_name` (or `display_name`) in Object.
 
 ```ruby
 class MyObject
@@ -130,35 +130,79 @@ private
   def inspect_identification; "My Object" end
   def inspect_flags; "FLAG1 / FLAG2" end
   def inspect_info; "INFO" end
-  def inspect_name; "NAME" end
+  def inspect_name; "NAME" end  # Or: def display_name; "NAME" end
 end
 
 MyObject.new.inspect  # => "<My Object(FLAG1 / FLAG2) INFO :: NAME>"
 ```
 
 
-### Scopes
+## Scopes
 
 Use the `scope` option to define the scope of the `inspect_*` methods. The supplied value will be wrapped by the ObjectInspector::Scope helper object.
 The default value is `ObjectInspector::Scope.new(:self)`.
 
 
-#### Scope Names
+### Scope Names
 
 ObjectInspector::Scope acts like [ActiveSupport::StringInquirer](http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html). This is a prettier way to test for a given type of "scope" within objects.
 
-Options:
-- `:self` (Default) -- Is meant to confine object interrogation to self (don't interrogate neighboring objects).
-- `<custom>` -- Anything else that makes sense for the object to key on.
+The ObjectInspector::Scope objects in these examples are the same as specifying `<scope_name>` like this:
 
 ```ruby
-scope = ObjectInspector::Scope.new(:verbose)
-scope.self?     # => false
-scope.verbose?  # => true
+my_object.inspect(scope: <scope_name>)
 ```
 
 
-#### Scope Joiners
+Options:
+- `:self` (Default) -- Is meant to confine object interrogation to self (don't interrogate neighboring objects).
+- `:all` -- Is meant to match on all scopes, regardless of their name.
+- `<custom>` -- Anything else that makes sense for the object to key on.
+
+```ruby
+scope = ObjectInspector::Scope.new
+scope.self?     # => true
+scope.verbose?  # => false
+scope.complex?  # => false
+```
+
+
+#### Multiple Scope Names
+
+It is also possible to pass in multiple scope names to match on.
+
+```ruby
+scope = ObjectInspector::Scope.new(%i[verbose complex])
+scope.self?     # => false
+scope.verbose?  # => true
+scope.complex?  # => true
+```
+
+
+#### The "Wild Card" Scope
+
+Finally, `:all` is a "wild card" scope name, and will match on all scope names.
+
+```ruby
+scope = ObjectInspector::Scope.new(:all)
+scope.self?     # => true
+scope.verbose?  # => true
+scope.complex?  # => true
+```
+
+
+### Scope blocks
+
+Passing a block to a scope predicate falls back to the out-of-scope placeholder (`*` by default) if the scope does not match.
+
+```ruby
+scope = ObjectInspector::Scope.new(:verbose)
+scope.verbose? { "MATCH" }  # => "MATCH"
+scope.complex? { "MATCH" }  # => "*"
+```
+
+
+### Scope Joiners
 
 ObjectInspector::Scope also offers helper methods for uniformly joining inspect elements:
 - `join_flags` -- Joins flags with ` / ` by default
@@ -171,11 +215,35 @@ scope.join_info([1, 2, 3])   # => "1 | 2 | 3"
 ```
 
 
-#### Scopes - Full Example
+### Conversion to ObjectInspector::Scope
+
+ObjectInspector::Conversions.Scope() is available for proper conversion to ObjectInspector::Scope objects. Though this should rarely be necessary as conversion is performed automatically when calling `<my_object>.inspect(scope: <scope_name>)`.
+
+```ruby
+ObjectInspector::Conversions.Scope(:self)
+# => #<ObjectInspector::Scope:0x007ff78ab8e7f8 @name="self">
+
+scope = ObjectInspector::Scope.new(:verbose)
+result = ObjectInspector::Conversions.Scope(scope)
+# => #<ObjectInspector::Scope:0x007ff78ac9c140 @name="verbose">
+
+scope.object_id == result.object_id  # => true
+```
+
+
+## Full Example
 
 ```ruby
 class MyObject
   include ObjectInspector::InspectorsHelper
+
+  attr_reader :name,
+              :a2
+
+  def initialize(name, a2 = 2)
+    @name = name
+    @a2 = a2
+  end
 
   def associated_object1
     OpenStruct.new(flags: "AO1_FLAG1")
@@ -186,6 +254,10 @@ class MyObject
   end
 
 private
+
+  def inspect_identification
+    identify(:a2)
+  end
 
   def inspect_flags(scope:)
     flags = ["DEFAULT_FLAG"]
@@ -203,46 +275,38 @@ private
 
   def inspect_info(scope:)
     info = ["Default Info"]
-    info << "COMPLEX_INFO" if scope.complex?
-    info << scope.verbose? { "VERBOSE_INFO" }
+    info << "Complex Info" if scope.complex?
+    info << scope.verbose? { "Verbose Info" }
 
     scope.join_info(info)
   end
+
+  # Or `def inspect_name`
+  def display_name
+    name
+  end
 end
 
-my_object = MyObject.new
+my_object = MyObject.new("Name")
 
 my_object.inspect
-# => "<MyObject(DEFAULT_FLAG / *) Default Info | *>"
+# => "<MyObject[a2:2](DEFAULT_FLAG / *) Default Info | * :: Name>"
 
 my_object.inspect(scope: :complex)
-# => "<MyObject(DEFAULT_FLAG / *) Default Info | COMPLEX_INFO | *>"
+# => "<MyObject[a2:2](DEFAULT_FLAG / *) Default Info | Complex Info | * :: Name>"
 
 my_object.inspect(scope: :verbose)
-# => "<MyObject(DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | VERBOSE_INFO>"
+# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | Verbose Info :: Name>"
+
+my_object.inspect(scope: %i[self complex verbose])
+# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | Complex Info | Verbose Info :: Name>"
 
 my_object.inspect(scope: :all)
-# => "<MyObject(DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | COMPLEX_INFO | VERBOSE_INFO>"
+# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | Complex Info | Verbose Info :: Name>"
 ```
 
 
-#### Conversion to ObjectInspector::Scope
-
-ObjectInspector::Conversions.Scope() is available for proper conversion to ObjectInspector::Scope objects.
-
-```ruby
-ObjectInspector::Conversions.Scope(:self)
-# => #<ObjectInspector::Scope:0x007ff78ab8e7f8 @name="self">
-
-scope = ObjectInspector::Scope.new(:verbose)
-result = ObjectInspector::Conversions.Scope(scope)
-# => #<ObjectInspector::Scope:0x007ff78ac9c140 @name="verbose">
-
-scope.object_id == result.object_id  # => true
-```
-
-
-### Wrapped Objects
+## Wrapped Objects
 
 If the Object being inspected wraps another object -- i.e. defines #to_model and #to_model returns an object other than self -- the inspect output will re-inspect the wrapped object. The wrapper points to the wrapped object with an arrow (⇨).
 
@@ -275,7 +339,7 @@ MyWrapperObject.new.inspect
 This feature is recursive.
 
 
-### On-the-fly Inspect Methods
+## On-the-fly Inspect Methods
 
 When passed as an option (as opposed to being called via an Object-defined method) symbols will be called/evaluated on Object on the fly.
 
@@ -295,7 +359,7 @@ MyObject.new.inspect                      # => "<MyObject my_method2>"
 ```
 
 
-### Custom Formatters
+## Custom Formatters
 
 A custom inspect formatter can be defined by implementing the interface defined by [ObjectInspector::BaseFormatter](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/base_formatter.rb) and then passing that into ObjectInspector::Inspector.new.
 

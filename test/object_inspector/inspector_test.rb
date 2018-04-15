@@ -106,6 +106,16 @@ class ObjectInspector::InspectorTest < Minitest::Spec
           subject.identification.must_equal SimpleTestObject.name
         end
       end
+
+      context "GIVEN :identification is passed in" do
+        subject {
+          klazz.new(simple_object1, identification: "PASSED_IN_IDENTIFICATION")
+        }
+
+        it "returns the passed in :identification" do
+          subject.identification.must_equal "PASSED_IN_IDENTIFICATION"
+        end
+      end
     end
 
     describe "#flags" do
@@ -122,6 +132,14 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
         it "returns nil" do
           subject.flags.must_be_nil
+        end
+      end
+
+      context "GIVEN :flags is passed in" do
+        subject { klazz.new(simple_object1, flags: "PASSED_IN_FLAG") }
+
+        it "returns the passed in :flags" do
+          subject.flags.must_equal "PASSED_IN_FLAG"
         end
       end
     end
@@ -142,6 +160,14 @@ class ObjectInspector::InspectorTest < Minitest::Spec
           subject.info.must_be_nil
         end
       end
+
+      context "GIVEN :info is passed in" do
+        subject { klazz.new(simple_object1, info: "PASSED_IN_INFO") }
+
+        it "returns the passed in :info" do
+          subject.info.must_equal "PASSED_IN_INFO"
+        end
+      end
     end
 
     describe "#name" do
@@ -157,6 +183,14 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
           it "returns Object#inspect_name" do
             subject.name.must_equal "INSPECT_NAME"
+          end
+        end
+
+        context "GIVEN :name is passed in" do
+          subject { klazz.new(inspect_name_object1, name: "PASSED_IN_NAME") }
+
+          it "returns the passed in :name" do
+            subject.name.must_equal "PASSED_IN_NAME"
           end
         end
       end

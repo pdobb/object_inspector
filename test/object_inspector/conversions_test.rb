@@ -18,7 +18,7 @@ class ObjectInspector::ConversionsTest < Minitest::Spec
       context "GIVEN a Symbol" do
         it "returns a new Scope for the given Symbol" do
           new_scope = klazz.Scope(:verbose)
-          new_scope.name.must_equal "verbose"
+          new_scope.names.must_include "verbose"
         end
       end
     end

@@ -11,6 +11,14 @@ class ObjectInspector::ScopeTest < Minitest::Spec
     let(:verbose_scope) { klazz.new(:verbose) }
     let(:all_scope) { klazz.new(:all) }
 
+    describe "#<method_name>" do
+      subject { self_scope }
+
+      it "raises NoMethodError" do
+        -> { subject.unknown_method }.must_raise NoMethodError
+      end
+    end
+
     describe "#<method_name>?" do
       context "GIVEN method_name matches Scope#name" do
         subject { self_scope }
