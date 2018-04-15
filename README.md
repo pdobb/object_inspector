@@ -5,8 +5,9 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/34e821263d9e0c33d536/test_coverage)](https://codeclimate.com/github/pdobb/object_inspector/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/34e821263d9e0c33d536/maintainability)](https://codeclimate.com/github/pdobb/object_inspector/maintainability)
 
-ObjectInspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, info, and/or a name along with an optional self-definable scope option to represent an object in the console, in logging, etc.
+ObjectInspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, info, and/or a name along with an optional, self-definable scope option to represents objects. Great for the console, logging, etc.
 
+Because object inspection code should be easy to write and its output should be easy to read!
 
 ## Installation
 
@@ -48,6 +49,7 @@ ObjectInspector.configure do |config|
   config.out_of_scope_placeholder = "*"
   config.flags_separator = " / "
   config.info_separator = " | "
+  config.inspect_method_prefix = "inspect"
 end
 ```
 
@@ -229,22 +231,6 @@ ObjectInspector::Scope also offers helper methods for uniformly joining inspect 
 scope = ObjectInspector::Scope.new(:verbose)
 scope.join_flags([1, 2, 3])  # => "1 / 2 / 3"
 scope.join_info([1, 2, 3])   # => "1 | 2 | 3"
-```
-
-
-### Conversion to ObjectInspector::Scope
-
-ObjectInspector::Conversions.Scope() is available for proper conversion to ObjectInspector::Scope objects. Though this should rarely be necessary as conversion is performed automatically when calling `<my_object>.inspect(scope: <scope_name>)`.
-
-```ruby
-ObjectInspector::Conversions.Scope(:self)
-# => #<ObjectInspector::Scope:0x007ff78ab8e7f8 @name="self">
-
-scope = ObjectInspector::Scope.new(:verbose)
-result = ObjectInspector::Conversions.Scope(scope)
-# => #<ObjectInspector::Scope:0x007ff78ac9c140 @name="verbose">
-
-scope.object_id == result.object_id  # => true
 ```
 
 
