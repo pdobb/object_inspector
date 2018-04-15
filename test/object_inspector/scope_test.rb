@@ -9,6 +9,7 @@ class ObjectInspector::ScopeTest < Minitest::Spec
 
     let(:self_scope) { klazz.new(:self) }
     let(:verbose_scope) { klazz.new(:verbose) }
+    let(:all_scope) { klazz.new(:all) }
 
     describe "#<method_name>?" do
       context "GIVEN method_name matches Scope#name" do
@@ -31,7 +32,7 @@ class ObjectInspector::ScopeTest < Minitest::Spec
         subject { verbose_scope }
 
         context "GIVEN no block" do
-          it "returns true" do
+          it "returns false" do
             subject.self?.must_equal false
           end
         end
@@ -39,6 +40,26 @@ class ObjectInspector::ScopeTest < Minitest::Spec
         context "GIVEN a block" do
           it "returns the out-of-scope placeholder" do
             subject.self? { "BLOCK_RESULT" }.must_equal "*"
+          end
+        end
+      end
+
+      context "GIVEN Scope#name is :all" do
+        subject { all_scope }
+
+        context "GIVEN no block" do
+          it "returns true, regardless of the predicate method name used" do
+            subject.all?.must_equal true
+            subject.self?.must_equal true
+            subject.verbose?.must_equal true
+          end
+        end
+
+        context "GIVEN a block" do
+          it "evaluates the block, regardless of the predicate method name used" do
+            subject.all? { "BLOCK_RESULT" }.must_equal "BLOCK_RESULT"
+            subject.self? { "BLOCK_RESULT" }.must_equal "BLOCK_RESULT"
+            subject.verbose? { "BLOCK_RESULT" }.must_equal "BLOCK_RESULT"
           end
         end
       end

@@ -1,6 +1,5 @@
 #### TODO
-- Add a magical :all scope that is always true.
-- Allow combining of scopes?
+- Add ability to specify multiple scopes. e.g. my_object.inspect(scope: %i[verbose complex])
 - Add gem defaults configuration.
 
 
@@ -10,6 +9,7 @@
 - Add ObjectInspector::Scope.join_flags helper method.
 - Add ObjectInspector::Scope.join_info helper method.
 - Scope: Show an out-of-scope-placeholder symbol (*) when predicate is not matched and a block is given.
+- Scope: Add wild-card "all" scope that is always evaluated as true / a match.
 
 
 ### 0.2.0 - 2018-04-12

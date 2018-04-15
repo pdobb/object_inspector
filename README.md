@@ -137,7 +137,7 @@ MyObject.new.inspect  # => "<My Object(FLAG1 / FLAG2) INFO :: NAME>"
 ```
 
 
-### Scope Helper Object
+### Scopes
 
 Use the `scope` option to define the scope of the `inspect_*` methods. The supplied value will be wrapped by the ObjectInspector::Scope helper object.
 The default value is `ObjectInspector::Scope.new(:self)`.
@@ -171,7 +171,7 @@ scope.join_info([1, 2, 3])   # => "1 | 2 | 3"
 ```
 
 
-#### Full Example
+#### Scopes - Full Example
 
 ```ruby
 class MyObject
@@ -203,7 +203,7 @@ private
 
   def inspect_info(scope:)
     info = ["Default Info"]
-    info << scope.other? { "OTHER_INFO" }
+    info << "COMPLEX_INFO" if scope.complex?
     info << scope.verbose? { "VERBOSE_INFO" }
 
     scope.join_info(info)
@@ -213,13 +213,16 @@ end
 my_object = MyObject.new
 
 my_object.inspect
-# => "<MyObject(DEFAULT_FLAG / *) Default Info | * | *>"
+# => "<MyObject(DEFAULT_FLAG / *) Default Info | *>"
 
-my_object.inspect(scope: :other)
-# => "<MyObject(DEFAULT_FLAG / *) Default Info | OTHER_INFO | *>"
+my_object.inspect(scope: :complex)
+# => "<MyObject(DEFAULT_FLAG / *) Default Info | COMPLEX_INFO | *>"
 
 my_object.inspect(scope: :verbose)
-# => "<MyObject(DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | * | ALL_INFO>"
+# => "<MyObject(DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | VERBOSE_INFO>"
+
+my_object.inspect(scope: :all)
+# => "<MyObject(DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | COMPLEX_INFO | VERBOSE_INFO>"
 ```
 
 
