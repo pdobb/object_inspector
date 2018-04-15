@@ -5,7 +5,7 @@ class ObjectInspectorTest < Minitest::Spec
     let(:klazz) { ObjectInspector }
     let(:configuration_klazz) { ObjectInspector::Configuration }
 
-    it "has_a_version_number" do
+    it "has a VERSION" do
       klazz::VERSION.wont_be_nil
     end
 

@@ -7,7 +7,7 @@
 
 ObjectInspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, info, and/or a name along with an optional, self-definable scope option to represents objects. Great for the console, logging, etc.
 
-Because object inspection code should be easy to write and its output should be easy to read!
+Because object inspection code should be uniform, easy to build, and its output should be easy to read!
 
 If you'd like to just jump into an example: [Full Example](#full-example).
 
@@ -37,6 +37,8 @@ Tested MRI Ruby Versions:
 * 2.4.4
 * 2.5.1
 * edge
+
+ObjectInspector has no other dependencies.
 
 
 ## Configuration
@@ -77,7 +79,7 @@ See also [Helper Usage](#helper-usage) for an even simpler usage option.
 
 ### Output Customization
 
-Use the `identification`, `flags`, `info`, and `name` options to customize inspect output.
+Use the `identification`, `flags`, `info`, and/or `name` options to customize inspect output.
 
 ```ruby
 class MyObject
@@ -398,6 +400,38 @@ See examples:
 - [ObjectInspector::CombiningFormatter]
 
 
+## Supporting Gems
+
+ObjectInspector works great with the [ObjectIdentifier](https://github.com/pdobb/object_identifier) gem.
+
+```ruby
+class MyObject
+  include ObjectInspector::InspectorsHelper
+
+  def my_method1
+    1
+  end
+
+  def my_method2
+    2
+  end
+
+private
+
+  def inspect_identification
+    identify(:my_method1, :my_method2)
+  end
+
+  def inspect_flags; "FLAG1 / FLAG2" end
+  def inspect_info; "INFO" end
+  def inspect_name; "NAME" end
+end
+
+MyObject.new.inspect
+# => "<MyObject[my_method1:1, my_method2:2](FLAG1 / FLAG2) INFO :: NAME>"
+```
+
+
 ## Performance
 
 ### Benchmarking ObjectInspector
@@ -450,38 +484,6 @@ play scripts/benchmarking/formatters.rb
 # ObjectInspector::CombiningFormatter:    38963.5 i/s - 1.33x  slower
 #
 # == Done
-```
-
-
-## Supporting Gems
-
-ObjectInspector works great with the [ObjectIdentifier](https://github.com/pdobb/object_identifier) gem.
-
-```ruby
-class MyObject
-  include ObjectInspector::InspectorsHelper
-
-  def my_method1
-    1
-  end
-
-  def my_method2
-    2
-  end
-
-private
-
-  def inspect_identification
-    identify(:my_method1, :my_method2)
-  end
-
-  def inspect_flags; "FLAG1 / FLAG2" end
-  def inspect_info; "INFO" end
-  def inspect_name; "NAME" end
-end
-
-MyObject.new.inspect
-# => "<MyObject[my_method1:1, my_method2:2](FLAG1 / FLAG2) INFO :: NAME>"
 ```
 
 

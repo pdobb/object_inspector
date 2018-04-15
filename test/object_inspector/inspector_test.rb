@@ -212,12 +212,12 @@ class ObjectInspector::InspectorTest < Minitest::Spec
       end
     end
 
-    describe "#wrapped_object_inspection" do
+    describe "#wrapped_object_inspection_result" do
       context "GIVEN #object_is_a_wrapper? is true" do
         subject { klazz.new(wrapper_for_full_test_object1) }
 
         it "returns Object#to_model#inspect" do
-          subject.wrapped_object_inspection.
+          subject.wrapped_object_inspection_result.
             must_equal "<Identification[id:1](FLAG1) Info: 1 :: Name: 1>"
         end
       end
@@ -226,7 +226,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(simple_object1) }
 
         it "returns nil" do
-          subject.wrapped_object_inspection.must_be_nil
+          subject.wrapped_object_inspection_result.must_be_nil
         end
       end
     end

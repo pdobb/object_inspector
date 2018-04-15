@@ -48,7 +48,7 @@ module ObjectInspector
     #
     # @return [String] if {#object_is_a_wrapper}
     # @return [NilClass] if not {#object_is_a_wrapper}
-    def wrapped_object_inspection
+    def wrapped_object_inspection_result
       if object_is_a_wrapper?
         self.class.inspect(
           extract_wrapped_object,

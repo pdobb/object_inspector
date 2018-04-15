@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Paul Dobbins"]
   spec.email         = ["paul.dobbins@icloud.com"]
 
-  spec.summary       = %q{ObjectInspector generates uniformly formatted inspect output with customizable amounts of detail.}
+  spec.summary       = %q{ObjectInspector builds uniformly formatted inspect output with customizable amounts of detail.}
   spec.description   = %q{ObjectInspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, info, and/or a name along with an optional, self-definable scope option to represents objects. Great for the console, logging, etc.}
   spec.homepage      = "https://github.com/pdobb/object_inspector"
   spec.license       = "MIT"

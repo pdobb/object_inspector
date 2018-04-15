@@ -12,7 +12,8 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
     let(:inspector_with_wrapped_object) {
       OpenStruct.new(
         identification: "WRAPPER",
-        wrapped_object_inspection: inspector_klazz.new(SimpleTestObject.new))
+        wrapped_object_inspection_result:
+          inspector_klazz.new(SimpleTestObject.new))
     }
     let(:inspector_with_flags_and_info_and_name) {
       OpenStruct.new(

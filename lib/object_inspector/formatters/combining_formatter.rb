@@ -9,7 +9,7 @@ module ObjectInspector
     #
     # @return [String]
     def call
-      if wrapped_object_inspection
+      if wrapped_object_inspection_result
         build_wrapped_object_string
       else
         build_string
@@ -19,7 +19,7 @@ module ObjectInspector
   private
 
     def build_wrapped_object_string
-      "#{build_string} #{RIGHT_ARROW_ICON} #{wrapped_object_inspection}"
+      "#{build_string} #{RIGHT_ARROW_ICON} #{wrapped_object_inspection_result}"
     end
 
     def build_string

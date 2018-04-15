@@ -21,12 +21,13 @@ module ObjectInspector
       raise NotImplementedError
     end
 
-    # Delegates to {Inspector#wrapped_object_inspection}.
+    # Delegates to {Inspector#wrapped_object_inspection_result}.
     #
     # @return [String] if given
     # @return [NilClass] if not given
-    def wrapped_object_inspection
-      @wrapped_object_inspection ||= inspector.wrapped_object_inspection
+    def wrapped_object_inspection_result
+      @wrapped_object_inspection_result ||=
+        inspector.wrapped_object_inspection_result
     end
 
     # Delegates to {Inspector#identification}.
