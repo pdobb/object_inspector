@@ -1,4 +1,4 @@
-### Unreleased
+### 0.3.1 - 2018-04-15
 - Add ObjectInspector::Configuration#formatter_class setting for overriding the default Formatter.
 
 
