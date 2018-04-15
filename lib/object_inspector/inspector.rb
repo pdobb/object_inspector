@@ -7,7 +7,8 @@ module ObjectInspector
   # @attr scope [Symbol] Object inspection type. For example:
   #   :self (default) -- Means: Only interrogate self. Don't visit neighbors.
   #   <custom>        -- Anything else that makes sense for {#object} to key on
-  # @attr formatter [ObjectInspector::BaseFormatter] the formatter object type
+  # @attr formatter [ObjectInspector::BaseFormatter]
+  #   (ObjectInspector.configuration.formatter) the formatter object type
   #   to use for formatting the inspect String
   # @attr kargs [Hash] options to be sent to {#object} via the
   #   {ObjectInspector::ObjectInterrogator} when calling the `inspect_*` methods
@@ -28,11 +29,11 @@ module ObjectInspector
     def initialize(
           object,
           scope: :self,
-          formatter: TemplatingFormatter,
+          formatter: ObjectInspector.configuration.formatter_class,
           **kargs)
       @object = object
-      @formatter_klass = formatter
       @scope = Conversions.Scope(scope)
+      @formatter_klass = formatter
       @kargs = kargs
     end
 

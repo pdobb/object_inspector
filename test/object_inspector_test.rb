@@ -19,25 +19,12 @@ class ObjectInspectorTest < Minitest::Spec
       it "contains the expected default values" do
         configuration = subject.configuration
 
-        result = configuration.wild_card_scope
-        result.must_equal "all"
-        result.must_be :frozen?
-
-        result = configuration.out_of_scope_placeholder
-        result.must_equal "*"
-        result.must_be :frozen?
-
-        result = configuration.flags_separator
-        result.must_equal " / "
-        result.must_be :frozen?
-
-        result = configuration.info_separator
-        result.must_equal " | "
-        result.must_be :frozen?
-
-        result = configuration.inspect_method_prefix
-        result.must_equal "inspect"
-        result.must_be :frozen?
+        configuration.formatter_class.must_equal klazz::TemplatingFormatter
+        configuration.inspect_method_prefix.must_equal "inspect"
+        configuration.wild_card_scope.must_equal "all"
+        configuration.out_of_scope_placeholder.must_equal "*"
+        configuration.flags_separator.must_equal " / "
+        configuration.info_separator.must_equal " | "
       end
     end
 
@@ -47,11 +34,12 @@ class ObjectInspectorTest < Minitest::Spec
       context "GIVEN a custom configuration" do
         before do
           subject.configure do |config|
+            config.formatter_class = OpenStruct
+            config.inspect_method_prefix = "ins"
             config.wild_card_scope = :WILD_CARD
             config.out_of_scope_placeholder = 0
             config.flags_separator = nil
             config.info_separator = "-"
-            config.inspect_method_prefix = "ins"
           end
         end
 
@@ -60,25 +48,12 @@ class ObjectInspectorTest < Minitest::Spec
         it "sets custom configuration and converts values to frozen Strings" do
           configuration = subject.configuration
 
-          result = configuration.wild_card_scope
-          result.must_equal "WILD_CARD"
-          result.must_be :frozen?
-
-          result = configuration.out_of_scope_placeholder
-          result.must_equal "0"
-          result.must_be :frozen?
-
-          result = configuration.flags_separator
-          result.must_equal ""
-          result.must_be :frozen?
-
-          result = configuration.info_separator
-          result.must_equal "-"
-          result.must_be :frozen?
-
-          result = configuration.inspect_method_prefix
-          result.must_equal "ins"
-          result.must_be :frozen?
+          configuration.formatter_class.must_equal OpenStruct
+          configuration.inspect_method_prefix.must_equal "ins"
+          configuration.wild_card_scope.must_equal "WILD_CARD"
+          configuration.out_of_scope_placeholder.must_equal "0"
+          configuration.flags_separator.must_equal ""
+          configuration.info_separator.must_equal "-"
         end
       end
     end
@@ -89,25 +64,31 @@ class ObjectInspectorTest < Minitest::Spec
       it "resets the Configuration to the expected default values" do
         configuration = subject.configuration
 
-        result = configuration.wild_card_scope
-        result.must_equal "all"
-        result.must_be :frozen?
+        configuration.formatter_class.must_equal klazz::TemplatingFormatter
+        configuration.inspect_method_prefix.must_equal "inspect"
+        configuration.wild_card_scope.must_equal "all"
+        configuration.out_of_scope_placeholder.must_equal "*"
+        configuration.flags_separator.must_equal " / "
+        configuration.info_separator.must_equal " | "
+      end
+    end
 
-        result = configuration.out_of_scope_placeholder
-        result.must_equal "*"
-        result.must_be :frozen?
+    describe "Configuration" do
+      describe "#formatter_class=" do
+        subject { configuration_klazz.new }
 
-        result = configuration.flags_separator
-        result.must_equal " / "
-        result.must_be :frozen?
+        context "GIVEN a Class constant" do
+          it "sets the value as expected" do
+            subject.formatter_class = OpenStruct
+            subject.formatter_class.must_equal OpenStruct
+          end
+        end
 
-        result = configuration.info_separator
-        result.must_equal " | "
-        result.must_be :frozen?
-
-        result = configuration.inspect_method_prefix
-        result.must_equal "inspect"
-        result.must_be :frozen?
+        context "GIVEN a String" do
+          it "raises TypeError" do
+            -> { subject.formatter_class = "STRING" }.must_raise TypeError
+          end
+        end
       end
     end
   end

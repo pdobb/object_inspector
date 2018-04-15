@@ -18,18 +18,32 @@ module ObjectInspector
   end
 
   class Configuration
-    attr_reader :wild_card_scope,
+    attr_reader :formatter_class,
+                :inspect_method_prefix,
+                :wild_card_scope,
                 :out_of_scope_placeholder,
                 :flags_separator,
-                :info_separator,
-                :inspect_method_prefix
+                :info_separator
 
     def initialize
+      @formatter_class = TemplatingFormatter
+      @inspect_method_prefix = "inspect".freeze
       @wild_card_scope = "all".freeze
       @out_of_scope_placeholder = "*".freeze
       @flags_separator = " / ".freeze
       @info_separator = " | ".freeze
-      @inspect_method_prefix = "inspect".freeze
+    end
+
+    def formatter_class=(value)
+      unless value.is_a?(Class)
+        raise TypeError, "Formatter must be a Class constant"
+      end
+
+      @formatter_class = value
+    end
+
+    def inspect_method_prefix=(value)
+      @inspect_method_prefix = value.to_s.freeze
     end
 
     def wild_card_scope=(value)
@@ -46,10 +60,6 @@ module ObjectInspector
 
     def info_separator=(value)
       @info_separator = value.to_s.freeze
-    end
-
-    def inspect_method_prefix=(value)
-      @inspect_method_prefix = value.to_s.freeze
     end
   end
 end

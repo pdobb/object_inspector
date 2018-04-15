@@ -9,6 +9,9 @@ ObjectInspector takes Object#inspect to the next level. Specify any combination 
 
 Because object inspection code should be easy to write and its output should be easy to read!
 
+If you'd like to just jump into an example: [Full Example](#full-example).
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -45,11 +48,12 @@ _Note: In a Rails app, the following would go in e.g. `config/initializers/objec
 ```ruby
 # Default values are shown.
 ObjectInspector.configure do |config|
+  config.formatter_class = ObjectInspector::TemplatingFormatter
+  config.inspect_method_prefix = "inspect"
   config.wild_card_scope = "all"
   config.out_of_scope_placeholder = "*"
   config.flags_separator = " / "
   config.info_separator = " | "
-  config.inspect_method_prefix = "inspect"
 end
 ```
 
@@ -89,7 +93,7 @@ end
 MyObject.new.inspect  # => "<My Object(FLAG1 / FLAG2) INFO :: NAME>"
 ```
 
-Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspect_name` as either public or private methods on Object.
+Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and/or `inspect_name` (or `display_name`) as either public or private methods on Object.
 
 ```ruby
 class MyObject
@@ -102,7 +106,7 @@ private
   def inspect_identification; "My Object" end
   def inspect_flags; "FLAG1 / FLAG2" end
   def inspect_info; "INFO" end
-  def inspect_name; "NAME" end
+  def inspect_name; "NAME" end  # Or: def display_name; "NAME" end
 end
 
 MyObject.new.inspect  # => "<My Object(FLAG1 / FLAG2) INFO :: NAME>"
@@ -138,7 +142,7 @@ end
 MyObject.new.inspect  # => "<My Object(FLAG1) INFO :: NAME>"
 ```
 
-Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspect_name` (or `display_name`) in Object.
+Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and/or `inspect_name` (or `display_name`) in Object.
 
 ```ruby
 class MyObject
@@ -364,7 +368,7 @@ MyObject.new.inspect                      # => "<MyObject my_method2>"
 
 ## Custom Formatters
 
-A custom inspect formatter can be defined by implementing the interface defined by [ObjectInspector::BaseFormatter](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/base_formatter.rb) and then passing that into ObjectInspector::Inspector.new.
+A custom inspect formatter can be defined by implementing the interface defined by [ObjectInspector::BaseFormatter](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/base_formatter.rb). Then, either override the ObjectInspector::Configuration#formatter_class value (see [Configuration](#configuration)) or just pass your custom class name into ObjectInspector::Inspector.new.
 
 ```ruby
 class MyCustomFormatter < ObjectInspector::BaseFormatter

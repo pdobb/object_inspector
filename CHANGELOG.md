@@ -1,3 +1,7 @@
+### Unreleased
+- Add ObjectInspector::Configuration#formatter_class setting for overriding the default Formatter.
+
+
 ### 0.3.0 - 2018-04-14
 
 - Remove optional dependency on ActiveSupport::StringInquirer. [Scopes are now objects](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/scope.rb) that act like ActiveSupport::StringInquirer objects.
