@@ -28,7 +28,7 @@ module ObjectInspector
 
     def initialize(
           object,
-          scope: :self,
+          scope: ObjectInspector.configuration.default_scope,
           formatter: ObjectInspector.configuration.formatter_class,
           **kargs)
       @object = object

@@ -4,6 +4,7 @@ class ObjectInspectorTest < Minitest::Spec
   describe ObjectInspector do
     let(:klazz) { ObjectInspector }
     let(:configuration_klazz) { ObjectInspector::Configuration }
+    let(:scope_klazz) { ObjectInspector::Scope }
 
     it "has a VERSION" do
       klazz::VERSION.wont_be_nil
@@ -21,6 +22,7 @@ class ObjectInspectorTest < Minitest::Spec
 
         configuration.formatter_class.must_equal klazz::TemplatingFormatter
         configuration.inspect_method_prefix.must_equal "inspect"
+        configuration.default_scope.must_equal scope_klazz.new(:self)
         configuration.wild_card_scope.must_equal "all"
         configuration.out_of_scope_placeholder.must_equal "*"
         configuration.flags_separator.must_equal " / "
@@ -36,6 +38,7 @@ class ObjectInspectorTest < Minitest::Spec
           subject.configure do |config|
             config.formatter_class = OpenStruct
             config.inspect_method_prefix = "ins"
+            config.default_scope = :custom
             config.wild_card_scope = :WILD_CARD
             config.out_of_scope_placeholder = 0
             config.flags_separator = nil
@@ -50,6 +53,7 @@ class ObjectInspectorTest < Minitest::Spec
 
           configuration.formatter_class.must_equal OpenStruct
           configuration.inspect_method_prefix.must_equal "ins"
+          configuration.default_scope.must_equal scope_klazz.new(:custom)
           configuration.wild_card_scope.must_equal "WILD_CARD"
           configuration.out_of_scope_placeholder.must_equal "0"
           configuration.flags_separator.must_equal ""
@@ -66,6 +70,7 @@ class ObjectInspectorTest < Minitest::Spec
 
         configuration.formatter_class.must_equal klazz::TemplatingFormatter
         configuration.inspect_method_prefix.must_equal "inspect"
+        configuration.default_scope.must_equal scope_klazz.new(:self)
         configuration.wild_card_scope.must_equal "all"
         configuration.out_of_scope_placeholder.must_equal "*"
         configuration.flags_separator.must_equal " / "

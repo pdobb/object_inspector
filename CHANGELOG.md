@@ -1,3 +1,8 @@
+### Unreleased
+- Add ObjectInspector::Configuration#default_scope setting -- can be used to override the default Scope for object inspection.
+- Implement ObjectInspector::Scope#== for comparing scopes with scopes and/or scopes with (Arrays of) Strings, Symbols, etc.
+
+
 ### 0.3.1 - 2018-04-15
 - Add ObjectInspector::Configuration#formatter_class setting for overriding the default Formatter.
 

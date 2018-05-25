@@ -52,6 +52,7 @@ _Note: In a Rails app, the following would go in e.g. `config/initializers/objec
 ObjectInspector.configure do |config|
   config.formatter_class = ObjectInspector::TemplatingFormatter
   config.inspect_method_prefix = "inspect"
+  config.default_scope = ObjectInspector::Scope.new(:self)
   config.wild_card_scope = "all"
   config.out_of_scope_placeholder = "*"
   config.flags_separator = " / "
@@ -298,9 +299,6 @@ end
 
 my_object = MyObject.new("Name")
 
-my_object.inspect
-# => "<MyObject[a2:2](DEFAULT_FLAG / *) Default Info | * :: Name>"
-
 my_object.inspect(scope: :complex)
 # => "<MyObject[a2:2](DEFAULT_FLAG / *) Default Info | Complex Info | * :: Name>"
 
@@ -311,6 +309,20 @@ my_object.inspect(scope: %i[self complex verbose])
 # => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | Complex Info | Verbose Info :: Name>"
 
 my_object.inspect(scope: :all)
+# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | Complex Info | Verbose Info :: Name>"
+
+my_object.inspect
+# => "<MyObject[a2:2](DEFAULT_FLAG / *) Default Info | * :: Name>"
+
+ObjectInspector.configuration.default_scope = :complex
+my_object.inspect
+# => "<MyObject[a2:2](DEFAULT_FLAG / *) Default Info | Complex Info | * :: Name>"
+
+ObjectInspector.configuration.default_scope = %i[self complex verbose]
+my_object.inspect
+
+ObjectInspector.configuration.default_scope = :all
+my_object.inspect
 # => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | Complex Info | Verbose Info :: Name>"
 ```
 

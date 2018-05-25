@@ -3,6 +3,11 @@ module ObjectInspector
   # responds with `true`. This is a prettier way to test for a given type of
   # "scope" within objects.
   #
+  # It is possible to pass in multiple scope names to match on.
+  # `:all` is a "wild card" scope name, and will match on all scope names.
+  # Passing a block to a scope predicate falls back to the out-of-scope
+  # placeholder (`*` by default) if the scope does not match.
+  #
   # @see ActiveSupport::StringInquirer
   #   http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html
   #
@@ -32,6 +37,25 @@ module ObjectInspector
       Array(items).join(separator)
     end
 
+    # Compare self with the passed in object.
+    #
+    # @return [TrueClass] if self and `other` resolve to the same set of objects
+    # @return [FalseClass] if self and `other` resolve to a different set of
+    #   objects
+    def ==(other)
+      names.sort ==
+        Array(other).map(&:to_s).sort
+    end
+    alias_method :eql?, :==
+
+    def to_s(separator: ", ".freeze)
+      to_a.join(separator)
+    end
+
+    def to_a
+      names
+    end
+
   private
 
     def method_missing(method_name, *args, &block)
@@ -55,7 +79,7 @@ module ObjectInspector
 
     def evaluate_block_if(condition, &block)
       if condition
-        block.call
+        block.call(self)
       else
         ObjectInspector.configuration.out_of_scope_placeholder
       end

@@ -20,6 +20,7 @@ module ObjectInspector
   class Configuration
     attr_reader :formatter_class,
                 :inspect_method_prefix,
+                :default_scope,
                 :wild_card_scope,
                 :out_of_scope_placeholder,
                 :flags_separator,
@@ -28,6 +29,7 @@ module ObjectInspector
     def initialize
       @formatter_class = TemplatingFormatter
       @inspect_method_prefix = "inspect".freeze
+      @default_scope = Scope.new(:self)
       @wild_card_scope = "all".freeze
       @out_of_scope_placeholder = "*".freeze
       @flags_separator = " / ".freeze
@@ -44,6 +46,10 @@ module ObjectInspector
 
     def inspect_method_prefix=(value)
       @inspect_method_prefix = value.to_s.freeze
+    end
+
+    def default_scope=(value)
+      @default_scope = Conversions.Scope(value)
     end
 
     def wild_card_scope=(value)

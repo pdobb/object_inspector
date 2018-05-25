@@ -10,6 +10,65 @@ class ObjectInspector::ScopeTest < Minitest::Spec
     let(:self_scope) { klazz.new(:self) }
     let(:verbose_scope) { klazz.new(:verbose) }
     let(:all_scope) { klazz.new(:all) }
+    let(:self_and_verbose_scope) { klazz.new(%i[self verbose]) }
+
+    describe "#==" do
+      subject { self_scope }
+
+      it "returns true, GIVEN a Scope with the same #names" do
+        assert subject == klazz.new(:self)
+      end
+
+      it "returns false, GIVEN a Scope with a different #name" do
+        refute subject == klazz.new(:other)
+      end
+
+      it "returns false, GIVEN a Scope with different #names" do
+        refute subject == klazz.new([:self, :other])
+      end
+
+      it "returns true, GIVEN a String with the same name" do
+        assert subject == "self"
+      end
+
+      it "returns true, GIVEN a Symbol with the same name" do
+        assert subject == :self
+      end
+
+      it "returns false, GIVEN a String with a different name" do
+        refute subject == "other"
+      end
+
+      it "returns false, GIVEN a Symbol with a different name" do
+        refute subject == :other
+      end
+
+      it "returns false, GIVEN an Array of Symbol with a different name" do
+        refute subject == %i[self other]
+      end
+
+      it "returns false, GIVEN an Array of Strings with a different name" do
+        refute subject == %w[self other]
+      end
+    end
+
+    describe "#to_s" do
+      context "GIVEN a single scope name" do
+        subject { self_scope }
+
+        it "returns a String" do
+          subject.to_s.must_equal "self"
+        end
+      end
+
+      context "GIVEN multiple scope names" do
+        subject { self_and_verbose_scope }
+
+        it "returns a String" do
+          subject.to_s.must_equal "self, verbose"
+        end
+      end
+    end
 
     describe "#<method_name>" do
       subject { self_scope }
