@@ -1,5 +1,5 @@
-### Unreleased
-- Add ObjectInspector::Configuration#default_scope setting -- can be used to override the default Scope for object inspection.
+### 0.4.0 - 2018-05-25
+- Feature: Add ObjectInspector::Configuration#default_scope setting -- can be used to override the default Scope for object inspection.
 - Implement ObjectInspector::Scope#== for comparing scopes with scopes and/or scopes with (Arrays of) Strings, Symbols, etc.
 
 
