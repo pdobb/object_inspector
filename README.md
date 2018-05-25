@@ -320,6 +320,7 @@ my_object.inspect
 
 ObjectInspector.configuration.default_scope = %i[self complex verbose]
 my_object.inspect
+# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | Complex Info | Verbose Info :: Name>"
 
 ObjectInspector.configuration.default_scope = :all
 my_object.inspect
