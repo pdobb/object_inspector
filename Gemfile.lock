@@ -120,7 +120,7 @@ DEPENDENCIES
   pry-byebug (>= 3.6)
   rake (>= 10.0)
   reek (>= 4.8)
-  rubocop (>= 0.55)
+  rubocop (>= 0.56)
   simplecov (>= 0.16)
 
 BUNDLED WITH

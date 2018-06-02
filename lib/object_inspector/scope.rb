@@ -13,6 +13,8 @@ module ObjectInspector
   #
   # @attr names [Array<#to_s>]
   class Scope
+
+
     attr_reader :names
 
     def initialize(names = %w[self])
