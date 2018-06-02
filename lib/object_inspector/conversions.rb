@@ -2,15 +2,14 @@ module ObjectInspector
   # ObjectInspector::Conversions defines conversion functions used by
   # ObjectInspector.
   module Conversions
-
-  module_function
+    module_function
 
     # Convert the passed in value to an {ObjectInspector::Scope} object.
     # Just returns the pass in value if it already is an
     # {ObjectInspector::Scope} object.
     #
     # @return [ObjectInspector::Scope]
-    def Scope(value)
+    def Scope(value) # rubocop:disable Naming/MethodName
       case value
       when ObjectInspector::Scope
         value

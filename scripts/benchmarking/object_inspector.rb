@@ -43,7 +43,6 @@ OBJECT_WITH_BASE ||=
   OpenStruct.new(
     identification: "IDENTIFICATION")
 
-
 puts "== Averaged ============================================================="
 Benchmark.ips { |x|
   x.report(inspector_klass) {
@@ -69,5 +68,5 @@ Benchmark.ips { |x|
   }
 
   x.compare!
-};
+}
 puts "== Done"

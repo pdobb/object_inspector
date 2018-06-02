@@ -49,12 +49,12 @@ module ObjectInspector
     # @return [String] if {#object_is_a_wrapper}
     # @return [NilClass] if not {#object_is_a_wrapper}
     def wrapped_object_inspection_result
-      if object_is_a_wrapper?
-        self.class.inspect(
-          extract_wrapped_object,
-          scope: scope,
-          formatter: formatter_klass)
-      end
+      return unless object_is_a_wrapper?
+
+      self.class.inspect(
+        extract_wrapped_object,
+        scope: scope,
+        formatter: formatter_klass)
     end
 
     # Core object identification details, such as the {#object} class name and
@@ -91,7 +91,7 @@ module ObjectInspector
                            kargs: object_method_keyword_arguments)
     end
 
-  private
+    private
 
     def formatter
       formatter_klass.new(self)
@@ -157,7 +157,7 @@ module ObjectInspector
 
     def object_method_keyword_arguments
       {
-        scope: scope,
+        scope: scope
       }
     end
 

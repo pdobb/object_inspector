@@ -33,7 +33,7 @@ module ObjectInspector
     # @param items [Array<#to_s>]
     # @param separator [#to_s] (ObjectInspector.configuration.info_separator)
     def join_info(items,
-                   separator: ObjectInspector.configuration.info_separator)
+                  separator: ObjectInspector.configuration.info_separator)
       Array(items).join(separator)
     end
 
@@ -56,7 +56,7 @@ module ObjectInspector
       names
     end
 
-  private
+    private
 
     def method_missing(method_name, *args, &block)
       if method_name[-1] == "?"
@@ -77,9 +77,9 @@ module ObjectInspector
       end
     end
 
-    def evaluate_block_if(condition, &block)
+    def evaluate_block_if(condition)
       if condition
-        block.call(self)
+        yield(self)
       else
         ObjectInspector.configuration.out_of_scope_placeholder
       end
@@ -91,7 +91,7 @@ module ObjectInspector
     end
 
     def wild_card_scope?
-      @is_wild_card_scope ||=
+      @wild_card_scope ||=
         any_names_match?(ObjectInspector.configuration.wild_card_scope)
     end
 
