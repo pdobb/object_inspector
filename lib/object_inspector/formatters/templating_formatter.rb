@@ -48,7 +48,7 @@ module ObjectInspector
       end
     end
 
-  private
+    private
 
     def build_wrapped_object_string
       "#{build_string} #{RIGHT_ARROW_ICON} #{wrapped_object_inspection_result}"
@@ -56,88 +56,74 @@ module ObjectInspector
 
     def build_string
       if flags
-        if info
-          if name
-            build_flags_and_info_and_name_string
-          else
-            build_flags_and_info_string
-          end
-        elsif name
-          build_flags_and_name_string
-        else
-          build_flags_string
-        end
+        build_string_with_flags_and_maybe_info_and_name
       elsif info
-        if name
-          build_info_and_name_string
-        else
-          build_info_string
-        end
+        build_string_with_info_and_maybe_name
       elsif name
-        build_name_string
+        build_string_with_name
       else
         build_base_string
       end
     end
 
-    def build_flags_and_info_and_name_string
+    def build_string_with_flags_and_maybe_info_and_name
+      if info
+        build_string_with_flags_and_info_and_maybe_name
+      elsif name
+        build_string_with_flags_and_name
+      else
+        build_string_with_flags
+      end
+    end
+
+    def build_string_with_flags_and_info_and_maybe_name
+      if name
+        build_string_with_flags_and_info_and_name
+      else
+        build_string_with_flags_and_info
+      end
+    end
+
+    def build_string_with_info_and_maybe_name
+      if name
+        build_string_with_info_and_name
+      else
+        build_string_with_info
+      end
+    end
+
+    def build_string_with_flags_and_info_and_name
       self.class.flags_and_info_and_name_template % [
-        identification,
-        flags,
-        info,
-        name
+        identification, flags, info, name
       ]
     end
 
-    def build_flags_and_info_string
-      self.class.flags_and_info_template % [
-        identification,
-        flags,
-        info
-      ]
+    def build_string_with_flags_and_info
+      self.class.flags_and_info_template % [identification, flags, info]
     end
 
-    def build_flags_and_name_string
-      self.class.flags_and_name_template % [
-        identification,
-        flags,
-        name
-      ]
+    def build_string_with_flags_and_name
+      self.class.flags_and_name_template % [identification, flags, name]
     end
 
-    def build_info_and_name_string
-      self.class.info_and_name_template % [
-        identification,
-        info,
-        name
-      ]
+    def build_string_with_info_and_name
+      self.class.info_and_name_template % [identification, info, name]
     end
 
-    def build_name_string
-      self.class.name_template % [
-        identification,
-        name
-      ]
+    def build_string_with_name
+      self.class.name_template % [identification, name]
     end
 
-    def build_flags_string
-      self.class.flags_template % [
-        identification,
-        flags
-      ]
+    def build_string_with_flags
+      self.class.flags_template % [identification, flags]
     end
 
-    def build_info_string
-      self.class.info_template % [
-        identification,
-        info
-      ]
+    def build_string_with_info
+      self.class.info_template % [identification, info]
     end
 
     def build_base_string
-      self.class.base_template % [
-        identification
-      ]
+      self.class.base_template % [identification]
     end
   end
 end

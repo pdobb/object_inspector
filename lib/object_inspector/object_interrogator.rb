@@ -29,7 +29,7 @@ module ObjectInspector
       end
     end
 
-  private
+    private
 
     def call_with_kargs
       object.send(method_name, **kargs)

@@ -16,7 +16,7 @@ module ObjectInspector
       end
     end
 
-  private
+    private
 
     def build_wrapped_object_string
       "#{build_string} #{RIGHT_ARROW_ICON} #{wrapped_object_inspection_result}"
@@ -36,7 +36,7 @@ module ObjectInspector
         build_identification_string,
         build_flags_string,
         build_info_string,
-        build_name_string,
+        build_name_string
       ].compact
     end
 

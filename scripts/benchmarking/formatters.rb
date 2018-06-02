@@ -9,7 +9,7 @@ custom_formatter_klasses ||= []
 formatter_klasses = [
   ObjectInspector::TemplatingFormatter,
   ObjectInspector::CombiningFormatter,
-  *Array(custom_formatter_klasses),
+  *Array(custom_formatter_klasses)
 ]
 
 INSPECTOR_WITH_FLAGS_AND_INFO_AND_NAME ||=
@@ -49,7 +49,6 @@ INSPECTOR_WITH_BASE ||=
   OpenStruct.new(
     identification: "IDENTIFICATION")
 
-
 puts "== Averaged ============================================================="
 Benchmark.ips { |x|
   formatter_klasses.each do |formatter_klass|
@@ -66,9 +65,8 @@ Benchmark.ips { |x|
   end
 
   x.compare!
-};
+}
 puts "== Done"
-
 
 puts "== Individualized ======================================================="
 Benchmark.ips { |x|
@@ -114,5 +112,5 @@ Benchmark.ips { |x|
   end
 
   x.compare!
-};
+}
 puts "== Done"
