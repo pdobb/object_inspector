@@ -26,6 +26,7 @@ module ObjectInspector
                 :default_scope,
                 :wild_card_scope,
                 :out_of_scope_placeholder,
+                :name_separator,
                 :flags_separator,
                 :info_separator
 
@@ -35,6 +36,7 @@ module ObjectInspector
       @default_scope = Scope.new(:self)
       @wild_card_scope = "all".freeze
       @out_of_scope_placeholder = "*".freeze
+      @name_separator = " - ".freeze
       @flags_separator = " / ".freeze
       @info_separator = " | ".freeze
     end
@@ -61,6 +63,10 @@ module ObjectInspector
 
     def out_of_scope_placeholder=(value)
       @out_of_scope_placeholder = value.to_s.freeze
+    end
+
+    def name_separator=(value)
+      @name_separator = value.to_s.freeze
     end
 
     def flags_separator=(value)

@@ -19,6 +19,15 @@ module ObjectInspector
       @names = Array(names).map { |name| String(name) }
     end
 
+    # Join the passed-in name parts with the passed in separator.
+    #
+    # @param items [Array<#to_s>]
+    # @param separator [#to_s] (ObjectInspector.configuration.flags_separator)
+    def join_name(parts,
+                  separator: ObjectInspector.configuration.name_separator)
+      Array(parts).join(separator)
+    end
+
     # Join the passed-in flags with the passed in separator.
     #
     # @param items [Array<#to_s>]

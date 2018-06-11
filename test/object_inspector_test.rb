@@ -25,6 +25,7 @@ class ObjectInspectorTest < Minitest::Spec
         configuration.default_scope.must_equal scope_klazz.new(:self)
         configuration.wild_card_scope.must_equal "all"
         configuration.out_of_scope_placeholder.must_equal "*"
+        configuration.name_separator.must_equal " - "
         configuration.flags_separator.must_equal " / "
         configuration.info_separator.must_equal " | "
       end
@@ -41,6 +42,7 @@ class ObjectInspectorTest < Minitest::Spec
             config.default_scope = :custom
             config.wild_card_scope = :WILD_CARD
             config.out_of_scope_placeholder = 0
+            config.name_separator = "|"
             config.flags_separator = nil
             config.info_separator = "-"
           end
@@ -56,6 +58,7 @@ class ObjectInspectorTest < Minitest::Spec
           configuration.default_scope.must_equal scope_klazz.new(:custom)
           configuration.wild_card_scope.must_equal "WILD_CARD"
           configuration.out_of_scope_placeholder.must_equal "0"
+          configuration.name_separator.must_equal "|"
           configuration.flags_separator.must_equal ""
           configuration.info_separator.must_equal "-"
         end
@@ -73,6 +76,7 @@ class ObjectInspectorTest < Minitest::Spec
         configuration.default_scope.must_equal scope_klazz.new(:self)
         configuration.wild_card_scope.must_equal "all"
         configuration.out_of_scope_placeholder.must_equal "*"
+        configuration.name_separator.must_equal " - "
         configuration.flags_separator.must_equal " / "
         configuration.info_separator.must_equal " | "
       end

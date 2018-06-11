@@ -151,6 +151,18 @@ module ObjectInspector
         end
       end
 
+      describe "#join_name" do
+        subject { self_scope }
+
+        it "joins the passed in Array with the expected separator" do
+          subject.join_name(%w[1 2 3]).must_equal("1 - 2 - 3")
+        end
+
+        it "flattens nested name" do
+          subject.join_name([1, [2]]).must_equal("1 - 2")
+        end
+      end
+
       describe "#join_flags" do
         subject { self_scope }
 

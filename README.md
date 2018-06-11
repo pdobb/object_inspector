@@ -55,6 +55,7 @@ ObjectInspector.configure do |config|
   config.default_scope = ObjectInspector::Scope.new(:self)
   config.wild_card_scope = "all"
   config.out_of_scope_placeholder = "*"
+  config.name_separator = " - "
   config.flags_separator = " / "
   config.info_separator = " | "
 end
@@ -104,7 +105,7 @@ class MyObject
     ObjectInspector::Inspector.inspect(self)
   end
 
-private
+  private
 
   def inspect_identification; "My Object" end
   def inspect_flags; "FLAG1 / FLAG2" end
@@ -151,7 +152,7 @@ Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and/or `in
 class MyObject
   include ObjectInspector::InspectorsHelper
 
-private
+  private
 
   def inspect_identification; "My Object" end
   def inspect_flags; "FLAG1 / FLAG2" end
@@ -231,11 +232,13 @@ scope.complex? { "MATCH" }  # => "*"
 ### Scope Joiners
 
 ObjectInspector::Scope also offers helper methods for uniformly joining inspect elements:
+- `join_name` -- Joins name parts with ` - ` by default
 - `join_flags` -- Joins flags with ` / ` by default
 - `join_info` -- Joins info items with ` | ` by default
 
 ```ruby
 scope = ObjectInspector::Scope.new(:verbose)
+scope.join_name([1, 2, 3])  # => "1 - 2 - 3"
 scope.join_flags([1, 2, 3])  # => "1 / 2 / 3"
 scope.join_info([1, 2, 3])   # => "1 | 2 | 3"
 ```
@@ -263,7 +266,12 @@ class MyObject
     OpenStruct.new(flags: "AO2_FLAG1")
   end
 
-private
+  # Or `def inspect_name`
+  def display_name(scope:)
+    name
+  end
+
+  private
 
   def inspect_identification
     identify(:a2)
@@ -289,11 +297,6 @@ private
     info << scope.verbose? { "Verbose Info" }
 
     scope.join_info(info)
-  end
-
-  # Or `def inspect_name`
-  def display_name
-    name
   end
 end
 
@@ -340,7 +343,7 @@ class MyWrapperObject
     @to_model ||= MyWrappedObject.new
   end
 
-private
+  private
 
   def inspect_flags; "WRAPPER_FLAG1" end
 end
@@ -348,7 +351,7 @@ end
 class MyWrappedObject
   include ObjectInspector::InspectorsHelper
 
-private
+  private
 
   def inspect_flags; "FLAG1 / FLAG2" end
   def inspect_info; "INFO" end
@@ -429,7 +432,7 @@ class MyObject
     2
   end
 
-private
+  private
 
   def inspect_identification
     identify(:my_method1, :my_method2)
