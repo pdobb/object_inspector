@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    object_inspector (0.4.0)
+    object_inspector (0.5.0)
 
 GEM
   remote: https://rubygems.org/
@@ -77,19 +77,19 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  benchmark-ips (>= 2.7)
-  bundler (>= 1.16)
-  byebug (>= 10.0)
-  minitest (>= 5.0)
-  minitest-reporters (>= 1.2)
-  object_identifier (>= 0.1)
+  benchmark-ips (~> 2.7)
+  bundler (~> 1.16)
+  byebug (~> 10.0)
+  minitest (~> 5.0)
+  minitest-reporters (~> 1.2)
+  object_identifier (~> 0.1)
   object_inspector!
-  pry (>= 0.11)
-  pry-byebug (>= 3.6)
-  rake (>= 12.3)
-  reek (>= 4.8)
-  rubocop (>= 0.57)
-  simplecov (>= 0.16)
+  pry (~> 0.11)
+  pry-byebug (~> 3.6)
+  rake (~> 12.3)
+  reek (~> 4.8)
+  rubocop (~> 0.57)
+  simplecov (~> 0.16)
 
 BUNDLED WITH
    1.16.2

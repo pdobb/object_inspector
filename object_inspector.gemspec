@@ -30,16 +30,16 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "benchmark-ips", ">= 2.7"
-  spec.add_development_dependency "bundler", ">= 1.16"
-  spec.add_development_dependency "byebug", ">= 10.0"
-  spec.add_development_dependency "minitest", ">= 5.0"
-  spec.add_development_dependency "minitest-reporters", ">= 1.2"
-  spec.add_development_dependency "object_identifier", ">= 0.1"
-  spec.add_development_dependency "pry", ">= 0.11"
-  spec.add_development_dependency "pry-byebug", ">= 3.6"
-  spec.add_development_dependency "rake", ">= 12.3"
-  spec.add_development_dependency "reek", ">= 4.8"
-  spec.add_development_dependency "rubocop", ">= 0.57"
-  spec.add_development_dependency "simplecov", ">= 0.16"
+  spec.add_development_dependency "benchmark-ips", "~> 2.7"
+  spec.add_development_dependency "bundler", "~> 1.16"
+  spec.add_development_dependency "byebug", "~> 10.0"
+  spec.add_development_dependency "minitest", "~> 5.0"
+  spec.add_development_dependency "minitest-reporters", "~> 1.2"
+  spec.add_development_dependency "object_identifier", "~> 0.1"
+  spec.add_development_dependency "pry", "~> 0.11"
+  spec.add_development_dependency "pry-byebug", "~> 3.6"
+  spec.add_development_dependency "rake", "~> 12.3"
+  spec.add_development_dependency "reek", "~> 4.8"
+  spec.add_development_dependency "rubocop", "~> 0.57"
+  spec.add_development_dependency "simplecov", "~> 0.16"
 end

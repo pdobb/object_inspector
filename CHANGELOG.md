@@ -1,4 +1,4 @@
-### 0.4.1 - 2018-06-11
+### 0.5.0 - 2018-06-11
 - Add `inspect_issues` to ObjectInspector::TemplatingFormatter.
 - Add ObjectInspector::Scope#join_name.
 - Add configurable ObjectInspector.configuration.presented_object_separator.
