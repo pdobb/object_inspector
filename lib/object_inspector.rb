@@ -1,10 +1,6 @@
 # ObjectInspector is the base namespace for all modules/classes related to the
 # object_inspector gem.
 module ObjectInspector
-  class << self
-    attr_writer :configuration
-  end
-
   def self.configuration
     @configuration ||= Configuration.new
   end
