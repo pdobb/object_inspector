@@ -1,3 +1,6 @@
+### Unreleased
+- Don't include empty strings from Scope#join_* methods when applicable.
+
 ### 0.5.0 - 2018-06-11
 - Add `inspect_issues` to ObjectInspector::TemplatingFormatter.
 - Add ObjectInspector::Scope#join_name.

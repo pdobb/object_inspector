@@ -25,7 +25,8 @@ module ObjectInspector
     # @param separator [#to_s] (ObjectInspector.configuration.flags_separator)
     def join_name(parts,
                   separator: ObjectInspector.configuration.name_separator)
-      Array(parts).join(separator)
+      the_parts = Array(parts)
+      the_parts.join(separator) if the_parts.any?
     end
 
     # Join the passed-in flags with the passed in separator.
@@ -34,7 +35,8 @@ module ObjectInspector
     # @param separator [#to_s] (ObjectInspector.configuration.flags_separator)
     def join_flags(flags,
                    separator: ObjectInspector.configuration.flags_separator)
-      Array(flags).join(separator)
+      the_flags = Array(flags)
+      the_flags.join(separator) if the_flags.any?
     end
 
     # Join the passed-in issues with the passed in separator.
@@ -43,7 +45,8 @@ module ObjectInspector
     # @param separator [#to_s] (ObjectInspector.configuration.issues_separator)
     def join_issues(issues,
                     separator: ObjectInspector.configuration.issues_separator)
-      Array(issues).join(separator)
+      the_issues = Array(issues)
+      the_issues.join(separator) if the_issues.any?
     end
 
     # Join the passed-in items with the passed in separator.
@@ -52,7 +55,8 @@ module ObjectInspector
     # @param separator [#to_s] (ObjectInspector.configuration.info_separator)
     def join_info(items,
                   separator: ObjectInspector.configuration.info_separator)
-      Array(items).join(separator)
+      the_items = Array(items)
+      the_items.join(separator) if the_items.any?
     end
 
     # Compare self with the passed in object.

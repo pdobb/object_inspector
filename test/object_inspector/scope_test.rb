@@ -161,6 +161,10 @@ module ObjectInspector
         it "flattens nested name" do
           subject.join_name([1, [2]]).must_equal("1 - 2")
         end
+
+        it "returns nil, given an empty Array" do
+          subject.join_name([]).must_be_nil
+        end
       end
 
       describe "#join_flags" do
@@ -172,6 +176,26 @@ module ObjectInspector
 
         it "flattens nested flags" do
           subject.join_flags([1, [2]]).must_equal("1 / 2")
+        end
+
+        it "returns nil, given an empty Array" do
+          subject.join_flags([]).must_be_nil
+        end
+      end
+
+      describe "#join_issues" do
+        subject { self_scope }
+
+        it "joins the passed in Array with the expected separator" do
+          subject.join_issues(%w[1 2 3]).must_equal("1 | 2 | 3")
+        end
+
+        it "flattens nested flags" do
+          subject.join_issues([1, [2]]).must_equal("1 | 2")
+        end
+
+        it "returns nil, given an empty Array" do
+          subject.join_issues([]).must_be_nil
         end
       end
 

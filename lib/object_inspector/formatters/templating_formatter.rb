@@ -33,6 +33,10 @@ module ObjectInspector
       @flags_and_info_template ||= "<%s(%s) %s>".freeze
     end
 
+    def self.flags_and_issues_template
+      @flags_and_issues_template ||= "<%s(%s) !!%s!!>".freeze
+    end
+
     def self.issues_and_info_template
       @issues_and_info_template ||= "<%s !!%s!! %s>".freeze
     end
@@ -149,16 +153,6 @@ module ObjectInspector
       end
     end
 
-    def build_string_with_flags_and_maybe_info_and_name
-      if info
-        build_string_with_flags_and_info_and_maybe_name
-      elsif name
-        build_string_with_flags_and_name
-      else
-        build_string_with_flags
-      end
-    end
-
     def build_string_with_flags_and_info_and_maybe_name
       if name
         build_string_with_flags_and_info_and_name
@@ -198,6 +192,10 @@ module ObjectInspector
     def build_string_with_flags_and_issues_and_info
       self.class.flags_and_issues_and_info_template %
         [identification, flags, issues, info]
+    end
+
+    def build_string_with_flags_and_issues
+      self.class.flags_and_issues_template % [identification, flags, issues]
     end
 
     def build_string_with_flags_and_info

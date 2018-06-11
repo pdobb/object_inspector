@@ -52,6 +52,12 @@ module ObjectInspector
           info: "INFO",
           name: "NAME")
       }
+      let(:inspector_with_flags_and_issues) {
+        OpenStruct.new(
+          identification: "IDENTIFICATION",
+          flags: "FLAG1 | FLAG2",
+          issues: "ISSUE1 | ISSUE2")
+      }
       let(:inspector_with_flags_and_info) {
         OpenStruct.new(
           identification: "IDENTIFICATION",
@@ -164,6 +170,15 @@ module ObjectInspector
           it "returns the expected String" do
             subject.call.
               must_equal "<IDENTIFICATION !!ISSUE1 | ISSUE2!! INFO :: NAME>"
+          end
+        end
+
+        context "GIVEN an Inspector with flags and #issues" do
+          subject { klazz.new(inspector_with_flags_and_issues) }
+
+          it "returns the expected String" do
+            subject.call.
+              must_equal "<IDENTIFICATION(FLAG1 | FLAG2) !!ISSUE1 | ISSUE2!!>"
           end
         end
 
