@@ -6,8 +6,6 @@ module ObjectInspector
   #
   # @attr inspector [ObjectInspector::Inspector]
   class BaseFormatter
-    RIGHT_ARROW_ICON = [0x21E8].pack("U").freeze
-
     attr_reader :inspector
 
     def initialize(inspector)

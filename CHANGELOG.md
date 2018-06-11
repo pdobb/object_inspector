@@ -1,5 +1,6 @@
 ### 0.4.1 - 2018-06-11
 - Add ObjectInspector::Scope#join_name.
+- Add configurable ObjectInspector.configuration.presented_object_separator.
 
 
 ### 0.4.0 - 2018-05-25

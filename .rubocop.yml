@@ -67,7 +67,8 @@ Lint/Void:
 Metrics/BlockLength:
   ExcludedMethods:
     - new
-    - describe
+    - describe # Tests
+    - context # Tests
     - ips # Benchmarking
 
 Metrics/ClassLength:

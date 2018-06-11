@@ -55,6 +55,7 @@ ObjectInspector.configure do |config|
   config.default_scope = ObjectInspector::Scope.new(:self)
   config.wild_card_scope = "all"
   config.out_of_scope_placeholder = "*"
+  config.presenter_inspect_flags = " ⇨ "
   config.name_separator = " - "
   config.flags_separator = " / "
   config.info_separator = " | "

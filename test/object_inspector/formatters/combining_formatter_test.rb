@@ -67,7 +67,8 @@ module ObjectInspector
 
           it "returns the expected String" do
             subject.call.must_equal(
-              "<WRAPPER> #{ObjectInspector::BaseFormatter::RIGHT_ARROW_ICON} "\
+              "<WRAPPER> "\
+              "#{ObjectInspector.configuration.presented_object_separator} "\
               "<SIMPLE_TEST_OBJECT>")
           end
         end
