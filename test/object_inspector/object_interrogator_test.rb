@@ -4,7 +4,10 @@ module ObjectInspector
   class ObjectInterrogatorTest < Minitest::Spec
     class SimpleTestObject
       def example_method; "a"; end
-      private def example_private_method; "b"; end
+
+      private
+
+      def example_private_method; "b"; end
     end
 
     class AllOptionalKeywordArgumentsTestObject

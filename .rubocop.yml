@@ -1,7 +1,32 @@
 # AllCops:
 
+Layout/ClassStructure:
+  Enabled: true
+  Categories:
+    module_inclusion:
+      - extend
+      - include
+      - prepend
+    attributes:
+      - attr_accessor
+      - attr_reader
+      - attr_writer
+  ExpectedOrder:
+    - constants
+    - module_inclusion
+    - attributes
+    - public_class_methods
+    - initializer
+    - public_methods
+    - predicates
+    - protected_methods
+    - private_methods
+
 Layout/DotPosition:
   EnforcedStyle: trailing
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: true
 
 Layout/EndOfLine:
   EnforcedStyle: lf
@@ -14,6 +39,9 @@ Layout/IndentArray:
 
 Layout/IndentHash:
   EnforcedStyle: consistent
+
+Layout/MultilineAssignmentLayout:
+  Enabled: true
 
 Layout/MultilineMethodCallBraceLayout:
   EnforcedStyle: same_line
@@ -33,14 +61,12 @@ Lint/AmbiguousOperator:
 Lint/AmbiguousRegexpLiteral:
   Enabled: false # Conflicts with other rules.
 
-Lint/SplatKeywordArguments:
-  Enabled: false # Removed from Rubocop; Remove this after upgrade.
-
 Lint/Void:
   CheckForMethodsWithNoSideEffects: true
 
 Metrics/BlockLength:
   ExcludedMethods:
+    - new
     - describe
     - ips # Benchmarking
 
@@ -64,6 +90,15 @@ Style/Alias:
 Style/BlockDelimiters:
   Enabled: false # Reconsider later.
 
+Style/CollectionMethods:
+  Enabled: true
+  PreferredMethods:
+    collect: map
+    collect!: map!
+    find_all: select
+    detect: detect
+    inject: inject
+
 Style/EmptyElse:
   # It"s helpful to show intent by including a comment in an else block.
   Enabled: false
@@ -81,11 +116,20 @@ Style/FormatString:
 Style/Lambda:
   EnforcedStyle: literal
 
+Style/NumericPredicate:
+  AutoCorrect: true
+
 Style/RegexpLiteral:
   EnforcedStyle: mixed
 
 Style/RescueStandardError:
   EnforcedStyle: implicit
+
+Style/ReturnNil:
+  Enabled: true
+
+Style/StringMethods:
+  Enabled: true
 
 Style/SingleLineMethods:
   Exclude:
