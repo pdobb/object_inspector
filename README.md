@@ -110,11 +110,13 @@ class MyObject
 
   def inspect_identification; "My Object" end
   def inspect_flags; "FLAG1 / FLAG2" end
+  def inspect_issues; "ISSUE1 | ISSUE2" end
   def inspect_info; "INFO" end
   def inspect_name; "NAME" end  # Or: def display_name; "NAME" end
 end
 
-MyObject.new.inspect  # => "<My Object(FLAG1 / FLAG2) INFO :: NAME>"
+MyObject.new.inspect
+# => "<My Object(FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>"
 ```
 
 
@@ -139,12 +141,14 @@ class MyObject
   def inspect
     super(identification: "My Object",
           flags: "FLAG1",
+          issues: "ISSUE1 | ISSUE2",
           info: "INFO",
           name: "NAME")
   end
 end
 
-MyObject.new.inspect  # => "<My Object(FLAG1) INFO :: NAME>"
+MyObject.new.inspect
+# => "<My Object(FLAG1) !!ISSUE1 | ISSUE2!! INFO :: NAME>"
 ```
 
 Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and/or `inspect_name` (or `display_name`) in Object.
@@ -157,11 +161,13 @@ class MyObject
 
   def inspect_identification; "My Object" end
   def inspect_flags; "FLAG1 / FLAG2" end
+  def inspect_issues; "ISSUE1 | ISSUE2" end
   def inspect_info; "INFO" end
   def inspect_name; "NAME" end  # Or: def display_name; "NAME" end
 end
 
-MyObject.new.inspect  # => "<My Object(FLAG1 / FLAG2) INFO :: NAME>"
+MyObject.new.inspect
+# => "<My Object(FLAG1) !!ISSUE1 | ISSUE2!! INFO :: NAME>"
 ```
 
 
@@ -292,6 +298,10 @@ class MyObject
     scope.join_flags(flags)
   end
 
+  def inspect_issues
+    "!!WARNING!!"
+  end
+
   def inspect_info(scope:)
     info = ["Default Info"]
     info << "Complex Info" if scope.complex?
@@ -304,31 +314,31 @@ end
 my_object = MyObject.new("Name")
 
 my_object.inspect(scope: :complex)
-# => "<MyObject[a2:2](DEFAULT_FLAG / *) Default Info | Complex Info | * :: Name>"
+# => "<MyObject[a2:2](DEFAULT_FLAG / *) !!!!WARNING!!!! Default Info | Complex Info | * :: Name>"
 
 my_object.inspect(scope: :verbose)
-# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | Verbose Info :: Name>"
+# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!!!WARNING!!!! Default Info | Verbose Info :: Name>"
 
 my_object.inspect(scope: %i[self complex verbose])
-# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | Complex Info | Verbose Info :: Name>"
+# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!!!WARNING!!!! Default Info | Complex Info | Verbose Info :: Name>"
 
 my_object.inspect(scope: :all)
-# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | Complex Info | Verbose Info :: Name>"
+# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!!!WARNING!!!! Default Info | Complex Info | Verbose Info :: Name>"
 
 my_object.inspect
-# => "<MyObject[a2:2](DEFAULT_FLAG / *) Default Info | * :: Name>"
+# => "<MyObject[a2:2](DEFAULT_FLAG / *) !!!!WARNING!!!! Default Info | * :: Name>"
 
 ObjectInspector.configuration.default_scope = :complex
 my_object.inspect
-# => "<MyObject[a2:2](DEFAULT_FLAG / *) Default Info | Complex Info | * :: Name>"
+# => "<MyObject[a2:2](DEFAULT_FLAG / *) !!!!WARNING!!!! Default Info | Complex Info | * :: Name>"
 
 ObjectInspector.configuration.default_scope = %i[self complex verbose]
 my_object.inspect
-# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | Complex Info | Verbose Info :: Name>"
+# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!!!WARNING!!!! Default Info | Complex Info | Verbose Info :: Name>"
 
 ObjectInspector.configuration.default_scope = :all
 my_object.inspect
-# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) Default Info | Complex Info | Verbose Info :: Name>"
+# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!!!WARNING!!!! Default Info | Complex Info | Verbose Info :: Name>"
 ```
 
 
@@ -440,12 +450,13 @@ class MyObject
   end
 
   def inspect_flags; "FLAG1 / FLAG2" end
+  def inspect_issues; "ISSUE1 | ISSUE2" end
   def inspect_info; "INFO" end
   def inspect_name; "NAME" end
 end
 
 MyObject.new.inspect
-# => "<MyObject[my_method1:1, my_method2:2](FLAG1 / FLAG2) INFO :: NAME>"
+# => "<MyObject[my_method1:1, my_method2:2](FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>"
 ```
 
 

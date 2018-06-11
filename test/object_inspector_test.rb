@@ -29,6 +29,7 @@ class ObjectInspectorTest < Minitest::Spec
           must_equal " #{[0x21E8].pack("U")} "
         configuration.name_separator.must_equal " - "
         configuration.flags_separator.must_equal " / "
+        configuration.issues_separator.must_equal " | "
         configuration.info_separator.must_equal " | "
       end
     end
@@ -47,6 +48,7 @@ class ObjectInspectorTest < Minitest::Spec
             config.presented_object_separator = ";"
             config.name_separator = "|"
             config.flags_separator = nil
+            config.issues_separator = "="
             config.info_separator = "-"
           end
         end
@@ -64,6 +66,7 @@ class ObjectInspectorTest < Minitest::Spec
           configuration.presented_object_separator.must_equal ";"
           configuration.name_separator.must_equal "|"
           configuration.flags_separator.must_equal ""
+          configuration.issues_separator.must_equal "="
           configuration.info_separator.must_equal "-"
         end
       end
@@ -84,6 +87,7 @@ class ObjectInspectorTest < Minitest::Spec
           must_equal " #{[0x21E8].pack("U")} "
         configuration.name_separator.must_equal " - "
         configuration.flags_separator.must_equal " / "
+        configuration.issues_separator.must_equal " | "
         configuration.info_separator.must_equal " | "
       end
     end

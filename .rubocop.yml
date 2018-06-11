@@ -74,10 +74,12 @@ Metrics/BlockLength:
 Metrics/ClassLength:
   Exclude:
     - "test/**/*"
+    - "lib/object_inspector/formatters/templating_formatter.rb"
 
 Metrics/LineLength:
   Max: 80
   Exclude:
+    - "test/**/*"
     - "object_inspector.gemspec"
 
 Naming/UncommunicativeMethodParamName:

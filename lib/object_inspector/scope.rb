@@ -37,6 +37,15 @@ module ObjectInspector
       Array(flags).join(separator)
     end
 
+    # Join the passed-in issues with the passed in separator.
+    #
+    # @param items [Array<#to_s>]
+    # @param separator [#to_s] (ObjectInspector.configuration.issues_separator)
+    def join_issues(issues,
+                    separator: ObjectInspector.configuration.issues_separator)
+      Array(issues).join(separator)
+    end
+
     # Join the passed-in items with the passed in separator.
     #
     # @param items [Array<#to_s>]

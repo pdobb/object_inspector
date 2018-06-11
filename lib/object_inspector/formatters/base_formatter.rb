@@ -43,6 +43,14 @@ module ObjectInspector
       @flags ||= inspector.flags
     end
 
+    # Delegates to {Inspector#issues}.
+    #
+    # @return [String] if given
+    # @return [NilClass] if not given
+    def issues
+      @issues ||= inspector.issues
+    end
+
     # Delegates to {Inspector#info}.
     #
     # @return [String] if given

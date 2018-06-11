@@ -25,6 +25,7 @@ module ObjectInspector
                 :presented_object_separator,
                 :name_separator,
                 :flags_separator,
+                :issues_separator,
                 :info_separator
 
     def initialize
@@ -36,6 +37,7 @@ module ObjectInspector
       @presented_object_separator = " #{[0x21E8].pack("U")} ".freeze
       @name_separator = " - ".freeze
       @flags_separator = " / ".freeze
+      @issues_separator = " | ".freeze
       @info_separator = " | ".freeze
     end
 
@@ -73,6 +75,10 @@ module ObjectInspector
 
     def flags_separator=(value)
       @flags_separator = value.to_s.freeze
+    end
+
+    def issues_separator=(value)
+      @issues_separator = value.to_s.freeze
     end
 
     def info_separator=(value)

@@ -73,6 +73,14 @@ module ObjectInspector
       value(key: :flags)
     end
 
+    # Issues/Warnings applicable to {#object}.
+    #
+    # @return [String] if given
+    # @return [NilClass] if not given
+    def issues
+      value(key: :issues)
+    end
+
     # Informational details applicable to {#object}.
     #
     # @return [String] if given
