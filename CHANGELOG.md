@@ -1,4 +1,4 @@
-### Unreleased
+### 0.5.1 - 2018-06-12
 - Don't include empty strings from Scope#join_* methods when applicable.
 
 ### 0.5.0 - 2018-06-11
