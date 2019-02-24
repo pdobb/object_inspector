@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ObjectInspector
   # ObjectInspector::ObjectInterrogator collaborates with {#object} to return
   # Object#{#method_name} if {#object} responds to the method.

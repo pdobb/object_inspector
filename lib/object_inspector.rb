@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ObjectInspector is the base namespace for all modules/classes related to the
 # object_inspector gem.
 module ObjectInspector
@@ -30,15 +32,15 @@ module ObjectInspector
 
     def initialize
       @formatter_class = TemplatingFormatter
-      @inspect_method_prefix = "inspect".freeze
+      @inspect_method_prefix = "inspect"
       @default_scope = Scope.new(:self)
-      @wild_card_scope = "all".freeze
-      @out_of_scope_placeholder = "*".freeze
-      @presented_object_separator = " #{[0x21E8].pack("U")} ".freeze
-      @name_separator = " - ".freeze
-      @flags_separator = " / ".freeze
-      @issues_separator = " | ".freeze
-      @info_separator = " | ".freeze
+      @wild_card_scope = "all"
+      @out_of_scope_placeholder = "*"
+      @presented_object_separator = " #{[0x21E8].pack("U")} "
+      @name_separator = " - "
+      @flags_separator = " / "
+      @issues_separator = " | "
+      @info_separator = " | "
     end
 
     def formatter_class=(value)

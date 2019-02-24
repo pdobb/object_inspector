@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ObjectInspector
   # ObjectInspector::TemplatingFormatter implements
   # {ObjectInspector::BaseFormatter} to return the standard/default inspect
@@ -6,68 +8,68 @@ module ObjectInspector
   # @attr (see BaseFormatter)
   class TemplatingFormatter < BaseFormatter
     def self.base_template
-      @base_template ||= "<%s>".freeze
+      @base_template ||= "<%s>"
     end
 
     def self.name_template
-      @name_template ||= "<%s :: %s>".freeze
+      @name_template ||= "<%s :: %s>"
     end
 
     def self.issues_and_name_template
-      @issues_and_name_template ||= "<%s !!%s!! :: %s>".freeze
+      @issues_and_name_template ||= "<%s !!%s!! :: %s>"
     end
 
     def self.flags_and_name_template
-      @flags_and_name_template ||= "<%s(%s) :: %s>".freeze
+      @flags_and_name_template ||= "<%s(%s) :: %s>"
     end
 
     def self.info_and_name_template
-      @info_and_name_template ||= "<%s %s :: %s>".freeze
+      @info_and_name_template ||= "<%s %s :: %s>"
     end
 
     def self.issues_and_info_and_name_template
-      @issues_and_info_and_name_template ||= "<%s !!%s!! %s :: %s>".freeze
+      @issues_and_info_and_name_template ||= "<%s !!%s!! %s :: %s>"
     end
 
     def self.flags_and_info_template
-      @flags_and_info_template ||= "<%s(%s) %s>".freeze
+      @flags_and_info_template ||= "<%s(%s) %s>"
     end
 
     def self.flags_and_issues_template
-      @flags_and_issues_template ||= "<%s(%s) !!%s!!>".freeze
+      @flags_and_issues_template ||= "<%s(%s) !!%s!!>"
     end
 
     def self.issues_and_info_template
-      @issues_and_info_template ||= "<%s !!%s!! %s>".freeze
+      @issues_and_info_template ||= "<%s !!%s!! %s>"
     end
 
     def self.flags_and_issues_and_info_template
-      @flags_and_issues_and_info_template ||= "<%s(%s) !!%s!! %s>".freeze
+      @flags_and_issues_and_info_template ||= "<%s(%s) !!%s!! %s>"
     end
 
     def self.flags_and_issues_and_name_template
-      @flags_and_issues_and_name_template ||= "<%s(%s) !!%s!! :: %s>".freeze
+      @flags_and_issues_and_name_template ||= "<%s(%s) !!%s!! :: %s>"
     end
 
     def self.flags_and_info_and_name_template
-      @flags_and_info_and_name_template ||= "<%s(%s) %s :: %s>".freeze
+      @flags_and_info_and_name_template ||= "<%s(%s) %s :: %s>"
     end
 
     def self.flags_and_issues_and_info_and_name_template
       @flags_and_issues_and_info_and_name_template ||=
-        "<%s(%s) !!%s!! %s :: %s>".freeze
+        "<%s(%s) !!%s!! %s :: %s>"
     end
 
     def self.flags_template
-      @flags_template ||= "<%s(%s)>".freeze
+      @flags_template ||= "<%s(%s)>"
     end
 
     def self.issues_template
-      @issues_template ||= "<%s !!%s!!>".freeze
+      @issues_template ||= "<%s !!%s!!>"
     end
 
     def self.info_template
-      @info_template ||= "<%s %s>".freeze
+      @info_template ||= "<%s %s>"
     end
 
     # Perform the formatting routine.

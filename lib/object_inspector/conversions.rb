@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ObjectInspector
   # ObjectInspector::Conversions defines conversion functions used by
   # ObjectInspector.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ObjectInspector
   # ObjectInspector::BaseFormatter is an abstract base class that interfaces
   # with {ObjectInspector::Inspector} objects to combine the supplied

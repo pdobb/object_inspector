@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Play from the console with:
 #   play scripts/benchmarking/formatters.rb
 

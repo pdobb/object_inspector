@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ObjectInspector
   # ObjectInspector::Scope defines a predicate method that matches {#name} and
   # responds with `true`. This is a prettier way to test for a given type of
@@ -70,7 +72,7 @@ module ObjectInspector
     end
     alias_method :eql?, :==
 
-    def to_s(separator: ", ".freeze)
+    def to_s(separator: ", ")
       to_a.join(separator)
     end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ObjectInspector
   # ObjectInspector::CombiningFormatter implements
   # {ObjectInspector::BaseFormatter} to return the standard/default inspect

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ObjectInspector
   # ObjectInspector::InspectorsHelper can be included into any object to
   # simplify the process of instantiating an ObjectInspector::Inspector and

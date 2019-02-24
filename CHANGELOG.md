@@ -1,3 +1,6 @@
+### 0.5.2 - 2019-02-24
+- Automatically compact nils in join_* methods
+
 ### 0.5.1 - 2018-06-12
 - Don't include empty strings from Scope#join_* methods when applicable.
 

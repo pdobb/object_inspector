@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ObjectInspector
   # ObjectInspector::Inspector organizes inspection of the associated {#object}
   # via the passed in options and via a {ObjectInspector::BaseFormatter}
@@ -116,7 +118,7 @@ module ObjectInspector
           interrogate_object_inspect_method(key)
         end
 
-      return_value.to_s if return_value
+      return_value&.to_s
     end
 
     # Call `value` on {#object} if it responds to it and the result is not nil,
