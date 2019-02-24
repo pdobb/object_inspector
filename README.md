@@ -35,7 +35,8 @@ Tested MRI Ruby Versions:
 * 2.2.10
 * 2.3.7
 * 2.4.4
-* 2.5.1
+* 2.5.3
+* 2.6.1
 * edge
 
 ObjectInspector has no other dependencies.
@@ -88,11 +89,12 @@ Use the `identification`, `flags`, `info`, and/or `name` options to customize in
 ```ruby
 class MyObject
   def inspect
-    ObjectInspector::Inspector.inspect(self,
-                                       identification: "My Object",
-                                       flags: "FLAG1 / FLAG2",
-                                       info: "INFO",
-                                       name: "NAME")
+    ObjectInspector::Inspector.inspect(
+      self,
+      identification: "My Object",
+      flags: "FLAG1 / FLAG2",
+      info: "INFO",
+      name: "NAME")
   end
 end
 
@@ -247,8 +249,11 @@ ObjectInspector::Scope also offers helper methods for uniformly joining inspect 
 ```ruby
 scope = ObjectInspector::Scope.new(:verbose)
 scope.join_name([1, 2, 3])  # => "1 - 2 - 3"
+scope.join_name([1, 2, 3, nil])  # => "1 - 2 - 3"
 scope.join_flags([1, 2, 3])  # => "1 / 2 / 3"
+scope.join_flags([1, 2, 3, nil])  # => "1 / 2 / 3"
 scope.join_info([1, 2, 3])   # => "1 | 2 | 3"
+scope.join_info([1, 2, 3, nil])   # => "1 | 2 | 3"
 ```
 
 

@@ -21,31 +21,31 @@ module ObjectInspector
 
     # Join the passed-in name parts with the passed in separator.
     #
-    # @param items [Array<#to_s>]
+    # @param parts [Array<#to_s>]
     # @param separator [#to_s] (ObjectInspector.configuration.flags_separator)
     def join_name(parts,
                   separator: ObjectInspector.configuration.name_separator)
-      the_parts = Array(parts)
+      the_parts = Array(parts).tap(&:compact!)
       the_parts.join(separator) if the_parts.any?
     end
 
     # Join the passed-in flags with the passed in separator.
     #
-    # @param items [Array<#to_s>]
+    # @param flags [Array<#to_s>]
     # @param separator [#to_s] (ObjectInspector.configuration.flags_separator)
     def join_flags(flags,
                    separator: ObjectInspector.configuration.flags_separator)
-      the_flags = Array(flags)
+      the_flags = Array(flags).tap(&:compact!)
       the_flags.join(separator) if the_flags.any?
     end
 
     # Join the passed-in issues with the passed in separator.
     #
-    # @param items [Array<#to_s>]
+    # @param issues [Array<#to_s>]
     # @param separator [#to_s] (ObjectInspector.configuration.issues_separator)
     def join_issues(issues,
                     separator: ObjectInspector.configuration.issues_separator)
-      the_issues = Array(issues)
+      the_issues = Array(issues).tap(&:compact!)
       the_issues.join(separator) if the_issues.any?
     end
 
@@ -55,7 +55,7 @@ module ObjectInspector
     # @param separator [#to_s] (ObjectInspector.configuration.info_separator)
     def join_info(items,
                   separator: ObjectInspector.configuration.info_separator)
-      the_items = Array(items)
+      the_items = Array(items).tap(&:compact!)
       the_items.join(separator) if the_items.any?
     end
 

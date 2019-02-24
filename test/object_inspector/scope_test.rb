@@ -162,6 +162,10 @@ module ObjectInspector
           subject.join_name([1, [2]]).must_equal("1 - 2")
         end
 
+        it "compacts nil values" do
+          subject.join_name([1, nil]).must_equal("1")
+        end
+
         it "returns nil, given an empty Array" do
           subject.join_name([]).must_be_nil
         end
@@ -176,6 +180,10 @@ module ObjectInspector
 
         it "flattens nested flags" do
           subject.join_flags([1, [2]]).must_equal("1 / 2")
+        end
+
+        it "compacts nil values" do
+          subject.join_flags([1, nil]).must_equal("1")
         end
 
         it "returns nil, given an empty Array" do
@@ -194,6 +202,10 @@ module ObjectInspector
           subject.join_issues([1, [2]]).must_equal("1 | 2")
         end
 
+        it "compacts nil values" do
+          subject.join_issues([1, nil]).must_equal("1")
+        end
+
         it "returns nil, given an empty Array" do
           subject.join_issues([]).must_be_nil
         end
@@ -208,6 +220,10 @@ module ObjectInspector
 
         it "flattens nested info items" do
           subject.join_info([1, [2]]).must_equal("1 | 2")
+        end
+
+        it "compacts nil values" do
+          subject.join_info([1, nil]).must_equal("1")
         end
       end
     end
