@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 module ObjectInspector
-  # ObjectInspector::ObjectInterrogator collaborates with {#object} to return
-  # Object#{#method_name} if {#object} responds to the method.
+  # ObjectInspector::ObjectInterrogator collaborates with {@object} to return
+  # Object#{@method_name} if {@object} responds to the method.
   #
-  # If Object#{#method_name} accepts the supplied {#kargs} then they are passed
-  # in as well. If not, then any supplied {#kargs} will be ignored.
+  # If Object#{@method_name} accepts the supplied {@kargs} then they are passed
+  # in as well. If not, then any supplied {@kargs} will be ignored.
   class ObjectInterrogator
-    attr_reader :object,
-                :method_name,
-                :kargs
+    attr_reader :object
 
     def initialize(object:, method_name:, kargs: {})
       @object = object
@@ -24,23 +22,23 @@ module ObjectInspector
     def call
       return unless object_responds_to_method_name?
 
-      if object.method(method_name).arity != 0
+      if @object.method(@method_name).arity != 0
         call_with_kargs
       else
-        object.send(method_name)
+        @object.__send__(@method_name)
       end
     end
 
     private
 
     def call_with_kargs
-      object.send(method_name, **kargs)
+      @object.__send__(@method_name, **@kargs)
     rescue ArgumentError
-      object.send(method_name)
+      @object.__send__(@method_name)
     end
 
     def object_responds_to_method_name?(include_private: true)
-      object.respond_to?(method_name, include_private)
+      @object.respond_to?(@method_name, include_private)
     end
   end
 end

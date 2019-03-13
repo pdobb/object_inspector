@@ -67,8 +67,7 @@ module ObjectInspector
     # @return [FalseClass] if self and `other` resolve to a different set of
     #   objects
     def ==(other)
-      names.sort ==
-        Array(other).map(&:to_s).sort
+      @names.sort == Array(other).map(&:to_s).sort
     end
     alias_method :eql?, :==
 
@@ -77,7 +76,7 @@ module ObjectInspector
     end
 
     def to_a
-      names
+      @names
     end
 
     private

@@ -24,7 +24,7 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
+Or install it yourself:
 
     $ gem install object_inspector
 
@@ -32,11 +32,10 @@ Or install it yourself as:
 ## Compatibility
 
 Tested MRI Ruby Versions:
-* 2.2.10
-* 2.3.7
-* 2.4.4
-* 2.5.3
-* 2.6.1
+* 2.3
+* 2.4
+* 2.5
+* 2.6
 * edge
 
 ObjectInspector has no other dependencies.
@@ -379,6 +378,62 @@ MyWrapperObject.new.inspect
 ```
 
 This feature is recursive.
+
+
+### Wrapped Delegators
+
+If the Object being inspected is wrapped by an object that delegates all unknown methods to the wrapped object, then inspect flags will be doubled up. To get around this, redefine the `inspect` method in the Wrapper object e.g. like:
+
+```ruby
+class MyDelegatingWrapperObject
+  include ObjectInspector::InspectorsHelper
+
+  def initialize(my_object)
+    @my_object = my_object
+  end
+
+  def inspect(**kargs)
+    super(identification: self.class.name,
+          name: nil,
+          flags: nil,
+          info: nil,
+          issues: nil,
+          **kargs)
+  end
+
+  def to_model
+    @my_object
+  end
+
+  private
+
+  def method_missing(method_symbol, *args)
+    @my_object.__send__(method_symbol, *args)
+  end
+
+  def respond_to_missing?(*args)
+    @my_object.respond_to?(*args) || super
+  end
+end
+
+class MyWrappedObject
+  include ObjectInspector::InspectorsHelper
+
+  def display_name
+    "WRAPPED_OBJECT_NAME"
+  end
+
+  private
+
+  def inspect_flags; "FLAG1" end
+  def inspect_info; "INFO" end
+  def inspect_issues; "ISSUE1" end
+  def inspect_name; "NAME" end
+end
+
+MyDelegatingWrapperObject.new(MyWrappedObject.new).inspect
+# => "<MyDelegatingWrapperObject>  ⇨  <MyWrappedObject(FLAG1) !!ISSUE1!! INFO :: NAME>"
+```
 
 
 ## On-the-fly Inspect Methods

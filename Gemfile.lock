@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    object_inspector (0.5.2)
+    object_inspector (0.6.0)
 
 GEM
   remote: https://rubygems.org/
@@ -35,8 +35,8 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
-    object_identifier (0.1.1)
-    parallel (1.13.0)
+    object_identifier (0.2.1)
+    parallel (1.14.0)
     parser (2.6.0.0)
       ast (~> 2.4.0)
     powerpack (0.1.2)

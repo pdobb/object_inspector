@@ -5,11 +5,10 @@ module ObjectInspector
   # with {ObjectInspector::Inspector} objects to combine the supplied
   # {#identification}, {#flags}, {#info}, and {#name} strings into a friendly
   # "inspect" String.
-  #
-  # @attr inspector [ObjectInspector::Inspector]
   class BaseFormatter
     attr_reader :inspector
 
+    # @param inspector [ObjectInspector::Inspector]
     def initialize(inspector)
       @inspector = inspector
     end
@@ -27,14 +26,14 @@ module ObjectInspector
     # @return [NilClass] if not given
     def wrapped_object_inspection_result
       @wrapped_object_inspection_result ||=
-        inspector.wrapped_object_inspection_result
+        @inspector.wrapped_object_inspection_result
     end
 
     # Delegates to {Inspector#identification}.
     #
     # @return [String] if given
     def identification
-      @identification ||= inspector.identification
+      @identification ||= @inspector.identification
     end
 
     # Delegates to {Inspector#flags}.
@@ -42,7 +41,7 @@ module ObjectInspector
     # @return [String] if given
     # @return [NilClass] if not given
     def flags
-      @flags ||= inspector.flags
+      @flags ||= @inspector.flags
     end
 
     # Delegates to {Inspector#issues}.
@@ -50,7 +49,7 @@ module ObjectInspector
     # @return [String] if given
     # @return [NilClass] if not given
     def issues
-      @issues ||= inspector.issues
+      @issues ||= @inspector.issues
     end
 
     # Delegates to {Inspector#info}.
@@ -58,7 +57,7 @@ module ObjectInspector
     # @return [String] if given
     # @return [NilClass] if not given
     def info
-      @info ||= inspector.info
+      @info ||= @inspector.info
     end
 
     # Delegates to {Inspector#name}.
@@ -66,7 +65,7 @@ module ObjectInspector
     # @return [String] if given
     # @return [NilClass] if not given
     def name
-      @name ||= inspector.name
+      @name ||= @inspector.name
     end
   end
 end

@@ -98,6 +98,11 @@ Style/Alias:
 Style/BlockDelimiters:
   Enabled: false # Reconsider later.
 
+Style/ClassAndModuleChildren:
+  AutoCorrect: true
+  Exclude:
+    - "test/**/*"
+
 Style/CollectionMethods:
   Enabled: true
   PreferredMethods:

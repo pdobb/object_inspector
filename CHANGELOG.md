@@ -1,3 +1,7 @@
+### 0.6.0 - 2019-03-13
+- Fix inspection of delegating wrapper objects
+
+
 ### 0.5.2 - 2019-02-24
 - Automatically compact nils in join_* methods
 
