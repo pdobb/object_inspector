@@ -1,5 +1,6 @@
 ### 0.6.0 - 2019-03-13
 - Fix inspection of delegating wrapper objects
+- Allow clearing output of inspect methods
 
 
 ### 0.5.2 - 2019-02-24

@@ -455,6 +455,28 @@ MyObject.new.inspect(info: :my_method2)   # => "<MyObject Result2>"
 MyObject.new.inspect                      # => "<MyObject my_method2>"
 ```
 
+## Clearing Output for Specified Inspect Method
+
+Pass `nil` to any inspect method type to not display it:
+
+```ruby
+class MyObject
+  include ObjectInspector::InspectorsHelper
+
+  def inspect_identification; "My Object" end
+  def inspect_info; "INFO" end
+  def inspect_flags; "FLAG1" end
+  def inspect_issues; "ISSUE1" end
+end
+
+MyObject.new.inspect
+# => "<My Object(FLAG1) !!ISSUE1!! INFO>"
+MyObject.new.inspect(info: nil, flags: nil, issues: nil)
+# => "<My Object>"
+MyObject.new.inspect(identification: nil, info: nil, flags: nil, issues: nil)
+# => "<MyObject>"
+```
+
 
 ## Custom Formatters
 
