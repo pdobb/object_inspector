@@ -36,14 +36,17 @@ Layout/EmptyLineAfterGuardClause:
 Layout/EndOfLine:
   EnforcedStyle: lf
 
-Layout/FirstParameterIndentation:
+Layout/IndentFirstArgument:
   EnforcedStyle: consistent_relative_to_receiver
 
-Layout/IndentArray:
+Layout/IndentFirstArrayElement:
   EnforcedStyle: consistent
 
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
   EnforcedStyle: consistent
+
+Layout/IndentFirstParameter:
+  Enabled: false # Revisit if more settings become available.
 
 Layout/MultilineAssignmentLayout:
   Enabled: true
