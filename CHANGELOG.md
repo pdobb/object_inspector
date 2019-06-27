@@ -1,4 +1,4 @@
-### Unreleased
+### 0.6.1 - 2019-06-27
 - Flatten and compact arrays of `nil`s as well as nested arrays of `nil`s in join_* methods.
 
 ### 0.6.0 - 2019-03-13
