@@ -78,8 +78,8 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_flags_and_info_and_name) }
 
         it "returns the expected String" do
-          subject.call.
-            must_equal("<IDENTIFICATION(FLAG1 | FLAG2) INFO :: NAME>")
+          subject.call.must_equal(
+            "<IDENTIFICATION(FLAG1 | FLAG2) INFO :: NAME>")
         end
       end
 

@@ -171,6 +171,15 @@ class ObjectInspector::ScopeTest < Minitest::Spec
       it "returns nil, given an empty Array" do
         value(subject.join_name([])).must_be_nil
       end
+
+      it "returns nil, GIVEN an array of `nil`s" do
+        value(subject.join_name([nil, nil])).must_be_nil
+      end
+
+      it "returns nil, GIVEN an array of `nil`s with nested arrays of `nil`s" do
+        value(subject.join_name([nil, nil, [nil, nil, [nil, nil]]])).
+          must_be_nil
+      end
     end
 
     describe "#join_flags" do
@@ -191,6 +200,15 @@ class ObjectInspector::ScopeTest < Minitest::Spec
       it "returns nil, given an empty Array" do
         value(subject.join_flags([])).must_be_nil
       end
+
+      it "returns nil, GIVEN an array of `nil`s" do
+        value(subject.join_flags([nil, nil])).must_be_nil
+      end
+
+      it "returns nil, GIVEN an array of `nil`s with nested arrays of `nil`s" do
+        value(subject.join_flags([nil, nil, [nil, nil, [nil, nil]]])).
+          must_be_nil
+      end
     end
 
     describe "#join_issues" do
@@ -200,7 +218,7 @@ class ObjectInspector::ScopeTest < Minitest::Spec
         value(subject.join_issues(%w[1 2 3])).must_equal("1 | 2 | 3")
       end
 
-      it "flattens nested flags" do
+      it "flattens nested issues" do
         value(subject.join_issues([1, [2]])).must_equal("1 | 2")
       end
 
@@ -210,6 +228,15 @@ class ObjectInspector::ScopeTest < Minitest::Spec
 
       it "returns nil, given an empty Array" do
         value(subject.join_issues([])).must_be_nil
+      end
+
+      it "returns nil, GIVEN an array of `nil`s" do
+        value(subject.join_issues([nil, nil])).must_be_nil
+      end
+
+      it "returns nil, GIVEN an array of `nil`s with nested arrays of `nil`s" do
+        value(subject.join_issues([nil, nil, [nil, nil, [nil, nil]]])).
+          must_be_nil
       end
     end
 
@@ -226,6 +253,19 @@ class ObjectInspector::ScopeTest < Minitest::Spec
 
       it "compacts nil values" do
         value(subject.join_info([1, nil])).must_equal("1")
+      end
+
+      it "returns nil, given an empty Array" do
+        value(subject.join_info([])).must_be_nil
+      end
+
+      it "returns nil, GIVEN an array of `nil`s" do
+        value(subject.join_info([nil, nil])).must_be_nil
+      end
+
+      it "returns nil, GIVEN an array of `nil`s with nested arrays of `nil`s" do
+        value(subject.join_info([nil, nil, [nil, nil, [nil, nil]]])).
+          must_be_nil
       end
     end
   end

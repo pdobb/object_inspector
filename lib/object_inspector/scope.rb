@@ -27,8 +27,7 @@ module ObjectInspector
     # @param separator [#to_s] (ObjectInspector.configuration.flags_separator)
     def join_name(parts,
                   separator: ObjectInspector.configuration.name_separator)
-      the_parts = Array(parts).tap(&:compact!)
-      the_parts.join(separator) if the_parts.any?
+      _join(parts, separator)
     end
 
     # Join the passed-in flags with the passed in separator.
@@ -37,8 +36,7 @@ module ObjectInspector
     # @param separator [#to_s] (ObjectInspector.configuration.flags_separator)
     def join_flags(flags,
                    separator: ObjectInspector.configuration.flags_separator)
-      the_flags = Array(flags).tap(&:compact!)
-      the_flags.join(separator) if the_flags.any?
+      _join(flags, separator)
     end
 
     # Join the passed-in issues with the passed in separator.
@@ -47,8 +45,7 @@ module ObjectInspector
     # @param separator [#to_s] (ObjectInspector.configuration.issues_separator)
     def join_issues(issues,
                     separator: ObjectInspector.configuration.issues_separator)
-      the_issues = Array(issues).tap(&:compact!)
-      the_issues.join(separator) if the_issues.any?
+      _join(issues, separator)
     end
 
     # Join the passed-in items with the passed in separator.
@@ -57,8 +54,7 @@ module ObjectInspector
     # @param separator [#to_s] (ObjectInspector.configuration.info_separator)
     def join_info(items,
                   separator: ObjectInspector.configuration.info_separator)
-      the_items = Array(items).tap(&:compact!)
-      the_items.join(separator) if the_items.any?
+      _join(items, separator)
     end
 
     # Compare self with the passed in object.
@@ -106,6 +102,13 @@ module ObjectInspector
       else
         ObjectInspector.configuration.out_of_scope_placeholder
       end
+    end
+
+    def _join(items, separator)
+      items = Array(items)
+      items.flatten!
+      items.compact!
+      items.join(separator) unless items.empty?
     end
 
     def match?(scope_name)
