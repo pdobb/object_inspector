@@ -5,9 +5,9 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/34e821263d9e0c33d536/test_coverage)](https://codeclimate.com/github/pdobb/object_inspector/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/34e821263d9e0c33d536/maintainability)](https://codeclimate.com/github/pdobb/object_inspector/maintainability)
 
-ObjectInspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, issues, info, and/or a name along with an optional, self-definable scope option to represents objects. Great for the console, logging, etc.
+ObjectInspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, issues, info, and/or a name along with an optional, self-definable scope option to represent objects. Great for the console, logging, etc.
 
-Because object inspection code should be uniform, easy to build, and its output should be easy to read!
+Why? Because object inspection code should be uniform, easy to build, and its output should be easy to read!
 
 If you'd like to just jump into an example: [Full Example](#full-example).
 
