@@ -1,7 +1,6 @@
 # ObjectInspector
 
 [![Gem Version](https://badge.fury.io/rb/object_inspector.svg)](https://badge.fury.io/rb/object_inspector)
-[![Build Status](https://travis-ci.org/pdobb/object_inspector.svg?branch=master)](https://travis-ci.org/pdobb/object_inspector)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/34e821263d9e0c33d536/test_coverage)](https://codeclimate.com/github/pdobb/object_inspector/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/34e821263d9e0c33d536/maintainability)](https://codeclimate.com/github/pdobb/object_inspector/maintainability)
 
@@ -36,7 +35,9 @@ Tested MRI Ruby Versions:
 * 2.4
 * 2.5
 * 2.6
-* edge
+* 2.7
+* 3.1
+* 3.2
 
 ObjectInspector has no other dependencies.
 

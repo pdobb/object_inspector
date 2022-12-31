@@ -1,3 +1,7 @@
+### 0.6.2 - 2022-12-30
+- Internal spruce-up for Ruby 3.2. No outward-facing changes.
+- Remove travis-ci config since travis-ci is no longer in use.
+
 ### 0.6.1 - 2019-06-27
 - Flatten and compact arrays of `nil`s as well as nested arrays of `nil`s in join_* methods.
 
