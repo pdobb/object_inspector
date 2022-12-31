@@ -2,7 +2,7 @@
 
 module ObjectInspector
   # ObjectInspector::Inspector organizes inspection of the associated {@object}
-  # via the passed in options and via a {ObjectInspector::BaseFormatter}
+  # via the passed in options and via an {ObjectInspector::BaseFormatter}
   # instance.
   class Inspector
     attr_reader :object

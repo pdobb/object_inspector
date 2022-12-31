@@ -21,7 +21,7 @@ module ObjectInspector
       @names = Array(names).map { |name| String(name) }
     end
 
-    # Join the passed-in name parts with the passed in separator.
+    # Join the passed in name parts with the passed in separator.
     #
     # @param parts [Array<#to_s>]
     # @param separator [#to_s] (ObjectInspector.configuration.flags_separator)
@@ -30,7 +30,7 @@ module ObjectInspector
       _join(parts, separator)
     end
 
-    # Join the passed-in flags with the passed in separator.
+    # Join the passed in flags with the passed in separator.
     #
     # @param flags [Array<#to_s>]
     # @param separator [#to_s] (ObjectInspector.configuration.flags_separator)
@@ -39,7 +39,7 @@ module ObjectInspector
       _join(flags, separator)
     end
 
-    # Join the passed-in issues with the passed in separator.
+    # Join the passed in issues with the passed in separator.
     #
     # @param issues [Array<#to_s>]
     # @param separator [#to_s] (ObjectInspector.configuration.issues_separator)
@@ -48,7 +48,7 @@ module ObjectInspector
       _join(issues, separator)
     end
 
-    # Join the passed-in items with the passed in separator.
+    # Join the passed in items with the passed in separator.
     #
     # @param items [Array<#to_s>]
     # @param separator [#to_s] (ObjectInspector.configuration.info_separator)
