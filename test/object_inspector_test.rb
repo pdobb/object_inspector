@@ -9,30 +9,29 @@ class ObjectInspectorTest < Minitest::Spec
     let(:scope_klazz) { ObjectInspector::Scope }
 
     it "has a VERSION" do
-      klazz::VERSION.wont_be_nil
+      value(klazz::VERSION).wont_be_nil
     end
 
     describe ".configuration" do
       subject { klazz }
 
       it "returns an ObjectInspector::Configuration object" do
-        subject.configuration.must_be_kind_of configuration_klazz
+        value(subject.configuration).must_be_kind_of(configuration_klazz)
       end
 
       it "contains the expected default values" do
         configuration = subject.configuration
 
-        configuration.formatter_class.must_equal klazz::TemplatingFormatter
-        configuration.inspect_method_prefix.must_equal "inspect"
-        configuration.default_scope.must_equal scope_klazz.new(:self)
-        configuration.wild_card_scope.must_equal "all"
-        configuration.out_of_scope_placeholder.must_equal "*"
-        configuration.presented_object_separator.
-          must_equal " #{[0x21E8].pack("U")} "
-        configuration.name_separator.must_equal " - "
-        configuration.flags_separator.must_equal " / "
-        configuration.issues_separator.must_equal " | "
-        configuration.info_separator.must_equal " | "
+        value(configuration.formatter_class).must_equal(klazz::TemplatingFormatter)
+        value(configuration.inspect_method_prefix).must_equal("inspect")
+        value(configuration.default_scope).must_equal(scope_klazz.new(:self))
+        value(configuration.wild_card_scope).must_equal("all")
+        value(configuration.out_of_scope_placeholder).must_equal("*")
+        value(configuration.presented_object_separator).must_equal(" #{[0x21E8].pack("U")} ")
+        value(configuration.name_separator).must_equal(" - ")
+        value(configuration.flags_separator).must_equal(" / ")
+        value(configuration.issues_separator).must_equal(" | ")
+        value(configuration.info_separator).must_equal(" | ")
       end
     end
 
@@ -60,16 +59,16 @@ class ObjectInspectorTest < Minitest::Spec
         it "sets custom configuration and converts values to frozen Strings" do
           configuration = subject.configuration
 
-          configuration.formatter_class.must_equal OpenStruct
-          configuration.inspect_method_prefix.must_equal "ins"
-          configuration.default_scope.must_equal scope_klazz.new(:custom)
-          configuration.wild_card_scope.must_equal "WILD_CARD"
-          configuration.out_of_scope_placeholder.must_equal "0"
-          configuration.presented_object_separator.must_equal ";"
-          configuration.name_separator.must_equal "|"
-          configuration.flags_separator.must_equal ""
-          configuration.issues_separator.must_equal "="
-          configuration.info_separator.must_equal "-"
+          value(configuration.formatter_class).must_equal(OpenStruct)
+          value(configuration.inspect_method_prefix).must_equal("ins")
+          value(configuration.default_scope).must_equal(scope_klazz.new(:custom))
+          value(configuration.wild_card_scope).must_equal("WILD_CARD")
+          value(configuration.out_of_scope_placeholder).must_equal("0")
+          value(configuration.presented_object_separator).must_equal(";")
+          value(configuration.name_separator).must_equal("|")
+          value(configuration.flags_separator).must_equal("")
+          value(configuration.issues_separator).must_equal("=")
+          value(configuration.info_separator).must_equal("-")
         end
       end
     end
@@ -80,17 +79,16 @@ class ObjectInspectorTest < Minitest::Spec
       it "resets the Configuration to the expected default values" do
         configuration = subject.configuration
 
-        configuration.formatter_class.must_equal klazz::TemplatingFormatter
-        configuration.inspect_method_prefix.must_equal "inspect"
-        configuration.default_scope.must_equal scope_klazz.new(:self)
-        configuration.wild_card_scope.must_equal "all"
-        configuration.out_of_scope_placeholder.must_equal "*"
-        configuration.presented_object_separator.
-          must_equal " #{[0x21E8].pack("U")} "
-        configuration.name_separator.must_equal " - "
-        configuration.flags_separator.must_equal " / "
-        configuration.issues_separator.must_equal " | "
-        configuration.info_separator.must_equal " | "
+        value(configuration.formatter_class).must_equal(klazz::TemplatingFormatter)
+        value(configuration.inspect_method_prefix).must_equal("inspect")
+        value(configuration.default_scope).must_equal(scope_klazz.new(:self))
+        value(configuration.wild_card_scope).must_equal("all")
+        value(configuration.out_of_scope_placeholder).must_equal("*")
+        value(configuration.presented_object_separator).must_equal(" #{[0x21E8].pack("U")} ")
+        value(configuration.name_separator).must_equal(" - ")
+        value(configuration.flags_separator).must_equal(" / ")
+        value(configuration.issues_separator).must_equal(" | ")
+        value(configuration.info_separator).must_equal(" | ")
       end
     end
 
@@ -101,13 +99,13 @@ class ObjectInspectorTest < Minitest::Spec
         context "GIVEN a Class constant" do
           it "sets the value as expected" do
             subject.formatter_class = OpenStruct
-            subject.formatter_class.must_equal OpenStruct
+            value(subject.formatter_class).must_equal(OpenStruct)
           end
         end
 
         context "GIVEN a String" do
           it "raises TypeError" do
-            -> { subject.formatter_class = "STRING" }.must_raise TypeError
+            value(-> { subject.formatter_class = "STRING" }).must_raise(TypeError)
           end
         end
       end

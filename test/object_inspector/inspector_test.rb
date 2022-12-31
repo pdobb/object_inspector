@@ -52,8 +52,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(full_object1) }
 
         it "returns Object#inspect_identification" do
-          subject.identification.
-            must_equal(full_object1.inspect_identification)
+          value(subject.identification).must_equal(full_object1.inspect_identification)
         end
       end
 
