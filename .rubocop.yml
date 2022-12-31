@@ -3,7 +3,8 @@ AllCops:
   DisplayCopNames: true
   DisplayStyleGuide: true
   ExtraDetails: false
-  TargetRubyVersion: 2.5.3
+  TargetRubyVersion: 2.5
+  NewCops: enable
 
 Layout/ClassStructure:
   Enabled: true
@@ -36,17 +37,26 @@ Layout/EmptyLineAfterGuardClause:
 Layout/EndOfLine:
   EnforcedStyle: lf
 
-Layout/IndentFirstArgument:
+Layout/FirstArgumentIndentation:
   EnforcedStyle: consistent_relative_to_receiver
 
-Layout/IndentFirstArrayElement:
+Layout/FirstArrayElementIndentation:
   EnforcedStyle: consistent
 
-Layout/IndentFirstHashElement:
+Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 
-Layout/IndentFirstParameter:
+Layout/FirstParameterIndentation:
   Enabled: false # Revisit if more settings become available.
+
+Layout/LineContinuationSpacing:
+  EnforcedStyle: no_space
+
+Layout/LineLength:
+  Max: 80
+  Exclude:
+    - "test/**/*"
+    - "object_inspector.gemspec"
 
 Layout/MultilineAssignmentLayout:
   Enabled: true
@@ -73,7 +83,7 @@ Lint/Void:
   CheckForMethodsWithNoSideEffects: true
 
 Metrics/BlockLength:
-  ExcludedMethods:
+  AllowedMethods:
     - new
     - describe # Tests
     - context # Tests
@@ -84,13 +94,7 @@ Metrics/ClassLength:
     - "test/**/*"
     - "lib/object_inspector/formatters/templating_formatter.rb"
 
-Metrics/LineLength:
-  Max: 80
-  Exclude:
-    - "test/**/*"
-    - "object_inspector.gemspec"
-
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   AllowedNames:
     - a
     - b
@@ -134,6 +138,11 @@ Style/Lambda:
 
 Style/NumericPredicate:
   AutoCorrect: true
+
+Style/OpenStructUse:
+  Exclude:
+    - "test/**/*"
+    - "scripts/benchmarking/**/*"
 
 Style/RegexpLiteral:
   EnforcedStyle: mixed

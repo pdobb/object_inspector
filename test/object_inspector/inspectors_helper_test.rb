@@ -75,11 +75,9 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
 
     private
 
-    # rubocop:disable Style/MethodMissingSuper
     def method_missing(method_symbol, *args)
       @full_test_object.__send__(method_symbol, *args)
     end
-    # rubocop:enable Style/MethodMissingSuper
 
     def respond_to_missing?(*args)
       @full_test_object.respond_to?(*args) || super

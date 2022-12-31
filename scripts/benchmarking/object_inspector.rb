@@ -8,65 +8,80 @@ require "benchmark/ips"
 
 inspector_klass = ObjectInspector::Inspector
 
-OBJECT_WITH_FLAGS_AND_INFO_AND_NAME ||=
+def object_with_flags_and_info_and_name
   OpenStruct.new(
     identification: "IDENTIFICATION",
     flags: "FLAG1 | FLAG2",
     info: "INFO",
     name: "NAME")
-OBJECT_WITH_FLAGS_AND_INFO ||=
+end
+
+def object_with_flags_and_info
   OpenStruct.new(
     identification: "IDENTIFICATION",
     flags: "FLAG1 | FLAG2",
     info: "INFO")
-OBJECT_WITH_FLAGS_AND_NAME ||=
+end
+
+def object_with_flags_and_name
   OpenStruct.new(
     identification: "IDENTIFICATION",
     flags: "FLAG1 | FLAG2",
     name: "NAME")
-OBJECT_WITH_INFO_AND_NAME ||=
+end
+
+def object_with_info_and_name
   OpenStruct.new(
     identification: "IDENTIFICATION",
     info: "INFO",
     name: "NAME")
-OBJECT_WITH_NAME ||=
+end
+
+def object_with_name
   OpenStruct.new(
     identification: "IDENTIFICATION",
     name: "NAME")
-OBJECT_WITH_FLAGS ||=
+end
+
+def object_with_flags
   OpenStruct.new(
     identification: "IDENTIFICATION",
     flags: "FLAG1 | FLAG2")
-OBJECT_WITH_INFO ||=
+end
+
+def object_with_info
   OpenStruct.new(
     identification: "IDENTIFICATION",
     info: "INFO")
-OBJECT_WITH_BASE ||=
+end
+
+def object_with_base
   OpenStruct.new(
     identification: "IDENTIFICATION")
+end
 
 puts "== Averaged ============================================================="
 Benchmark.ips { |x|
   x.report(inspector_klass) {
-    inspector_klass.inspect(OBJECT_WITH_FLAGS_AND_INFO_AND_NAME)
-    inspector_klass.inspect(OBJECT_WITH_FLAGS_AND_INFO)
-    inspector_klass.inspect(OBJECT_WITH_FLAGS_AND_NAME)
-    inspector_klass.inspect(OBJECT_WITH_INFO_AND_NAME)
-    inspector_klass.inspect(OBJECT_WITH_NAME)
-    inspector_klass.inspect(OBJECT_WITH_FLAGS)
-    inspector_klass.inspect(OBJECT_WITH_INFO)
-    inspector_klass.inspect(OBJECT_WITH_BASE)
+    inspector_klass.inspect(object_with_flags_and_info_and_name)
+    inspector_klass.inspect(object_with_flags_and_info)
+    inspector_klass.inspect(object_with_flags_and_name)
+    inspector_klass.inspect(object_with_info_and_name)
+    inspector_klass.inspect(object_with_name)
+    inspector_klass.inspect(object_with_flags)
+    inspector_klass.inspect(object_with_info)
+    inspector_klass.inspect(object_with_base)
   }
 
   x.report("Ruby") {
-    OBJECT_WITH_FLAGS_AND_INFO_AND_NAME.inspect
-    OBJECT_WITH_FLAGS_AND_INFO.inspect
-    OBJECT_WITH_FLAGS_AND_NAME.inspect
-    OBJECT_WITH_INFO_AND_NAME.inspect
-    OBJECT_WITH_NAME.inspect
-    OBJECT_WITH_FLAGS.inspect
-    OBJECT_WITH_INFO.inspect
-    OBJECT_WITH_BASE.inspect
+    object_with_flags_and_info_and_name.inspect
+    object_with_flags_and_info.inspect
+    object_with_flags_and_name.inspect
+    object_with_info_and_name.inspect
+    object_with_name.inspect
+    object_with_flags.inspect
+    object_with_info.inspect
+    object_with_base.inspect
   }
 
   x.compare!

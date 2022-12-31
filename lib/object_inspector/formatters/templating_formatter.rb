@@ -87,8 +87,8 @@ module ObjectInspector
 
     def build_wrapped_object_string
       "#{build_string} "\
-      "#{ObjectInspector.configuration.presented_object_separator} "\
-      "#{wrapped_object_inspection_result}"
+        "#{ObjectInspector.configuration.presented_object_separator} "\
+        "#{wrapped_object_inspection_result}"
     end
 
     # rubocop:disable Metrics/MethodLength

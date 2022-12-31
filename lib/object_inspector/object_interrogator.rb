@@ -22,10 +22,10 @@ module ObjectInspector
     def call
       return unless object_responds_to_method_name?
 
-      if @object.method(@method_name).arity != 0
-        call_with_kargs
-      else
+      if @object.method(@method_name).arity.zero?
         @object.__send__(@method_name)
+      else
+        call_with_kargs
       end
     end
 

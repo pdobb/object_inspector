@@ -3,7 +3,7 @@
 require "test_helper"
 
 class ObjectInspector::ScopeTest < Minitest::Spec
-  class SimpleTestObject
+  class SimpleTestObject # rubocop:disable Lint/EmptyClass
   end
 
   describe "ObjectInspector::Scope" do
