@@ -30,10 +30,10 @@ Or install it yourself:
 ## Compatibility
 
 Tested MRI Ruby Versions:
-* 2.3
-* 2.4
-* 2.5
-* 2.6
+* 2.3 (not recently tested)
+* 2.4 (not recently tested)
+* 2.5 (not recently tested)
+* 2.6 (not recently tested)
 * 2.7
 * 3.1
 * 3.2
@@ -549,7 +549,7 @@ MyObject.new.inspect
 
 ObjectInspetor is ~4x slower than Ruby's default inspect.
 
-Performance of ObjectInspect can be tested by playing the [ObjectInspector Benchmarking Scripts] in the pry console for this gem.
+Performance of ObjectInspector can be tested by playing the [ObjectInspector Benchmarking Script](https://github.com/pdobb/object_inspector/blob/master/scripts/benchmarking/object_inspector.rb) in the pry console for this gem.
 
 ```ruby
 play scripts/benchmarking/object_inspector.rb
@@ -563,7 +563,7 @@ play scripts/benchmarking/object_inspector.rb
 
 [ObjectInspector::TemplatingFormatter] -- which is the default Formatter -- outperforms [ObjectInspector::CombiningFormatter] by about 30% on average.
 
-Performance of Formatters can be tested by playing the [Formatters Benchmarking Scripts] in the pry console for this gem.
+Performance of Formatters can be tested by playing the [Formatters Benchmarking Scripts](https://github.com/pdobb/object_inspector/blob/master/scripts/benchmarking/formatters.rb) in the pry console for this gem.
 
 ```ruby
 play scripts/benchmarking/formatters.rb
