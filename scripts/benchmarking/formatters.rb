@@ -3,7 +3,6 @@
 # Play from the console with:
 #   play scripts/benchmarking/formatters.rb
 
-require "ostruct"
 require "benchmark/ips"
 
 custom_formatter_klasses ||= []
@@ -14,56 +13,70 @@ formatter_klasses = [
   *Array(custom_formatter_klasses)
 ]
 
+MyObject ||=
+  Struct.new(:identification, :flags, :info, :name, :issues) do
+    def wrapped_object_inspection_result
+    end
+  end
+
 def inspector_with_flags_and_info_and_name
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    flags: "FLAG1 | FLAG2",
-    info: "INFO",
-    name: "NAME")
+  @inspector_with_flags_and_info_and_name ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      flags: "FLAG1 | FLAG2",
+      info: "INFO",
+      name: "NAME")
 end
 
 def inspector_with_flags_and_info
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    flags: "FLAG1 | FLAG2",
-    info: "INFO")
+  @inspector_with_flags_and_info ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      flags: "FLAG1 | FLAG2",
+      info: "INFO")
 end
 
 def inspector_with_flags_and_name
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    flags: "FLAG1 | FLAG2",
-    name: "NAME")
+  @inspector_with_flags_and_name ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      flags: "FLAG1 | FLAG2",
+      name: "NAME")
 end
 
 def inspector_with_info_and_name
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    info: "INFO",
-    name: "NAME")
+  @inspector_with_info_and_name ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      info: "INFO",
+      name: "NAME")
 end
 
 def inspector_with_name
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    name: "NAME")
+  @inspector_with_name ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      name: "NAME")
 end
 
 def inspector_with_flags
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    flags: "FLAG1 | FLAG2")
+  @inspector_with_flags ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      flags: "FLAG1 | FLAG2")
 end
 
 def inspector_with_info
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    info: "INFO")
+  @inspector_with_info ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      info: "INFO")
 end
 
 def inspector_with_base
-  OpenStruct.new(
-    identification: "IDENTIFICATION")
+  @inspector_with_base ||=
+    MyObject.new(
+      identification: "IDENTIFICATION")
 end
 
 puts "== Averaged ============================================================="

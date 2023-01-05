@@ -3,61 +3,70 @@
 # Play from the console with:
 #   play scripts/benchmarking/object_inspector.rb
 
-require "ostruct"
 require "benchmark/ips"
 
 inspector_klass = ObjectInspector::Inspector
 
+MyObject = Struct.new(:identification, :flags, :info, :name)
+
 def object_with_flags_and_info_and_name
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    flags: "FLAG1 | FLAG2",
-    info: "INFO",
-    name: "NAME")
+  @object_with_flags_and_info_and_name ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      flags: "FLAG1 | FLAG2",
+      info: "INFO",
+      name: "NAME")
 end
 
 def object_with_flags_and_info
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    flags: "FLAG1 | FLAG2",
-    info: "INFO")
+  @object_with_flags_and_info ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      flags: "FLAG1 | FLAG2",
+      info: "INFO")
 end
 
 def object_with_flags_and_name
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    flags: "FLAG1 | FLAG2",
-    name: "NAME")
+  @object_with_flags_and_name ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      flags: "FLAG1 | FLAG2",
+      name: "NAME")
 end
 
 def object_with_info_and_name
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    info: "INFO",
-    name: "NAME")
+  @object_with_info_and_name ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      info: "INFO",
+      name: "NAME")
 end
 
 def object_with_name
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    name: "NAME")
+  @object_with_name ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      name: "NAME")
 end
 
 def object_with_flags
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    flags: "FLAG1 | FLAG2")
+  @object_with_flags ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      flags: "FLAG1 | FLAG2")
 end
 
 def object_with_info
-  OpenStruct.new(
-    identification: "IDENTIFICATION",
-    info: "INFO")
+  @object_with_info ||=
+    MyObject.new(
+      identification: "IDENTIFICATION",
+      info: "INFO")
 end
 
 def object_with_base
-  OpenStruct.new(
-    identification: "IDENTIFICATION")
+  @object_with_base ||=
+    MyObject.new(
+      identification: "IDENTIFICATION")
 end
 
 puts "== Averaged ============================================================="
