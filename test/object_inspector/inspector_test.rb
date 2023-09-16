@@ -194,8 +194,8 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
       context "GIVEN #value is a Symbol" do
         it "returns Object#<value>, GIVEN Object responds to #value" do
-          value(subject.send(:evaluate_passed_in_value, :my_method1)).
-            must_equal("RESULT1")
+          value(subject.send(:evaluate_passed_in_value, :simple_test_method)).
+            must_equal("TEST_RESULT")
         end
 
         it "returns #value, GIVEN Object does not respond to #value" do
@@ -206,8 +206,8 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
       context "GIVEN #value is not a Symbol" do
         it "returns #value" do
-          value(subject.send(:evaluate_passed_in_value, "my_method1")).
-            must_equal("my_method1")
+          value(subject.send(:evaluate_passed_in_value, "simple_test_method")).
+            must_equal("simple_test_method")
         end
       end
     end
@@ -247,8 +247,8 @@ class ObjectInspector::InspectorTest < Minitest::Spec
   end
 
   class SimpleTestObject
-    def my_method1
-      "RESULT1"
+    def simple_test_method
+      "TEST_RESULT"
     end
   end
 
