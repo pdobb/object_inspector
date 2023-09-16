@@ -18,27 +18,27 @@ class ObjectInspector::ScopeTest < Minitest::Spec
       subject { self_scope }
 
       it "returns true, GIVEN a Scope with the same #names" do
-        assert(subject == klazz.new(:self))
+        value(subject).must_equal(klazz.new(:self))
       end
 
       it "returns false, GIVEN a Scope with a different #name" do
-        refute(subject == klazz.new(:other))
+        value(subject).wont_equal(klazz.new(:other))
       end
 
       it "returns false, GIVEN a Scope with different #names" do
-        refute(subject == klazz.new(%i[self other]))
+        value(subject).wont_equal(klazz.new(%i[self other]))
       end
 
       it "returns true, GIVEN a String with the same name" do
-        assert(subject == "self")
+        value(subject == "self").must_equal(true)
       end
 
       it "returns true, GIVEN a Symbol with the same name" do
-        assert(subject == :self)
+        value(subject == :self).must_equal(true)
       end
 
       it "returns false, GIVEN a String with a different name" do
-        refute(subject == "other")
+        value(subject).wont_equal("other")
       end
 
       it "returns false, GIVEN a Symbol with a different name" do
