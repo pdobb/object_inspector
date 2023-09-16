@@ -118,7 +118,7 @@ Style/BlockDelimiters:
 
 Style/ClassAndModuleChildren:
   AutoCorrect: true
-  # EnforcedStyle: compact
+  EnforcedStyle: compact
   Exclude:
     - "test/**/*"
 
