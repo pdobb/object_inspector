@@ -18,6 +18,8 @@ module ObjectInspector
   # ObjectInspector::Configuration stores the default configuration options for
   # the ObjectInspector gem. Modification of attributes is possible at any time,
   # and values will persist for the duration of the running process.
+  #
+  # :reek:TooManyInstanceVariables
   class Configuration
     attr_reader :formatter_class,
                 :inspect_method_prefix,

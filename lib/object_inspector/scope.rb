@@ -13,6 +13,8 @@
 #   http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html
 #
 # @attr names [Array<#to_s>]
+#
+# :reek:TooManyMethods
 class ObjectInspector::Scope
   attr_reader :names
 
@@ -95,6 +97,7 @@ class ObjectInspector::Scope
     end
   end
 
+  # :reek:ControlParameter (`condition`)
   def evaluate_block_if(condition)
     if condition
       yield(self)
@@ -103,6 +106,7 @@ class ObjectInspector::Scope
     end
   end
 
+  # :reek:FeatureEnvy (`items.`)
   def _join(items, separator)
     items = Array(items)
     items.flatten!
@@ -124,6 +128,7 @@ class ObjectInspector::Scope
     @names.any? { |name| name == other_name }
   end
 
+  # :reek:BooleanParameter
   def respond_to_missing?(method_name, include_private = false)
     method_name[-1] == "?" || super
   end

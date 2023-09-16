@@ -10,6 +10,8 @@ module ObjectInspector::Conversions
   # {ObjectInspector::Scope} object.
   #
   # @return [ObjectInspector::Scope]
+  #
+  # :reek:UncommunicativeMethodName
   def Scope(value) # rubocop:disable Naming/MethodName
     case value
     when ObjectInspector::Scope

@@ -3,6 +3,8 @@
 # ObjectInspector::Inspector organizes inspection of the associated {@object}
 # via the passed in options and via an {ObjectInspector::BaseFormatter}
 # instance.
+#
+# :reek:TooManyMethods
 class ObjectInspector::Inspector
   attr_reader :object
 
@@ -25,6 +27,8 @@ class ObjectInspector::Inspector
   # @param kargs [Hash] options to be sent to {@object} via the
   #   {ObjectInspector::ObjectInterrogator} when calling the `inspect_*`
   #   methods
+  #
+  # :reek:DuplicateMethodCall (ObjectInspecto.configuration)
   def initialize(
         object,
         scope: ObjectInspector.configuration.default_scope,
@@ -179,6 +183,7 @@ class ObjectInspector::Inspector
     @object.to_model
   end
 
+  # :reek:ManualDispatch
   def object_is_a_wrapper?
     @object.respond_to?(:to_model) &&
       @object.to_model != @object

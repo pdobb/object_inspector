@@ -5,6 +5,9 @@
 # output format via String templates.
 #
 # @attr (see BaseFormatter)
+#
+# :reek:RepeatedConditional
+# :reek:TooManyMethods
 class ObjectInspector::TemplatingFormatter < ObjectInspector::BaseFormatter
   def self.base_template
     @base_template ||= "<%s>"

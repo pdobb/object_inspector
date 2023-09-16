@@ -213,6 +213,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
   end
 
+  # :reek:RepeatedConditional
   class FullTestObject
     def inspect_identification
       "Identification[id:1]"

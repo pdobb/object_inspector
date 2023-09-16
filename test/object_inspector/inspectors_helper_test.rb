@@ -35,6 +35,7 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
     include ObjectInspector::InspectorsHelper
   end
 
+  # :reek:RepeatedConditional
   class FullTestObject
     def inspect_identification
       "Identification[id:1]"
@@ -79,6 +80,7 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
       @full_test_object.__send__(method_symbol, *args)
     end
 
+    # :reek:ManualDispatch
     def respond_to_missing?(*args)
       @full_test_object.respond_to?(*args) || super
     end

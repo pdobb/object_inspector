@@ -12,14 +12,17 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
   end
 
   class AllOptionalKeywordArgumentsTestObject
+    # :reek:UncommunicativeParameterName
     def example_method(a: 1, b: 2); [a, b]; end
   end
 
   class SomeOptionalKeywordArgumentsTestObject
+    # :reek:UncommunicativeParameterName
     def example_method(a:, b: 2); [a, b]; end
   end
 
   class AllRequiredKeywordArgumentsTestObject
+    # :reek:UncommunicativeParameterName
     def example_method(a:, b:); [a, b]; end
   end
 
