@@ -116,7 +116,7 @@ class ObjectInspector::Inspector
   end
 
   # @return [String] if `key` is found in {#kargs} or if {@object} responds to
-  #   `#{object_inspet_method_name}` (e.g. `inspect_flags`)
+  #   `#{object_inspection_method_name}` (e.g. `inspect_flags`)
   # @return [NilClass] if not found in {#kargs} or {@object}
   def value(key:)
     return_value =
@@ -147,13 +147,13 @@ class ObjectInspector::Inspector
   # Attempt to call `inspect_*` on {@object} based on the passed in `name`.
   #
   # @return [String] if {@object} responds to
-  #   `#{object_inspet_method_name}` (e.g. `inspect_flags`)
+  #   `#{object_inspection_method_name}` (e.g. `inspect_flags`)
   # @return [NilClass] if not found on {@object}
   def interrogate_object_inspect_method(
         name,
         prefix: ObjectInspector.configuration.inspect_method_prefix)
     interrogate_object(
-      method_name: object_inspet_method_name(name, prefix: prefix),
+      method_name: object_inspection_method_name(name, prefix: prefix),
       kargs: object_method_keyword_arguments)
   end
 
@@ -167,7 +167,8 @@ class ObjectInspector::Inspector
     interrogator.call
   end
 
-  def object_inspet_method_name(
+  # :reek:UtilityFunction
+  def object_inspection_method_name(
         name,
         prefix: ObjectInspector.configuration.inspect_method_prefix)
     "#{prefix}_#{name}"
