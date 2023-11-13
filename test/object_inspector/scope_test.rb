@@ -42,15 +42,15 @@ class ObjectInspector::ScopeTest < Minitest::Spec
       end
 
       it "returns false, GIVEN a Symbol with a different name" do
-        refute(subject == :other)
+        refute_equal(subject, :other)
       end
 
       it "returns false, GIVEN an Array of Symbol with a different name" do
-        refute(subject == %i[self other])
+        refute_equal(subject, %i[self other])
       end
 
       it "returns false, GIVEN an Array of Strings with a different name" do
-        refute(subject == %w[self other])
+        refute_equal(subject, %w[self other])
       end
     end
 

@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.version       = ObjectInspector::VERSION
   spec.authors       = ["Paul DobbinSchmaltz"]
   spec.email         = ["p.dobbinschmaltz@icloud.com"]
-  spec.required_ruby_version = ">= 2.5"
+  spec.required_ruby_version = ">= 2.7"
   spec.metadata      = { "rubygems_mfa_required" => "true" }
 
   spec.summary       = "ObjectInspector builds uniformly formatted inspect output with customizable amounts of detail."

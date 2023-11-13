@@ -3,12 +3,12 @@ require:
   - rubocop-minitest
 
 AllCops:
+  NewCops: enable
+  TargetRubyVersion: 2.7
   UseCache: true
   DisplayCopNames: true
   DisplayStyleGuide: true
-  ExtraDetails: false
-  TargetRubyVersion: 2.5
-  NewCops: enable
+  ExtraDetails: true
 
 Gemspec/DevelopmentDependencies:
   EnforcedStyle: gemspec # See: https://bundler.io/guides/creating_gem.html#testing-our-gem
@@ -62,11 +62,21 @@ Layout/LineContinuationSpacing:
 Layout/LineLength:
   Max: 80
   Exclude:
-    - "test/**/*"
     - "object_inspector.gemspec"
+  AllowedPatterns:
+    # YARD doc `@example` output.
+    - !ruby/regexp /\A *#   \# => /
+    - !ruby/regexp /\A *#   =/
 
 Layout/MultilineAssignmentLayout:
   Enabled: true
+  SupportedTypes:
+    - block
+    - case
+    - class
+    - if
+    # - kwbegin
+    - module
 
 Layout/MultilineMethodCallBraceLayout:
   EnforcedStyle: same_line
@@ -80,11 +90,11 @@ Layout/MultilineMethodDefinitionBraceLayout:
 Layout/MultilineOperationIndentation:
   Enabled: false # Waiting for e.g. `indented_relative_to_receiver`.
 
-Lint/AmbiguousOperator:
-  Enabled: false # Conflicts with other rules.
+# Lint/AmbiguousOperator:
+#   Enabled: false # Conflicts with other rules.
 
-Lint/AmbiguousRegexpLiteral:
-  Enabled: false # Conflicts with other rules.
+# Lint/AmbiguousRegexpLiteral:
+#   Enabled: false # Conflicts with other rules.
 
 Lint/OrAssignmentToConstant:
   Exclude:

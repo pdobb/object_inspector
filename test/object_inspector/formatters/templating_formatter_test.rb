@@ -126,7 +126,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #flags and #issues and #info and #name" do
+      context "GIVEN an Inspector with #flags, #issues, #info and #name" do
         subject { klazz.new(inspector_with_flags_and_issues_and_info_and_name) }
 
         it "returns the expected String" do

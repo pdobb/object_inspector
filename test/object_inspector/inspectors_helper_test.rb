@@ -23,9 +23,11 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
         subject { delegating_wrapper_for_full_test_object1 }
 
         it "returns a String in the expected format for the Object" do
+          # rubocop:disable Layout/LineLength
           value(subject.inspect).must_equal(
             "<ObjectInspector::InspectorsHelperTest::DelegatingWrapperForFullTestObject>  ⇨  "\
             "<Identification[id:1](FLAG1) Info: 1 :: Name: 1>")
+          # rubocop:enable Layout/LineLength
         end
       end
     end
