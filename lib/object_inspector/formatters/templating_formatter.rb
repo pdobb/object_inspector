@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-# ObjectInspector::TemplatingFormatter implements
+# :reek:RepeatedConditional
+# :reek:TooManyMethods
+
+# ObjectInspector::TemplatingFormatter specializes on
 # {ObjectInspector::BaseFormatter} to return the standard/default inspect
 # output format via String templates.
 #
 # @attr (see BaseFormatter)
-#
-# :reek:RepeatedConditional
-# :reek:TooManyMethods
 class ObjectInspector::TemplatingFormatter < ObjectInspector::BaseFormatter
   def self.base_template
     @base_template ||= "<%s>"

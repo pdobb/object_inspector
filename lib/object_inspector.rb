@@ -3,14 +3,18 @@
 # ObjectInspector is the base namespace for all modules/classes related to the
 # object_inspector gem.
 module ObjectInspector
+  # Accessor for the {ObjectInspector::Configuration} object.
   def self.configuration
     @configuration ||= Configuration.new
   end
 
+  # @yieldparam configuration [ObjectInspector::Configuration]
   def self.configure
     yield(configuration)
   end
 
+  # Reset the current configuration settings memoized by
+  # {ObjectInspector.configuration}.
   def self.reset_configuration
     @configuration = Configuration.new
   end

@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
-# ObjectInspector::Scope defines a predicate method that matches {#name} and
+# :reek:TooManyMethods
+
+# ObjectInspector::Scope defines a predicate method that matches {#names} and
 # responds with `true`. This is a prettier way to test for a given type of
 # "scope" within objects.
 #
 # It is possible to pass in multiple scope names to match on.
+#
 # `:all` is a "wild card" scope name, and will match on all scope names.
+#
 # Passing a block to a scope predicate falls back to the out-of-scope
 # placeholder (`*` by default) if the scope does not match.
 #
@@ -13,8 +17,6 @@
 #   http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html
 #
 # @attr names [Array<#to_s>]
-#
-# :reek:TooManyMethods
 class ObjectInspector::Scope
   attr_reader :names
 
@@ -68,12 +70,14 @@ class ObjectInspector::Scope
   end
   alias_method :eql?, :==
 
+  # @return [String] the contents of {#names}, joined by `, `.
   def to_s(separator: ", ")
     to_a.join(separator)
   end
 
+  # @return (see #names)
   def to_a
-    @names
+    names
   end
 
   private
@@ -98,6 +102,7 @@ class ObjectInspector::Scope
   end
 
   # :reek:ControlParameter (`condition`)
+
   def evaluate_block_if(condition)
     if condition
       yield(self)
@@ -107,6 +112,7 @@ class ObjectInspector::Scope
   end
 
   # :reek:FeatureEnvy (`items.`)
+
   def _join(items, separator)
     items = Array(items)
     items.flatten!

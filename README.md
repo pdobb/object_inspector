@@ -600,12 +600,20 @@ play scripts/benchmarking/formatters.rb
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. Or, run `rake` to run the tests plus linters. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. Or, run `rake` to run the tests plus linters as well as `yard` (to confirm proper YARD documentation practices). You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`.
 
 To release a new version, update the version number in `version.rb`, bump the latest ruby target versions etc. with `rake bump`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
+### Documentation
+
+[YARD documentation](https://yardoc.org/index.html) can be generated and viewed live:
+1. Install YARD: `gem install yard`
+2. Run the YARD server: `yard server --reload`
+3. Open the live documentation site: `open http://localhost:8808`
+
+While the YARD server is running, documentation in the live site will be auto-updated on source code save (and site reload).
 
 ## Contributing
 

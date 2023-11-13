@@ -1,28 +1,30 @@
 # frozen_string_literal: true
 
-# ObjectInspector::ObjectInterrogator collaborates with {@object} to return
-# Object#{@method_name} if {@object} responds to the method.
+# ObjectInspector::ObjectInterrogator collaborates with {#object} to return
+# Object#{#method_name} if {#object} responds to the method.
 #
-# If Object#{@method_name} accepts the supplied {@kargs} then they are passed
-# in as well. If not, then any supplied {@kargs} will be ignored.
+# If Object#{#method_name} accepts the supplied `kargs` then they are passed
+# in as well. If not, then any supplied `kargs` will be ignored.
 class ObjectInspector::ObjectInterrogator
-  attr_reader :object
+  attr_reader :object,
+              :method_name,
+              :kwargs
 
   def initialize(object:, method_name:, kargs: {})
     @object = object
     @method_name = method_name
-    @kargs = kargs
+    @kwargs = kargs
   end
 
-  # @return [String, ...] whatever type Object#{#method} returns
+  # @return [String, ...] whatever type Object#{#method_name} returns
   #
-  # @raise [ArgumentError] if Object#{#method} has an unexpected method
+  # @raise [ArgumentError] if Object#{#method_name} has an unexpected method
   #   signature
   def call
     return unless object_responds_to_method_name?
 
-    if @object.method(@method_name).arity.zero?
-      @object.__send__(@method_name)
+    if object.method(method_name).arity.zero?
+      object.__send__(method_name)
     else
       call_with_kargs
     end
@@ -31,14 +33,14 @@ class ObjectInspector::ObjectInterrogator
   private
 
   def call_with_kargs
-    @object.__send__(@method_name, **@kargs)
+    object.__send__(method_name, **kwargs)
   rescue ArgumentError
-    @object.__send__(@method_name)
+    object.__send__(method_name)
   end
 
   # :reek:ManualDispatch
   # :reek:BooleanParameter
   def object_responds_to_method_name?(include_private: true)
-    @object.respond_to?(@method_name, include_private)
+    object.respond_to?(method_name, include_private)
   end
 end
