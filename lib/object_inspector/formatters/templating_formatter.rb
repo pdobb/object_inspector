@@ -9,69 +9,27 @@
 #
 # @attr (see BaseFormatter)
 class ObjectInspector::TemplatingFormatter < ObjectInspector::BaseFormatter
-  def self.base_template
-    @base_template ||= "<%s>"
-  end
-
-  def self.name_template
-    @name_template ||= "<%s :: %s>"
-  end
-
-  def self.issues_and_name_template
-    @issues_and_name_template ||= "<%s !!%s!! :: %s>"
-  end
-
-  def self.flags_and_name_template
-    @flags_and_name_template ||= "<%s(%s) :: %s>"
-  end
-
-  def self.info_and_name_template
-    @info_and_name_template ||= "<%s %s :: %s>"
-  end
-
-  def self.issues_and_info_and_name_template
-    @issues_and_info_and_name_template ||= "<%s !!%s!! %s :: %s>"
-  end
-
-  def self.flags_and_info_template
-    @flags_and_info_template ||= "<%s(%s) %s>"
-  end
-
-  def self.flags_and_issues_template
-    @flags_and_issues_template ||= "<%s(%s) !!%s!!>"
-  end
-
-  def self.issues_and_info_template
-    @issues_and_info_template ||= "<%s !!%s!! %s>"
-  end
-
-  def self.flags_and_issues_and_info_template
-    @flags_and_issues_and_info_template ||= "<%s(%s) !!%s!! %s>"
-  end
-
-  def self.flags_and_issues_and_name_template
-    @flags_and_issues_and_name_template ||= "<%s(%s) !!%s!! :: %s>"
-  end
-
-  def self.flags_and_info_and_name_template
-    @flags_and_info_and_name_template ||= "<%s(%s) %s :: %s>"
-  end
-
-  def self.flags_and_issues_and_info_and_name_template
-    @flags_and_issues_and_info_and_name_template ||=
-      "<%s(%s) !!%s!! %s :: %s>"
-  end
-
-  def self.flags_template
-    @flags_template ||= "<%s(%s)>"
-  end
-
-  def self.issues_template
-    @issues_template ||= "<%s !!%s!!>"
-  end
-
-  def self.info_template
-    @info_template ||= "<%s %s>"
+  # Named String templates. Used by the build_* methods, these templates
+  # determine the format of the built output Strings.
+  def self.templates
+    @templates ||= {
+      base: "<%s>",
+      name: "<%s :: %s>",
+      issues_and_name: "<%s !!%s!! :: %s>",
+      flags_and_name: "<%s(%s) :: %s>",
+      info_and_name: "<%s %s :: %s>",
+      issues_and_info_and_name: "<%s !!%s!! %s :: %s>",
+      flags_and_info: "<%s(%s) %s>",
+      flags_and_issues: "<%s(%s) !!%s!!>",
+      issues_and_info: "<%s !!%s!! %s>",
+      flags_and_issues_and_info: "<%s(%s) !!%s!! %s>",
+      flags_and_issues_and_name: "<%s(%s) !!%s!! :: %s>",
+      flags_and_info_and_name: "<%s(%s) %s :: %s>",
+      flags_and_issues_and_info_and_name: "<%s(%s) !!%s!! %s :: %s>",
+      flags: "<%s(%s)>",
+      issues: "<%s !!%s!!>",
+      info: "<%s %s>",
+    }.freeze
   end
 
   # Perform the formatting routine.
@@ -174,71 +132,75 @@ class ObjectInspector::TemplatingFormatter < ObjectInspector::BaseFormatter
   end
 
   def build_string_with_flags_and_issues_and_info_and_name
-    self.class.flags_and_issues_and_info_and_name_template %
+    template_for(:flags_and_issues_and_info_and_name) %
       [identification, flags, issues, info, name]
   end
 
   def build_string_with_flags_and_issues_and_name
-    self.class.flags_and_issues_and_name_template %
+    template_for(:flags_and_issues_and_name) %
       [identification, flags, issues, name]
   end
 
   def build_string_with_flags_and_info_and_name
-    self.class.flags_and_info_and_name_template %
+    template_for(:flags_and_info_and_name) %
       [identification, flags, info, name]
   end
 
   def build_string_with_issues_and_info_and_name
-    self.class.issues_and_info_and_name_template %
+    template_for(:issues_and_info_and_name) %
       [identification, issues, info, name]
   end
 
   def build_string_with_flags_and_issues_and_info
-    self.class.flags_and_issues_and_info_template %
+    template_for(:flags_and_issues_and_info) %
       [identification, flags, issues, info]
   end
 
   def build_string_with_flags_and_issues
-    self.class.flags_and_issues_template % [identification, flags, issues]
+    template_for(:flags_and_issues) % [identification, flags, issues]
   end
 
   def build_string_with_flags_and_info
-    self.class.flags_and_info_template % [identification, flags, info]
+    template_for(:flags_and_info) % [identification, flags, info]
   end
 
   def build_string_with_flags_and_name
-    self.class.flags_and_name_template % [identification, flags, name]
+    template_for(:flags_and_name) % [identification, flags, name]
   end
 
   def build_string_with_issues_and_info
-    self.class.issues_and_info_template % [identification, issues, info]
+    template_for(:issues_and_info) % [identification, issues, info]
   end
 
   def build_string_with_issues_and_name
-    self.class.issues_and_name_template % [identification, issues, name]
+    template_for(:issues_and_name) % [identification, issues, name]
   end
 
   def build_string_with_info_and_name
-    self.class.info_and_name_template % [identification, info, name]
+    template_for(:info_and_name) % [identification, info, name]
   end
 
   def build_string_with_flags
-    self.class.flags_template % [identification, flags]
+    template_for(:flags) % [identification, flags]
   end
 
   def build_string_with_issues
-    self.class.issues_template % [identification, issues]
+    template_for(:issues) % [identification, issues]
   end
 
   def build_string_with_info
-    self.class.info_template % [identification, info]
+    template_for(:info) % [identification, info]
   end
 
   def build_string_with_name
-    self.class.name_template % [identification, name]
+    template_for(:name) % [identification, name]
   end
 
   def build_base_string
-    self.class.base_template % [identification]
+    template_for(:base) % [identification]
+  end
+
+  def template_for(name)
+    self.class.templates.fetch(name)
   end
 end

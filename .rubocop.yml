@@ -115,6 +115,13 @@ Metrics/ClassLength:
     - "test/**/*"
     - "lib/object_inspector/formatters/templating_formatter.rb"
 
+Metrics/MethodLength:
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+    - method_call
+
 Naming/MethodParameterName:
   AllowedNames:
     - a
