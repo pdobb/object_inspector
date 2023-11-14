@@ -39,7 +39,7 @@ class ObjectInspector::CombiningFormatter < ObjectInspector::BaseFormatter
       build_identification_string,
       build_flags_string,
       build_info_string,
-      build_name_string
+      build_name_string,
     ].compact
   end
 

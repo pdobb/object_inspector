@@ -176,7 +176,7 @@ class ObjectInspector::Inspector
 
   def object_method_keyword_arguments
     {
-      scope: @scope
+      scope: @scope,
     }
   end
 

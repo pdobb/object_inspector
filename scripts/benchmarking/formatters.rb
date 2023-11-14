@@ -10,7 +10,7 @@ custom_formatter_klasses ||= []
 formatter_klasses = [
   ObjectInspector::TemplatingFormatter,
   ObjectInspector::CombiningFormatter,
-  *Array(custom_formatter_klasses)
+  *Array(custom_formatter_klasses),
 ]
 
 MyObject ||=
