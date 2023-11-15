@@ -30,11 +30,8 @@ Or install it yourself:
 ## Compatibility
 
 Tested MRI Ruby Versions:
-* 2.3 (not recently tested)
-* 2.4 (not recently tested)
-* 2.5 (not recently tested)
-* 2.6 (not recently tested)
 * 2.7
+* 3.0
 * 3.1
 * 3.2
 
