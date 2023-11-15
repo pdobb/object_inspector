@@ -1,38 +1,40 @@
 # frozen_string_literal: true
 
-lib = File.expand_path("../lib", __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "object_inspector/version"
+require_relative "lib/object_inspector/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "object_inspector"
-  spec.version       = ObjectInspector::VERSION
-  spec.authors       = ["Paul DobbinSchmaltz"]
-  spec.email         = ["p.dobbinschmaltz@icloud.com"]
+  spec.name = "object_inspector"
+  spec.version = ObjectInspector::VERSION
+  spec.authors = ["Paul DobbinSchmaltz"]
+  spec.email = ["p.dobbinschmaltz@icloud.com"]
+
+  spec.summary = "ObjectInspector builds uniformly formatted inspect output with customizable amounts of detail."
+  spec.description = "ObjectInspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, issues, info, and/or a name along with an optional, self-definable scope option to represents objects. Great for the console, logging, etc."
+  spec.homepage = "https://github.com/pdobb/object_inspector"
+  spec.license = "MIT"
   spec.required_ruby_version = ">= 2.7"
-  spec.metadata      = { "rubygems_mfa_required" => "true" }
 
-  spec.summary       = "ObjectInspector builds uniformly formatted inspect output with customizable amounts of detail."
-  spec.description   = "ObjectInspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, issues, info, and/or a name along with an optional, self-definable scope option to represents objects. Great for the console, logging, etc."
-  spec.homepage      = "https://github.com/pdobb/object_inspector"
-  spec.license       = "MIT"
+  # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
 
-  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
-  # to allow pushing to a single host or delete this section to allow pushing to any host.
-  # if spec.respond_to?(:metadata)
-  #   spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
-  # else
-  #   raise "RubyGems 2.0 or newer is required to protect against " \
-  #     "public gem pushes."
-  # end
+  spec.metadata = {
+    "bug_tracker_uri" => "https://github.com/pdobb/object_inspector/issues",
+    "changelog_uri" => "https://github.com/pdobb/object_inspector/releases",
+    "source_code_uri" => "https://github.com/pdobb/object_inspector",
+    "homepage_uri" => spec.homepage,
+    "rubygems_mfa_required" => "true",
+  }
 
-  spec.files =
-    `git ls-files -z`.split("\x0").reject do |f|
-      f.match(%r{^(test|spec|features)/})
-    end
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  # Specify which files should be added to the gem when it is released.
+  spec.files = Dir.glob(%w[LICENSE.txt README.md {exe,lib}/**/*]).reject { |f| File.directory?(f) }
+  spec.bindir = "exe"
+  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
+
+  # Uncomment to register a new dependency of your gem
+  # spec.add_dependency "example-gem", "~> 1.0"
+
+  # For more information and examples about making a new gem, check out our
+  # guide at: https://bundler.io/guides/creating_gem.html
 
   spec.add_development_dependency "benchmark-ips"
   spec.add_development_dependency "bundler"

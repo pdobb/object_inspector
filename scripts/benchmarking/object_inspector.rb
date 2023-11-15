@@ -70,8 +70,8 @@ def object_with_base
 end
 
 puts "== Averaged ============================================================="
-Benchmark.ips { |x|
-  x.report(inspector_klass) {
+Benchmark.ips do |x|
+  x.report(inspector_klass) do
     inspector_klass.inspect(object_with_flags_and_info_and_name)
     inspector_klass.inspect(object_with_flags_and_info)
     inspector_klass.inspect(object_with_flags_and_name)
@@ -80,9 +80,9 @@ Benchmark.ips { |x|
     inspector_klass.inspect(object_with_flags)
     inspector_klass.inspect(object_with_info)
     inspector_klass.inspect(object_with_base)
-  }
+  end
 
-  x.report("Ruby") {
+  x.report("Ruby") do
     object_with_flags_and_info_and_name.inspect
     object_with_flags_and_info.inspect
     object_with_flags_and_name.inspect
@@ -91,8 +91,8 @@ Benchmark.ips { |x|
     object_with_flags.inspect
     object_with_info.inspect
     object_with_base.inspect
-  }
+  end
 
   x.compare!
-}
+end
 puts "== Done"

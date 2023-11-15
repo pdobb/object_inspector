@@ -59,6 +59,9 @@ Layout/FirstParameterIndentation:
 Layout/LineContinuationSpacing:
   EnforcedStyle: no_space
 
+Layout/LineEndStringConcatenationIndentation:
+  EnforcedStyle: aligned
+
 Layout/LineLength:
   Max: 80
   Exclude:
@@ -111,6 +114,10 @@ Metrics/BlockLength:
     - ips # Benchmarking
 
 Metrics/ClassLength:
+  CountAsOne:
+    - array
+    - heredoc
+    - method_call
   Exclude:
     - "test/**/*"
     - "lib/object_inspector/formatters/templating_formatter.rb"
@@ -127,11 +134,41 @@ Naming/MethodParameterName:
     - a
     - b
 
+Naming/RescuedExceptionsVariableName:
+  PreferredName: ex
+
 Style/Alias:
   EnforcedStyle: prefer_alias_method
 
 Style/BlockDelimiters:
-  Enabled: false # Reconsider later.
+  EnforcedStyle: semantic
+  AllowBracesOnProceduralOneLiners: true
+  FunctionalMethods:
+    # Minitest Spec DSL. (Rubocop defaults.)
+    - let
+    - let!
+    - subject
+    - watch
+    # Overrides (Defaulted to Procedural by Rubocop.)
+    - tap
+    # MuchStub
+    - call
+    - on_call
+    - spy
+    # - tap (Already listed above.)
+    - tap_on_call
+    - with
+  ProceduralMethods: # Defining this just to remove `tap` from the list.
+    - benchmark
+    - bm
+    - bmbm
+    - create
+    - each_with_object
+    - measure
+    - new
+    - realtime
+    # - tap (Remove from Rubocop defaults.)
+    - with_object
 
 Style/ClassAndModuleChildren:
   AutoCorrect: true
@@ -153,8 +190,7 @@ Style/Documentation:
     - "test/**/*"
 
 Style/EmptyElse:
-  # It"s helpful to show intent by including a comment in an else block.
-  Enabled: false
+  Enabled: false # Including a comment in an empty else block shows intent.
 
 Style/EmptyMethod:
   EnforcedStyle: expanded

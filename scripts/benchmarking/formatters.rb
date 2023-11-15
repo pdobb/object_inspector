@@ -80,7 +80,7 @@ def inspector_with_base
 end
 
 puts "== Averaged ============================================================="
-Benchmark.ips { |x|
+Benchmark.ips do |x|
   formatter_klasses.each do |formatter_klass|
     x.report(formatter_klass) {
       formatter_klass.new(inspector_with_flags_and_info_and_name).call
@@ -95,11 +95,11 @@ Benchmark.ips { |x|
   end
 
   x.compare!
-}
+end
 puts "== Done"
 
 puts "== Individualized ======================================================="
-Benchmark.ips { |x|
+Benchmark.ips do |x|
   # rubocop:disable Style/CombinableLoops
   formatter_klasses.each do |formatter_klass|
     x.report("#{formatter_klass} - Flags and Info and Name") {
@@ -144,5 +144,5 @@ Benchmark.ips { |x|
   # rubocop:enable Style/CombinableLoops
 
   x.compare!
-}
+end
 puts "== Done"
