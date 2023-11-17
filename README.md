@@ -1,9 +1,9 @@
-# ObjectInspector
+# Object Inspector
 
 [![Gem Version](https://badge.fury.io/rb/object_inspector.svg)](https://badge.fury.io/rb/object_inspector)
 [![Maintainability](https://api.codeclimate.com/v1/badges/34e821263d9e0c33d536/maintainability)](https://codeclimate.com/github/pdobb/object_inspector/maintainability)
 
-ObjectInspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, issues, info, and/or a name along with an optional, self-definable scope option to represent objects. Great for the console, logging, etc.
+Object Inspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, issues, info, and/or a name along with an optional, self-definable scope option to represent objects. Great for the console, logging, etc.
 
 Why? Because object inspection code should be uniform, easy to build, and its output should be easy to read!
 
@@ -35,12 +35,12 @@ Tested MRI Ruby Versions:
 * 3.1
 * 3.2
 
-ObjectInspector has no other dependencies.
+Object Inspector has no other dependencies.
 
 
 ## Configuration
 
-Global/default values for ObjectInspector can be configured via the ObjectInspector::Configuration object.
+Global/default values for Object Inspector can be configured via the ObjectInspector::Configuration object.
 
 _Note: In a Rails app, the following would go in e.g. `config/initializers/object_inspector.rb`_
 
@@ -509,7 +509,7 @@ See examples:
 
 ## Supporting Gems
 
-ObjectInspector works great with the [ObjectIdentifier](https://github.com/pdobb/object_identifier) gem.
+Object Inspector works great with the [Object Identifier](https://github.com/pdobb/object_identifier) gem.
 
 ```ruby
 class MyObject
@@ -542,11 +542,11 @@ MyObject.new.inspect
 
 ## Performance
 
-### Benchmarking ObjectInspector
+### Benchmarking Object Inspector
 
 ObjectInspetor is ~4x slower than Ruby's default inspect.
 
-Performance of ObjectInspector can be tested by playing the [ObjectInspector Benchmarking Script](https://github.com/pdobb/object_inspector/blob/master/scripts/benchmarking/object_inspector.rb) in the pry console for this gem.
+Performance of Object Inspector can be tested by playing the [Object Inspector Benchmarking Script](https://github.com/pdobb/object_inspector/blob/master/scripts/benchmarking/object_inspector.rb) in the pry console for this gem.
 
 ```ruby
 play scripts/benchmarking/object_inspector.rb
@@ -624,5 +624,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 [ObjectInspector::TemplatingFormatter]: https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/templating_formatter.rb
 [ObjectInspector::CombiningFormatter]: https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/combining_formatter.rb
-[ObjectInspector Benchmarking Scripts]: https://github.com/pdobb/object_inspector/blob/master/scripts/benchmarking/object_inspector.rb
+[Object Inspector Benchmarking Scripts]: https://github.com/pdobb/object_inspector/blob/master/scripts/benchmarking/object_inspector.rb
 [Formatters Benchmarking Scripts]: https://github.com/pdobb/object_inspector/blob/master/scripts/benchmarking/formatters.rb
