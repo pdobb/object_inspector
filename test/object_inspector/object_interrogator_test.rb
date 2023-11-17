@@ -67,11 +67,11 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           klazz.new(
             object: AllOptionalKeywordArgumentsTestObject.new,
             method_name: :example_method,
-            kargs: kargs)
+            kwargs: kwargs)
         }
 
         context "GIVEN a valid keyword argument" do
-          let(:kargs) { { a: "a" } }
+          let(:kwargs) { { a: "a" } }
 
           it "returns the expected result" do
             value(subject.call).must_equal(["a", 2])
@@ -79,7 +79,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
         end
 
         context "GIVEN an invalid keyword argument" do
-          let(:kargs) { { invalid_karg: 1 } }
+          let(:kwargs) { { invalid_kwarg: 1 } }
 
           it "returns the expected result" do
             value(subject.call).must_equal([1, 2])
@@ -87,7 +87,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
         end
 
         context "GIVEN no keyword arguments" do
-          let(:kargs) { {} }
+          let(:kwargs) { {} }
 
           it "returns the expected result" do
             value(subject.call).must_equal([1, 2])
@@ -100,11 +100,11 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           klazz.new(
             object: SomeOptionalKeywordArgumentsTestObject.new,
             method_name: :example_method,
-            kargs: kargs)
+            kwargs: kwargs)
         }
 
         context "GIVEN a missing required keyword argument" do
-          let(:kargs) { { b: "b" } }
+          let(:kwargs) { { b: "b" } }
 
           it "raises ArgumentError" do
             value(-> { subject.call }).must_raise(ArgumentError)
@@ -117,11 +117,11 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           klazz.new(
             object: AllRequiredKeywordArgumentsTestObject.new,
             method_name: :example_method,
-            kargs: kargs)
+            kwargs: kwargs)
         }
 
         context "GIVEN no keyword arguments" do
-          let(:kargs) { {} }
+          let(:kwargs) { {} }
 
           it "raises ArgumentError" do
             value(-> { subject.call }).must_raise(ArgumentError)

@@ -5,10 +5,10 @@
 # generating the inspection output.
 module ObjectInspector::InspectorsHelper
   # Calls {ObjectInspector::Inspector.inspect} on the passed in `object`,
-  # passing it the passed in `kargs` (keyword arguments).
+  # passing it the passed in `kwargs` (keyword arguments).
   #
   # @return [String]
-  def inspect(object = self, **kargs)
-    ObjectInspector::Inspector.inspect(object, **kargs)
+  def inspect(object = self, **kwargs)
+    ObjectInspector::Inspector.inspect(object, **kwargs)
   end
 end

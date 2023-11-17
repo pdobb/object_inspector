@@ -12,8 +12,8 @@ class ObjectInspector::Inspector
   # required to use ObjectInspector::Inspector.
   #
   # @return [String]
-  def self.inspect(object, **kargs)
-    new(object, **kargs).to_s
+  def self.inspect(...)
+    new(...).to_s
   end
 
   # @param object [Object] the object being inspected
@@ -24,7 +24,7 @@ class ObjectInspector::Inspector
   # @param formatter [ObjectInspector::BaseFormatter]
   #   (ObjectInspector.configuration.formatter) the formatter object type
   #   to use for formatting the inspect String
-  # @param kargs [Hash] options to be sent to {#object} via the
+  # @param kwargs [Hash] options to be sent to {#object} via the
   #   {ObjectInspector::ObjectInterrogator} when calling the `inspect_*`
   #   methods
   #
@@ -33,11 +33,11 @@ class ObjectInspector::Inspector
         object,
         scope: ObjectInspector.configuration.default_scope,
         formatter: ObjectInspector.configuration.formatter_class,
-        **kargs)
+        **kwargs)
     @object = object
     @scope = ObjectInspector::Conversions.Scope(scope)
     @formatter_klass = formatter
-    @kargs = kargs
+    @kwargs = kwargs
   end
 
   # Generate the formatted inspect String.
@@ -58,7 +58,7 @@ class ObjectInspector::Inspector
       extract_wrapped_object,
       scope: @scope,
       formatter: @formatter_klass,
-      kargs: @kargs)
+      kwargs: @kwargs)
   end
 
   # Core object identification details, such as the {#object} class name and
@@ -100,12 +100,12 @@ class ObjectInspector::Inspector
   def name
     key = :name
 
-    if @kargs.key?(key)
+    if @kwargs.key?(key)
       value(key: key)
     else
       interrogate_object_inspect_method(key) ||
         interrogate_object(method_name: :display_name,
-                           kargs: object_method_keyword_arguments)
+                           kwargs: object_method_keyword_arguments)
     end
   end
 
@@ -115,13 +115,13 @@ class ObjectInspector::Inspector
     @formatter_klass.new(self)
   end
 
-  # @return [String] if `key` is found in {#kargs} or if {#object} responds to
+  # @return [String] if `key` is found in {#kwargs} or if {#object} responds to
   #   `#{object_inspection_method_name}` (e.g. `inspect_flags`)
-  # @return [NilClass] if not found in {#kargs} or {#object}
+  # @return [NilClass] if not found in {#kwargs} or {#object}
   def value(key:)
     return_value =
-      if @kargs.key?(key)
-        evaluate_passed_in_value(@kargs[key])
+      if @kwargs.key?(key)
+        evaluate_passed_in_value(@kwargs[key])
       else
         interrogate_object_inspect_method(key)
       end
@@ -154,15 +154,15 @@ class ObjectInspector::Inspector
         prefix: ObjectInspector.configuration.inspect_method_prefix)
     interrogate_object(
       method_name: object_inspection_method_name(name, prefix: prefix),
-      kargs: object_method_keyword_arguments)
+      kwargs: object_method_keyword_arguments)
   end
 
-  def interrogate_object(method_name:, kargs: {})
+  def interrogate_object(method_name:, kwargs: {})
     interrogator =
       ObjectInspector::ObjectInterrogator.new(
         object: @object,
         method_name: method_name,
-        kargs: kargs)
+        kwargs: kwargs)
 
     interrogator.call
   end

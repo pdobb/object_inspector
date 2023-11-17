@@ -389,13 +389,13 @@ class MyDelegatingWrapperObject
     @my_object = my_object
   end
 
-  def inspect(**kargs)
+  def inspect(**kwargs)
     super(identification: self.class.name,
           name: nil,
           flags: nil,
           info: nil,
           issues: nil,
-          **kargs)
+          **kwargs)
   end
 
   def to_model

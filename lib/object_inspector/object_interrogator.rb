@@ -3,17 +3,17 @@
 # ObjectInspector::ObjectInterrogator collaborates with {#object} to return
 # Object#{#method_name} if {#object} responds to the method.
 #
-# If Object#{#method_name} accepts the supplied `kargs` then they are passed
-# in as well. If not, then any supplied `kargs` will be ignored.
+# If Object#{#method_name} accepts the supplied `kwargs` then they are passed
+# in as well. If not, then any supplied `kwargs` will be ignored.
 class ObjectInspector::ObjectInterrogator
   attr_reader :object,
               :method_name,
               :kwargs
 
-  def initialize(object:, method_name:, kargs: {})
+  def initialize(object:, method_name:, kwargs: {})
     @object = object
     @method_name = method_name
-    @kwargs = kargs
+    @kwargs = kwargs
   end
 
   # @return [String, ...] whatever type Object#{#method_name} returns
@@ -26,13 +26,13 @@ class ObjectInspector::ObjectInterrogator
     if object.method(method_name).arity.zero?
       object.__send__(method_name)
     else
-      call_with_kargs
+      call_with_kwargs
     end
   end
 
   private
 
-  def call_with_kargs
+  def call_with_kwargs
     object.__send__(method_name, **kwargs)
   rescue ArgumentError
     object.__send__(method_name)
