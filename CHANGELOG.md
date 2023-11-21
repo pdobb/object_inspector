@@ -1,3 +1,6 @@
+### 0.6.3 - 2023-11-21
+- Internal updates to style, etc. No outward-facing changes.
+
 ### 0.6.2 - 2022-12-30
 - Internal spruce-up for Ruby 3.2. No outward-facing changes.
 - Remove travis-ci config since travis-ci is no longer in use.
