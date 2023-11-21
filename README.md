@@ -546,10 +546,10 @@ MyObject.new.inspect
 
 ObjectInspetor is ~4x slower than Ruby's default inspect.
 
-Performance of Object Inspector can be tested by playing the [Object Inspector Benchmarking Script](https://github.com/pdobb/object_inspector/blob/master/scripts/benchmarking/object_inspector.rb) in the pry console for this gem.
+Performance of Object Inspector can be tested by playing the [Object Inspector Benchmarking Script](https://github.com/pdobb/object_inspector/blob/master/script/benchmarking/object_inspector.rb) in the pry console for this gem.
 
 ```ruby
-play scripts/benchmarking/object_inspector.rb
+play script/benchmarking/object_inspector.rb
 # Comparison:
 #                 Ruby:    30382.2 i/s
 # ObjectInspector::Inspector:     7712.2 i/s - 3.94x  slower
@@ -560,10 +560,10 @@ play scripts/benchmarking/object_inspector.rb
 
 [ObjectInspector::TemplatingFormatter] -- which is the default Formatter -- outperforms [ObjectInspector::CombiningFormatter] by about 30% on average.
 
-Performance of Formatters can be tested by playing the [Formatters Benchmarking Scripts](https://github.com/pdobb/object_inspector/blob/master/scripts/benchmarking/formatters.rb) in the pry console for this gem.
+Performance of Formatters can be tested by playing the [Formatters Benchmarking Scripts](https://github.com/pdobb/object_inspector/blob/master/script/benchmarking/formatters.rb) in the pry console for this gem.
 
 ```ruby
-play scripts/benchmarking/formatters.rb
+play script/benchmarking/formatters.rb
 # == Averaged =============================================================
 # ...
 #
@@ -582,7 +582,7 @@ Custom Formatters may be similarly gauged for comparison by adding them to the `
 ```ruby
 custom_formatter_klasses = [MyCustomFormatter]
 
-play scripts/benchmarking/formatters.rb
+play script/benchmarking/formatters.rb
 # == Averaged =============================================================
 # ...
 #
@@ -624,5 +624,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 [ObjectInspector::TemplatingFormatter]: https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/templating_formatter.rb
 [ObjectInspector::CombiningFormatter]: https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/combining_formatter.rb
-[Object Inspector Benchmarking Scripts]: https://github.com/pdobb/object_inspector/blob/master/scripts/benchmarking/object_inspector.rb
-[Formatters Benchmarking Scripts]: https://github.com/pdobb/object_inspector/blob/master/scripts/benchmarking/formatters.rb
+[Object Inspector Benchmarking Scripts]: https://github.com/pdobb/object_inspector/blob/master/script/benchmarking/object_inspector.rb
+[Formatters Benchmarking Scripts]: https://github.com/pdobb/object_inspector/blob/master/script/benchmarking/formatters.rb

@@ -2,6 +2,7 @@
 
 # :reek:RepeatedConditional
 # :reek:TooManyMethods
+# rubocop:disable Metrics/ClassLength
 
 # ObjectInspector::TemplatingFormatter specializes on
 # {ObjectInspector::BaseFormatter} to return the standard/default inspect
@@ -204,3 +205,5 @@ class ObjectInspector::TemplatingFormatter < ObjectInspector::BaseFormatter
     self.class.templates.fetch(name)
   end
 end
+
+# rubocop:enable Metrics/ClassLength

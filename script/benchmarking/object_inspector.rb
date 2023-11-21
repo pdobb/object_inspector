@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Play from the console with:
-#   play scripts/benchmarking/object_inspector.rb
+#   play script/benchmarking/object_inspector.rb
 
 require "benchmark/ips"
 

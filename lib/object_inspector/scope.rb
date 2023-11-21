@@ -131,7 +131,7 @@ class ObjectInspector::Scope
   end
 
   def any_names_match?(other_name)
-    @names.any? { |name| name == other_name }
+    @names.any?(other_name)
   end
 
   # :reek:BooleanParameter
