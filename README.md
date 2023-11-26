@@ -547,10 +547,10 @@ MyObject.new.inspect
 
 ObjectInspetor is ~4x slower than Ruby's default inspect.
 
-Performance of Object Inspector can be tested by playing the [Object Inspector Benchmarking Script](https://github.com/pdobb/object_inspector/blob/master/script/benchmarking/object_inspector.rb) in the pry console for this gem.
+Performance of Object Inspector can be tested by playing the [Object Inspector Benchmarking Script](https://github.com/pdobb/object_inspector/blob/master/script/benchmarking/object_inspector.rb) in the IRB console for this gem.
 
 ```ruby
-play script/benchmarking/object_inspector.rb
+load "script/benchmarking/object_inspector.rb"
 # Comparison:
 #                 Ruby:    30382.2 i/s
 # ObjectInspector::Inspector:     7712.2 i/s - 3.94x  slower
@@ -561,10 +561,10 @@ play script/benchmarking/object_inspector.rb
 
 [ObjectInspector::TemplatingFormatter] -- which is the default Formatter -- outperforms [ObjectInspector::CombiningFormatter] by about 30% on average.
 
-Performance of Formatters can be tested by playing the [Formatters Benchmarking Scripts](https://github.com/pdobb/object_inspector/blob/master/script/benchmarking/formatters.rb) in the pry console for this gem.
+Performance of Formatters can be tested by playing the [Formatters Benchmarking Scripts](https://github.com/pdobb/object_inspector/blob/master/script/benchmarking/formatters.rb) in the IRB console for this gem.
 
 ```ruby
-play script/benchmarking/formatters.rb
+load "script/benchmarking/formatters.rb"
 # == Averaged =============================================================
 # ...
 #
