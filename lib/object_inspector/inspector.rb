@@ -104,8 +104,8 @@ class ObjectInspector::Inspector
       value(key: key)
     else
       interrogate_object_inspect_method(key) ||
-        interrogate_object(method_name: :display_name,
-                           kwargs: object_method_keyword_arguments)
+        interrogate_object(
+          method_name: :display_name, kwargs: object_method_keyword_arguments)
     end
   end
 

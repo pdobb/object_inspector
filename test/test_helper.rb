@@ -7,6 +7,6 @@ require "object_inspector"
 
 require "minitest/autorun"
 
-require "gemwork/test/support/reporters"
 require "gemwork/test/support/much_stub"
+require "gemwork/test/support/reporters"
 require "gemwork/test/support/spec_dsl"

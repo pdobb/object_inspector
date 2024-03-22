@@ -64,12 +64,13 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
     end
 
     def inspect(**kwargs)
-      super(identification: self.class.name,
-            name: nil,
-            flags: nil,
-            info: nil,
-            issues: nil,
-            **kwargs)
+      super(
+        identification: self.class.name,
+        name: nil,
+        flags: nil,
+        info: nil,
+        issues: nil,
+        **kwargs)
     end
 
     def to_model

@@ -67,8 +67,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
       context "GIVEN :identification is passed in" do
         subject {
-          klazz.new(simple_object1,
-                    identification: "PASSED_IN_IDENTIFICATION")
+          klazz.new(simple_object1, identification: "PASSED_IN_IDENTIFICATION")
         }
 
         it "returns the passed in :identification" do
@@ -195,19 +194,21 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
       context "GIVEN #value is a Symbol" do
         it "returns Object#<value>, GIVEN Object responds to #value" do
-          value(subject.send(:evaluate_passed_in_value, :simple_test_method)).
+          value(
+            subject.__send__(:evaluate_passed_in_value, :simple_test_method)).
             must_equal("TEST_RESULT")
         end
 
         it "returns #value, GIVEN Object does not respond to #value" do
-          value(subject.send(:evaluate_passed_in_value, :unknown_method1)).
+          value(subject.__send__(:evaluate_passed_in_value, :unknown_method1)).
             must_equal(:unknown_method1)
         end
       end
 
       context "GIVEN #value is not a Symbol" do
         it "returns #value" do
-          value(subject.send(:evaluate_passed_in_value, "simple_test_method")).
+          value(
+            subject.__send__(:evaluate_passed_in_value, "simple_test_method")).
             must_equal("simple_test_method")
         end
       end
