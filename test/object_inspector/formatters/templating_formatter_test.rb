@@ -120,7 +120,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_wrapped_object) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal(
+          _(subject.call).must_equal(
             "<WRAPPER> "\
             "#{ObjectInspector.configuration.presented_object_separator} "\
             "<SIMPLE_TEST_OBJECT>")
@@ -131,7 +131,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_flags_and_issues_and_info_and_name) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal(
+          _(subject.call).must_equal(
             "<IDENTIFICATION(FLAG1 | FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>")
         end
       end
@@ -140,7 +140,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_flags_and_issues_and_info) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal(
+          _(subject.call).must_equal(
             "<IDENTIFICATION(FLAG1 | FLAG2) !!ISSUE1 | ISSUE2!! INFO>")
         end
       end
@@ -149,7 +149,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_flags_and_issues_and_name) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal(
+          _(subject.call).must_equal(
             "<IDENTIFICATION(FLAG1 | FLAG2) !!ISSUE1 | ISSUE2!! :: NAME>")
         end
       end
@@ -158,7 +158,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_flags_and_info_and_name) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal(
+          _(subject.call).must_equal(
             "<IDENTIFICATION(FLAG1 | FLAG2) INFO :: NAME>")
         end
       end
@@ -167,7 +167,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_issues_and_info_and_name) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal(
+          _(subject.call).must_equal(
             "<IDENTIFICATION !!ISSUE1 | ISSUE2!! INFO :: NAME>")
         end
       end
@@ -176,7 +176,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_flags_and_issues) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal(
+          _(subject.call).must_equal(
             "<IDENTIFICATION(FLAG1 | FLAG2) !!ISSUE1 | ISSUE2!!>")
         end
       end
@@ -185,7 +185,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_flags_and_info) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal(
+          _(subject.call).must_equal(
             "<IDENTIFICATION(FLAG1 | FLAG2) INFO>")
         end
       end
@@ -194,7 +194,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_flags_and_name) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal(
+          _(subject.call).must_equal(
             "<IDENTIFICATION(FLAG1 | FLAG2) :: NAME>")
         end
       end
@@ -203,7 +203,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_info_and_name) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal("<IDENTIFICATION INFO :: NAME>")
+          _(subject.call).must_equal("<IDENTIFICATION INFO :: NAME>")
         end
       end
 
@@ -211,7 +211,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_issues_and_info) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal(
+          _(subject.call).must_equal(
             "<IDENTIFICATION !!ISSUE1 | ISSUE2!! INFO>")
         end
       end
@@ -220,7 +220,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_issues_and_name) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal(
+          _(subject.call).must_equal(
             "<IDENTIFICATION !!ISSUE1 | ISSUE2!! :: NAME>")
         end
       end
@@ -229,7 +229,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_name) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal("<IDENTIFICATION :: NAME>")
+          _(subject.call).must_equal("<IDENTIFICATION :: NAME>")
         end
       end
 
@@ -237,7 +237,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_flags) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal("<IDENTIFICATION(FLAG1 | FLAG2)>")
+          _(subject.call).must_equal("<IDENTIFICATION(FLAG1 | FLAG2)>")
         end
       end
 
@@ -245,7 +245,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_issues) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal(
+          _(subject.call).must_equal(
             "<IDENTIFICATION !!ISSUE1 | ISSUE2!!>")
         end
       end
@@ -254,7 +254,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_info) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal("<IDENTIFICATION INFO>")
+          _(subject.call).must_equal("<IDENTIFICATION INFO>")
         end
       end
 
@@ -262,7 +262,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         subject { klazz.new(inspector_with_base) }
 
         it "returns the expected String" do
-          value(subject.call).must_equal("<IDENTIFICATION>")
+          _(subject.call).must_equal("<IDENTIFICATION>")
         end
       end
     end

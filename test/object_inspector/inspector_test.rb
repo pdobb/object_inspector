@@ -21,7 +21,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
       it "returns a String in the expected format" do
         result = subject.inspect(simple_object1)
-        value(result).must_equal(
+        _(result).must_equal(
           "<ObjectInspector::InspectorTest::SimpleTestObject>")
       end
     end
@@ -31,7 +31,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(full_object1) }
 
         it "returns a String in the expected format for the Object" do
-          value(subject.to_s).must_equal(
+          _(subject.to_s).must_equal(
             "<Identification[id:1](FLAG1) Info: 1 :: Name: 1>")
         end
       end
@@ -40,7 +40,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(full_object1, scope: :verbose) }
 
         it "returns a String in the expected format for the Object" do
-          value(subject.to_s).must_equal(
+          _(subject.to_s).must_equal(
             "<Identification[id:1](FLAG1 | FLAG2) "\
             "Info: 1 | Info: 2 :: Name: 1 | Name: 2>")
         end
@@ -52,7 +52,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(full_object1) }
 
         it "returns Object#inspect_identification" do
-          value(subject.identification).must_equal(
+          _(subject.identification).must_equal(
             full_object1.inspect_identification)
         end
       end
@@ -61,7 +61,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(simple_object1) }
 
         it "returns the Object's Class Name" do
-          value(subject.identification).must_equal(SimpleTestObject.name)
+          _(subject.identification).must_equal(SimpleTestObject.name)
         end
       end
 
@@ -71,7 +71,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         }
 
         it "returns the passed in :identification" do
-          value(subject.identification).must_equal("PASSED_IN_IDENTIFICATION")
+          _(subject.identification).must_equal("PASSED_IN_IDENTIFICATION")
         end
       end
     end
@@ -81,7 +81,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(full_object1) }
 
         it "returns Object#inspect_flags" do
-          value(subject.flags).must_equal(full_object1.inspect_flags)
+          _(subject.flags).must_equal(full_object1.inspect_flags)
         end
       end
 
@@ -89,7 +89,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(simple_object1) }
 
         it "returns nil" do
-          value(subject.flags).must_be_nil
+          _(subject.flags).must_be_nil
         end
       end
 
@@ -97,7 +97,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(simple_object1, flags: "PASSED_IN_FLAG") }
 
         it "returns the passed in :flags" do
-          value(subject.flags).must_equal("PASSED_IN_FLAG")
+          _(subject.flags).must_equal("PASSED_IN_FLAG")
         end
       end
     end
@@ -107,7 +107,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(full_object1) }
 
         it "returns Object#inspect_info" do
-          value(subject.info).must_equal(full_object1.inspect_info)
+          _(subject.info).must_equal(full_object1.inspect_info)
         end
       end
 
@@ -115,7 +115,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(simple_object1) }
 
         it "returns nil" do
-          value(subject.info).must_be_nil
+          _(subject.info).must_be_nil
         end
       end
 
@@ -123,7 +123,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(simple_object1, info: "PASSED_IN_INFO") }
 
         it "returns the passed in :info" do
-          value(subject.info).must_equal("PASSED_IN_INFO")
+          _(subject.info).must_equal("PASSED_IN_INFO")
         end
       end
     end
@@ -133,14 +133,14 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(inspect_name_object1) }
 
         it "returns Object#inspect_name" do
-          value(subject.name).must_equal("INSPECT_NAME")
+          _(subject.name).must_equal("INSPECT_NAME")
         end
 
         context "GIVEN Object#display_name is defined" do
           subject { klazz.new(inspect_and_display_name_object1) }
 
           it "returns Object#inspect_name" do
-            value(subject.name).must_equal("INSPECT_NAME")
+            _(subject.name).must_equal("INSPECT_NAME")
           end
         end
 
@@ -148,7 +148,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
           subject { klazz.new(inspect_name_object1, name: "PASSED_IN_NAME") }
 
           it "returns the passed in :name" do
-            value(subject.name).must_equal("PASSED_IN_NAME")
+            _(subject.name).must_equal("PASSED_IN_NAME")
           end
         end
       end
@@ -157,14 +157,14 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(simple_object1) }
 
         it "returns nil" do
-          value(subject.name).must_be_nil
+          _(subject.name).must_be_nil
         end
 
         context "GIVEN Object#display_name is defined" do
           subject { klazz.new(display_name_object1) }
 
           it "returns Object#display_name" do
-            value(subject.name).must_equal("DISPLAY_NAME")
+            _(subject.name).must_equal("DISPLAY_NAME")
           end
         end
       end
@@ -175,7 +175,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(wrapper_for_full_test_object1) }
 
         it "returns Object#to_model#inspect" do
-          value(subject.wrapped_object_inspection_result).
+          _(subject.wrapped_object_inspection_result).
             must_equal("<Identification[id:1](FLAG1) Info: 1 :: Name: 1>")
         end
       end
@@ -184,7 +184,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(simple_object1) }
 
         it "returns nil" do
-          value(subject.wrapped_object_inspection_result).must_be_nil
+          _(subject.wrapped_object_inspection_result).must_be_nil
         end
       end
     end
@@ -194,20 +194,20 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
       context "GIVEN #value is a Symbol" do
         it "returns Object#<value>, GIVEN Object responds to #value" do
-          value(
+          _(
             subject.__send__(:evaluate_passed_in_value, :simple_test_method)).
             must_equal("TEST_RESULT")
         end
 
         it "returns #value, GIVEN Object does not respond to #value" do
-          value(subject.__send__(:evaluate_passed_in_value, :unknown_method1)).
+          _(subject.__send__(:evaluate_passed_in_value, :unknown_method1)).
             must_equal(:unknown_method1)
         end
       end
 
       context "GIVEN #value is not a Symbol" do
         it "returns #value" do
-          value(
+          _(
             subject.__send__(:evaluate_passed_in_value, "simple_test_method")).
             must_equal("simple_test_method")
         end

@@ -8,7 +8,7 @@ class ObjectInspector::BaseFormatterTest < Minitest::Spec
 
     describe "#call" do
       it "raises NotImplementedError" do
-        value(-> { klazz.new(Object.new).call }).must_raise(
+        _(-> { klazz.new(Object.new).call }).must_raise(
           NotImplementedError)
       end
     end

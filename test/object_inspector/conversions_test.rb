@@ -13,14 +13,14 @@ class ObjectInspector::ConversionsTest < Minitest::Spec
 
       context "GIVEN an ObjectInspector::Scope" do
         it "returns the same ObjectInspector::Scope" do
-          value(klazz.Scope(scope1).object_id).must_equal(scope1.object_id)
+          _(klazz.Scope(scope1).object_id).must_equal(scope1.object_id)
         end
       end
 
       context "GIVEN a Symbol" do
         it "returns a new Scope for the given Symbol" do
           new_scope = klazz.Scope(:verbose)
-          value(new_scope.names).must_include("verbose")
+          _(new_scope.names).must_include("verbose")
         end
       end
     end

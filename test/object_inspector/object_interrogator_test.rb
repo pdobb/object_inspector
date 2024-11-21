@@ -41,7 +41,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           let(:method_name) { :example_method }
 
           it "returns the expected result" do
-            value(subject.call).must_equal("a")
+            _(subject.call).must_equal("a")
           end
         end
 
@@ -49,7 +49,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           let(:method_name) { :example_private_method }
 
           it "returns the expected result" do
-            value(subject.call).must_equal("b")
+            _(subject.call).must_equal("b")
           end
         end
 
@@ -57,7 +57,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           let(:method_name) { :invalid_method }
 
           it "returns nil" do
-            value(subject.call).must_be_nil
+            _(subject.call).must_be_nil
           end
         end
       end
@@ -74,7 +74,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           let(:kwargs) { { a: "a" } }
 
           it "returns the expected result" do
-            value(subject.call).must_equal(["a", 2])
+            _(subject.call).must_equal(["a", 2])
           end
         end
 
@@ -82,7 +82,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           let(:kwargs) { { invalid_kwarg: 1 } }
 
           it "returns the expected result" do
-            value(subject.call).must_equal([1, 2])
+            _(subject.call).must_equal([1, 2])
           end
         end
 
@@ -90,7 +90,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           let(:kwargs) { {} }
 
           it "returns the expected result" do
-            value(subject.call).must_equal([1, 2])
+            _(subject.call).must_equal([1, 2])
           end
         end
       end
@@ -107,7 +107,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           let(:kwargs) { { b: "b" } }
 
           it "raises ArgumentError" do
-            value(-> { subject.call }).must_raise(ArgumentError)
+            _(-> { subject.call }).must_raise(ArgumentError)
           end
         end
       end
@@ -124,7 +124,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           let(:kwargs) { {} }
 
           it "raises ArgumentError" do
-            value(-> { subject.call }).must_raise(ArgumentError)
+            _(-> { subject.call }).must_raise(ArgumentError)
           end
         end
       end
