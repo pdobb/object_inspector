@@ -10,7 +10,6 @@ Why? Because object inspection code should be uniform, easy to build, and its ou
 
 If you'd like to just jump into an example: [Full Example](#full-example).
 
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -27,16 +26,15 @@ Or install it yourself:
 
     $ gem install object_inspector
 
-
 ## Compatibility
 
 Tested MRI Ruby Versions:
-* 3.1
-* 3.2
-* 3.3
+
+- 3.1
+- 3.2
+- 3.3
 
 Object Inspector has no other dependencies.
-
 
 ## Configuration
 
@@ -60,7 +58,6 @@ ObjectInspector.configure do |config|
 end
 ```
 
-
 ## Usage
 
 Given, an object of any type, call ObjectInspector::Inspector.inspect.
@@ -76,7 +73,6 @@ MyObject.new.inspect  # => "<MyObject>"
 ```
 
 See also [Helper Usage](#helper-usage) for an even simpler usage option.
-
 
 ### Output Customization
 
@@ -117,7 +113,6 @@ end
 MyObject.new.inspect
 # => "<My Object(FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>"
 ```
-
 
 ## Helper Usage
 
@@ -169,12 +164,10 @@ MyObject.new.inspect
 # => "<My Object(FLAG1) !!ISSUE1 | ISSUE2!! INFO :: NAME>"
 ```
 
-
 ## Scopes
 
 Use the `scope` option to define the scope of the `inspect_*` methods. The supplied value will be wrapped by the ObjectInspector::Scope helper object.
 The default value is `ObjectInspector::Scope.new(:self)`.
-
 
 ### Scope Names
 
@@ -186,8 +179,8 @@ The ObjectInspector::Scope objects in these examples are the same as specifying 
 my_object.inspect(scope: <scope_name>)
 ```
 
-
 Options:
+
 - `:self` (Default) -- Is meant to confine object interrogation to self (don't interrogate neighboring objects).
 - `:all` -- Is meant to match on all scopes, regardless of their name.
 - `<custom>` -- Anything else that makes sense for the object to key on.
@@ -198,7 +191,6 @@ scope.self?     # => true
 scope.verbose?  # => false
 scope.complex?  # => false
 ```
-
 
 #### Multiple Scope Names
 
@@ -211,7 +203,6 @@ scope.verbose?  # => true
 scope.complex?  # => true
 ```
 
-
 #### The "Wild Card" Scope
 
 Finally, `:all` is a "wild card" scope name, and will match on all scope names.
@@ -223,7 +214,6 @@ scope.verbose?  # => true
 scope.complex?  # => true
 ```
 
-
 ### Scope blocks
 
 Passing a block to a scope predicate falls back to the out-of-scope placeholder (`*` by default) if the scope does not match.
@@ -233,7 +223,6 @@ scope = ObjectInspector::Scope.new(:verbose)
 scope.verbose? { "MATCH" }  # => "MATCH"
 scope.complex? { "MATCH" }  # => "*"
 ```
-
 
 ### Scope Joiners
 
@@ -251,7 +240,6 @@ scope.join_flags([1, 2, 3, nil])  # => "1 / 2 / 3"
 scope.join_info([1, 2, 3])   # => "1 | 2 | 3"
 scope.join_info([1, 2, 3, nil])   # => "1 | 2 | 3"
 ```
-
 
 ## Full Example
 
@@ -343,7 +331,6 @@ my_object.inspect
 # => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!!!WARNING!!!! Default Info | Complex Info | Verbose Info :: Name>"
 ```
 
-
 ## Wrapped Objects
 
 If the Object being inspected wraps another object -- i.e. defines #to_model and #to_model returns an object other than self -- the inspect output will re-inspect the wrapped object. The wrapper points to the wrapped object with an arrow (⇨).
@@ -375,7 +362,6 @@ MyWrapperObject.new.inspect
 ```
 
 This feature is recursive.
-
 
 ### Wrapped Delegators
 
@@ -432,7 +418,6 @@ MyDelegatingWrapperObject.new(MyWrappedObject.new).inspect
 # => "<MyDelegatingWrapperObject>  ⇨  <MyWrappedObject(FLAG1) !!ISSUE1!! INFO :: NAME>"
 ```
 
-
 ## On-the-fly Inspect Methods
 
 When passed as an option (as opposed to being called via an Object-defined method) symbols will be called/evaluated on Object on the fly.
@@ -474,7 +459,6 @@ MyObject.new.inspect(identification: nil, info: nil, flags: nil, issues: nil)
 # => "<MyObject>"
 ```
 
-
 ## Custom Formatters
 
 A custom inspect formatter can be defined by implementing the interface defined by [ObjectInspector::BaseFormatter](https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/base_formatter.rb). Then, either override the ObjectInspector::Configuration#formatter_class value (see [Configuration](#configuration)) or just pass your custom class name into ObjectInspector::Inspector.new.
@@ -503,9 +487,9 @@ MyObject.new.inspect
 ```
 
 See examples:
+
 - [ObjectInspector::TemplatingFormatter]
 - [ObjectInspector::CombiningFormatter]
-
 
 ## Supporting Gems
 
@@ -539,7 +523,6 @@ MyObject.new.inspect
 # => "<MyObject[my_method1:1, my_method2:2](FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>"
 ```
 
-
 ## Performance
 
 ### Benchmarking Object Inspector
@@ -554,7 +537,6 @@ load "script/benchmarking/object_inspector.rb"
 #                 Ruby:    30382.2 i/s
 # ObjectInspector::Inspector:     7712.2 i/s - 3.94x  slower
 ```
-
 
 ### Benchmarking Formatters
 
@@ -573,7 +555,6 @@ load "script/benchmarking/formatters.rb"
 #
 # == Done
 ```
-
 
 #### Benchmarking Custom Formatters
 
@@ -594,18 +575,45 @@ play script/benchmarking/formatters.rb
 # == Done
 ```
 
-
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. Or, run `rake` to run the tests plus linters as well as `yard` (to confirm proper YARD documentation practices). You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`.
 
-To release a new version, update the version number in `version.rb`, bump the latest ruby target versions etc. with `rake bump`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+### Testing
+
+To test this gem (gemwork):
+
+```bash
+rake
+```
+
+#### Linters
+
+```bash
+rubocop
+
+reek
+
+npx prettier . --check
+npx prettier . --write
+```
+
+### Releases
+
+To release a new version of object_inspector to RubyGems:
+
+1. Update the version number in `version.rb`
+2. Update `CHANGELOG.md`
+3. Run `bundle` to update Gemfile.lock with the latest version info
+4. Commit the changes. e.g. `Bump to vX.Y.Z`
+5. Run `rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ### Documentation
 
 [YARD documentation](https://yardoc.org/index.html) can be generated and viewed live:
+
 1. Install YARD: `gem install yard`
 2. Run the YARD server: `yard server --reload`
 3. Open the live documentation site: `open http://localhost:8808`
@@ -616,11 +624,9 @@ While the YARD server is running, documentation in the live site will be auto-up
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/pdobb/object_inspector.
 
-
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
 
 [ObjectInspector::TemplatingFormatter]: https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/templating_formatter.rb
 [ObjectInspector::CombiningFormatter]: https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/combining_formatter.rb
