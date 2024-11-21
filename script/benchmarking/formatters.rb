@@ -13,70 +13,78 @@ formatter_klasses = [
   *Array(custom_formatter_klasses),
 ]
 
-MyObject ||=
-  Struct.new(:identification, :flags, :info, :name, :issues) do
+MyObject =
+  Struct.new(:identification, :flags, :info, :name) do
     def wrapped_object_inspection_result
     end
   end
 
 def inspector_with_flags_and_info_and_name
   @inspector_with_flags_and_info_and_name ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
       flags: "FLAG1 | FLAG2",
       info: "INFO",
-      name: "NAME")
+      name: "NAME"
+    })
 end
 
 def inspector_with_flags_and_info
   @inspector_with_flags_and_info ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
       flags: "FLAG1 | FLAG2",
-      info: "INFO")
+      info: "INFO"
+    })
 end
 
 def inspector_with_flags_and_name
   @inspector_with_flags_and_name ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
       flags: "FLAG1 | FLAG2",
-      name: "NAME")
+      name: "NAME"
+    })
 end
 
 def inspector_with_info_and_name
   @inspector_with_info_and_name ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
       info: "INFO",
-      name: "NAME")
+      name: "NAME"
+    })
 end
 
 def inspector_with_name
   @inspector_with_name ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
-      name: "NAME")
+      name: "NAME"
+    })
 end
 
 def inspector_with_flags
   @inspector_with_flags ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
-      flags: "FLAG1 | FLAG2")
+      flags: "FLAG1 | FLAG2"
+    })
 end
 
 def inspector_with_info
   @inspector_with_info ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
-      info: "INFO")
+      info: "INFO"
+    })
 end
 
 def inspector_with_base
   @inspector_with_base ||=
-    MyObject.new(
-      identification: "IDENTIFICATION")
+    MyObject.new({
+      identification: "IDENTIFICATION"
+    })
 end
 
 puts "== Averaged ============================================================="

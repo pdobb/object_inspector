@@ -82,10 +82,10 @@ class ObjectInspector::Scope
 
   private
 
-  def method_missing(method_name, *args, &block)
+  def method_missing(method_name, *args, &)
     if method_name[-1] == "?"
       scope_name = method_name[0..-2]
-      evaluate_match(scope_name, &block)
+      evaluate_match(scope_name, &)
     else
       super
     end

@@ -11,62 +11,70 @@ MyObject = Struct.new(:identification, :flags, :info, :name)
 
 def object_with_flags_and_info_and_name
   @object_with_flags_and_info_and_name ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
       flags: "FLAG1 | FLAG2",
       info: "INFO",
-      name: "NAME")
+      name: "NAME"
+    })
 end
 
 def object_with_flags_and_info
   @object_with_flags_and_info ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
       flags: "FLAG1 | FLAG2",
-      info: "INFO")
+      info: "INFO"
+    })
 end
 
 def object_with_flags_and_name
   @object_with_flags_and_name ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
       flags: "FLAG1 | FLAG2",
-      name: "NAME")
+      name: "NAME"
+    })
 end
 
 def object_with_info_and_name
   @object_with_info_and_name ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
       info: "INFO",
-      name: "NAME")
+      name: "NAME"
+    })
 end
 
 def object_with_name
   @object_with_name ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
-      name: "NAME")
+      name: "NAME"
+    })
 end
 
 def object_with_flags
   @object_with_flags ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
-      flags: "FLAG1 | FLAG2")
+      flags: "FLAG1 | FLAG2"
+    })
 end
 
 def object_with_info
   @object_with_info ||=
-    MyObject.new(
+    MyObject.new({
       identification: "IDENTIFICATION",
-      info: "INFO")
+      info: "INFO"
+    })
 end
 
 def object_with_base
   @object_with_base ||=
-    MyObject.new(
-      identification: "IDENTIFICATION")
+    MyObject.new({
+      identification: "IDENTIFICATION"
+    })
 end
 
 puts "== Averaged ============================================================="

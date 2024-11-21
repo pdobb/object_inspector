@@ -1,3 +1,6 @@
+## [Unreleased]
+- Update minimum Ruby version from 2.7 -> 3.1
+
 ### 0.6.3 - 2023-11-21
 - Internal updates to style, etc. No outward-facing changes.
 
