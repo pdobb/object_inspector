@@ -34,6 +34,12 @@ Tested MRI Ruby Versions:
 - 3.2
 - 3.3
 
+Note: For Ruby 2.7 or 3.1 support, install object_inspector gem version 0.6.3.
+
+```ruby
+gem "object_inspector", "0.6.3"
+```
+
 Object Inspector has no other dependencies.
 
 ## Configuration
