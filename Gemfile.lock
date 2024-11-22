@@ -44,7 +44,7 @@ GEM
       dry-inflector (~> 1.0)
       dry-logic (~> 1.4)
       zeitwerk (~> 2.6)
-    gemwork (0.7.1)
+    gemwork (0.7.2)
       debug
       irb
       minitest
@@ -71,7 +71,7 @@ GEM
       minitest (>= 5.0)
       ruby-progressbar
     much-stub (0.1.10)
-    object_identifier (0.7.0)
+    object_identifier (0.8.0)
     parallel (1.26.3)
     parser (3.3.6.0)
       ast (~> 2.4.1)
