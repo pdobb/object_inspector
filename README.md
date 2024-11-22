@@ -232,9 +232,14 @@ scope.complex? { "MATCH" }  # => "*"
 ### Scope Joiners
 
 ObjectInspector::Scope also offers helper methods for uniformly joining inspect elements:
-- `join_name` -- Joins name parts with ` - ` by default
-- `join_flags` -- Joins flags with ` / ` by default
-- `join_info` -- Joins info items with ` | ` by default
+
+```ruby
+join_name # Joins name parts with ` - ` by default
+join_flags # Joins flags with ` / ` by default
+join_info # Joins info items with ` | ` by default
+```
+
+For example:
 
 ```ruby
 scope = ObjectInspector::Scope.new(:verbose)
