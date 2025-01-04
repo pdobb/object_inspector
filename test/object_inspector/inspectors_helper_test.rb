@@ -79,13 +79,13 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
 
     private
 
-    def method_missing(method_symbol, ...)
-      @full_test_object.__send__(method_symbol, ...)
+    def method_missing(method_symbol, *)
+      @full_test_object.__send__(method_symbol, *)
     end
 
     # :reek:ManualDispatch
-    def respond_to_missing?(...)
-      @full_test_object.respond_to?(...) || super
+    def respond_to_missing?(*)
+      @full_test_object.respond_to?(*) || super
     end
   end
 end
