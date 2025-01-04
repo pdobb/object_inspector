@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### 0.8.2 - 2025-1-4
+
+- Fix failure in Ruby < v3.4, found by CI test suite.
+
 ### 0.8.1 - 2025-1-4
 
 - Fix minimum ruby version in gemspec
