@@ -8,7 +8,7 @@ module ObjectInspector::InspectorsHelper
   # passing it the passed in `kwargs` (keyword arguments).
   #
   # @return [String]
-  def inspect(object = self, **kwargs)
-    ObjectInspector::Inspector.inspect(object, **kwargs)
+  def inspect(object = self, ...)
+    ObjectInspector::Inspector.inspect(object, ...)
   end
 end

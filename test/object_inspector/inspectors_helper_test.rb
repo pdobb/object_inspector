@@ -63,14 +63,14 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
       @full_test_object = full_test_object
     end
 
-    def inspect(**kwargs)
+    def inspect(**)
       super(
         identification: self.class.name,
         name: nil,
         flags: nil,
         info: nil,
         issues: nil,
-        **kwargs)
+        **)
     end
 
     def to_model
@@ -79,13 +79,13 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
 
     private
 
-    def method_missing(method_symbol, *args)
-      @full_test_object.__send__(method_symbol, *args)
+    def method_missing(method_symbol, ...)
+      @full_test_object.__send__(method_symbol, ...)
     end
 
     # :reek:ManualDispatch
-    def respond_to_missing?(*args)
-      @full_test_object.respond_to?(*args) || super
+    def respond_to_missing?(...)
+      @full_test_object.respond_to?(...) || super
     end
   end
 end
