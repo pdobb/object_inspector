@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### 0.8.1 - 2025-1-4
+
+- Fix minimum ruby version in gemspec
+
 ### 0.8.0 - 2025-1-4
 
 - Update minimum Ruby version from 3.1 -> 3.2
