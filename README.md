@@ -5,7 +5,7 @@
 
 Object Inspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, issues, info, and/or a name along with an optional, self-definable scope option to represent objects. Great for the console, logging, etc.
 
-Why? Because object inspection code should be uniform and easy to build, and its output should be easy to read! Consistency improves readability.
+Why? Because object inspection output should be uniform and easy to build, and its output should be easy to read! Consistency improves readability.
 
 If you'd like to just jump into an example: [Full Example](#full-example).
 
@@ -590,13 +590,13 @@ load "script/benchmarking/formatters.rb"
 #
 # Comparison:
 # ObjectInspector::TemplatingFormatter:    65856.3 i/s
-# ObjectInspector::CombiningFormatter:    60920.0 i/s - 1.08x  slower
+# ObjectInspector::CombiningFormatter:    60920.0 i/s - 1.13x  slower
 # == Done
 ```
 
 #### Benchmarking Custom Formatters
 
-Custom Formatters may be similarly gauged for comparison by putting them into a constant `CUSTOM_FORMATTER_CLASSES` before playing the script in the IRB console for this gem.
+Custom Formatters may be similarly gauged for comparison by putting them into a constant `CUSTOM_FORMATTER_CLASSES` before loading the script in the IRB console for this gem.
 
 ```ruby
 CUSTOM_FORMATTER_CLASSES = [MyCustomFormatter]
