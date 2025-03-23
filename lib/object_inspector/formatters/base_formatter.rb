@@ -16,7 +16,7 @@ class ObjectInspector::BaseFormatter
   #
   # @return [String]
   def call
-    raise NotImplementedError
+    raise(NotImplementedError)
   end
 
   # Delegates to {Inspector#wrapped_object_inspection_result}.

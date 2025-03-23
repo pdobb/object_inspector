@@ -175,8 +175,8 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         subject { klazz.new(wrapper_for_full_test_object1) }
 
         it "returns Object#to_model#inspect" do
-          _(subject.wrapped_object_inspection_result).
-            must_equal("<Identification[id:1](FLAG1) Info: 1 :: Name: 1>")
+          _(subject.wrapped_object_inspection_result)
+            .must_equal("<Identification[id:1](FLAG1) Info: 1 :: Name: 1>")
         end
       end
 
@@ -195,21 +195,21 @@ class ObjectInspector::InspectorTest < Minitest::Spec
       context "GIVEN #value is a Symbol" do
         it "returns Object#<value>, GIVEN Object responds to #value" do
           _(
-            subject.__send__(:evaluate_passed_in_value, :simple_test_method)).
-            must_equal("TEST_RESULT")
+            subject.__send__(:evaluate_passed_in_value, :simple_test_method))
+            .must_equal("TEST_RESULT")
         end
 
         it "returns #value, GIVEN Object does not respond to #value" do
-          _(subject.__send__(:evaluate_passed_in_value, :unknown_method1)).
-            must_equal(:unknown_method1)
+          _(subject.__send__(:evaluate_passed_in_value, :unknown_method1))
+            .must_equal(:unknown_method1)
         end
       end
 
       context "GIVEN #value is not a Symbol" do
         it "returns #value" do
           _(
-            subject.__send__(:evaluate_passed_in_value, "simple_test_method")).
-            must_equal("simple_test_method")
+            subject.__send__(:evaluate_passed_in_value, "simple_test_method"))
+            .must_equal("simple_test_method")
         end
       end
     end

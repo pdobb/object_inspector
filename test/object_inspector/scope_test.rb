@@ -76,7 +76,7 @@ class ObjectInspector::ScopeTest < Minitest::Spec
       subject { self_scope }
 
       it "raises NoMethodError" do
-        _(-> { subject.unknown_method }).must_raise NoMethodError
+        _(-> { subject.unknown_method }).must_raise(NoMethodError)
       end
     end
 
@@ -177,8 +177,8 @@ class ObjectInspector::ScopeTest < Minitest::Spec
       end
 
       it "returns nil, GIVEN an array of `nil`s with nested arrays of `nil`s" do
-        _(subject.join_name([nil, nil, [nil, nil, [nil, nil]]])).
-          must_be_nil
+        _(subject.join_name([nil, nil, [nil, nil, [nil, nil]]]))
+          .must_be_nil
       end
     end
 
@@ -206,8 +206,8 @@ class ObjectInspector::ScopeTest < Minitest::Spec
       end
 
       it "returns nil, GIVEN an array of `nil`s with nested arrays of `nil`s" do
-        _(subject.join_flags([nil, nil, [nil, nil, [nil, nil]]])).
-          must_be_nil
+        _(subject.join_flags([nil, nil, [nil, nil, [nil, nil]]]))
+          .must_be_nil
       end
     end
 
@@ -235,8 +235,8 @@ class ObjectInspector::ScopeTest < Minitest::Spec
       end
 
       it "returns nil, GIVEN an array of `nil`s with nested arrays of `nil`s" do
-        _(subject.join_issues([nil, nil, [nil, nil, [nil, nil]]])).
-          must_be_nil
+        _(subject.join_issues([nil, nil, [nil, nil, [nil, nil]]]))
+          .must_be_nil
       end
     end
 
@@ -264,8 +264,8 @@ class ObjectInspector::ScopeTest < Minitest::Spec
       end
 
       it "returns nil, GIVEN an array of `nil`s with nested arrays of `nil`s" do
-        _(subject.join_info([nil, nil, [nil, nil, [nil, nil]]])).
-          must_be_nil
+        _(subject.join_info([nil, nil, [nil, nil, [nil, nil]]]))
+          .must_be_nil
       end
     end
   end
