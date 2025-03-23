@@ -1,5 +1,6 @@
 ## [Unreleased]
 
+- Add `issues` to the (probably never-used) CombiningFormatter + Internal refactoring/cleanup.
 - Update benchmark code + results info for Ruby v3.4 in README
 
 ### 0.8.2 - 2025-1-4

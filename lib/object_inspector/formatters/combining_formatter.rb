@@ -38,6 +38,7 @@ class ObjectInspector::CombiningFormatter < ObjectInspector::BaseFormatter
     [
       build_identification_string,
       build_flags_string,
+      build_issues_string,
       build_info_string,
       build_name_string,
     ].compact
@@ -49,6 +50,10 @@ class ObjectInspector::CombiningFormatter < ObjectInspector::BaseFormatter
 
   def build_flags_string
     "(#{flags.to_s.upcase})" if flags
+  end
+
+  def build_issues_string
+    " !!#{issues.to_s.upcase}!!" if issues
   end
 
   def build_info_string

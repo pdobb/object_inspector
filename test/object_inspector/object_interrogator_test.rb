@@ -27,12 +27,12 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
   end
 
   describe "ObjectInspector::ObjectInterrogator" do
-    let(:klazz) { ObjectInspector::ObjectInterrogator }
+    let(:unit_class) { ObjectInspector::ObjectInterrogator }
 
     describe "#call" do
       context "GIVEN an Object with no keyword Arguments" do
         subject {
-          klazz.new(
+          unit_class.new(
             object: SimpleTestObject.new,
             method_name: method_name)
         }
@@ -64,7 +64,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
 
       context "GIVEN an Object with all optional keyword Arguments" do
         subject {
-          klazz.new(
+          unit_class.new(
             object: AllOptionalKeywordArgumentsTestObject.new,
             method_name: :example_method,
             kwargs: kwargs)
@@ -97,7 +97,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
 
       context "GIVEN an Object with some optional keyword Arguments" do
         subject {
-          klazz.new(
+          unit_class.new(
             object: SomeOptionalKeywordArgumentsTestObject.new,
             method_name: :example_method,
             kwargs: kwargs)
@@ -114,7 +114,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
 
       context "GIVEN an Object with all required keyword Arguments" do
         subject {
-          klazz.new(
+          unit_class.new(
             object: AllRequiredKeywordArgumentsTestObject.new,
             method_name: :example_method,
             kwargs: kwargs)

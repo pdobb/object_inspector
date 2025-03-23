@@ -7,26 +7,26 @@ class ObjectInspector::ScopeTest < Minitest::Spec
   end
 
   describe "ObjectInspector::Scope" do
-    let(:klazz) { ObjectInspector::Scope }
+    let(:unit_class) { ObjectInspector::Scope }
 
-    let(:self_scope) { klazz.new(:self) }
-    let(:verbose_scope) { klazz.new(:verbose) }
-    let(:all_scope) { klazz.new(:all) }
-    let(:self_and_verbose_scope) { klazz.new(%i[self verbose]) }
+    let(:self_scope) { unit_class.new(:self) }
+    let(:verbose_scope) { unit_class.new(:verbose) }
+    let(:all_scope) { unit_class.new(:all) }
+    let(:self_and_verbose_scope) { unit_class.new(%i[self verbose]) }
 
     describe "#==" do
       subject { self_scope }
 
       it "returns true, GIVEN a Scope with the same #names" do
-        _(subject).must_equal(klazz.new(:self))
+        _(subject).must_equal(unit_class.new(:self))
       end
 
       it "returns false, GIVEN a Scope with a different #name" do
-        _(subject).wont_equal(klazz.new(:other))
+        _(subject).wont_equal(unit_class.new(:other))
       end
 
       it "returns false, GIVEN a Scope with different #names" do
-        _(subject).wont_equal(klazz.new(%i[self other]))
+        _(subject).wont_equal(unit_class.new(%i[self other]))
       end
 
       it "returns true, GIVEN a String with the same name" do

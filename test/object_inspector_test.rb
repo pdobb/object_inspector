@@ -3,29 +3,31 @@
 require "test_helper"
 
 class ObjectInspectorTest < Minitest::Spec
+  MyCustomFormatter = Class.new
+
   describe ObjectInspector do
-    let(:klazz) { ObjectInspector }
-    let(:configuration_klazz) { ObjectInspector::Configuration }
-    let(:scope_klazz) { ObjectInspector::Scope }
+    let(:unit_class) { ObjectInspector }
+    let(:configuration_unit_class) { ObjectInspector::Configuration }
+    let(:scope_unit_class) { ObjectInspector::Scope }
 
     it "has a VERSION" do
-      _(klazz::VERSION).wont_be_nil
+      _(unit_class::VERSION).wont_be_nil
     end
 
     describe ".configuration" do
-      subject { klazz }
+      subject { unit_class }
 
       it "returns an ObjectInspector::Configuration object" do
-        _(subject.configuration).must_be_kind_of(configuration_klazz)
+        _(subject.configuration).must_be_kind_of(configuration_unit_class)
       end
 
       it "contains the expected default values" do
         configuration = subject.configuration
 
         _(configuration.formatter_class).must_equal(
-          klazz::TemplatingFormatter)
+          unit_class::TemplatingFormatter)
         _(configuration.inspect_method_prefix).must_equal("inspect")
-        _(configuration.default_scope).must_equal(scope_klazz.new(:self))
+        _(configuration.default_scope).must_equal(scope_unit_class.new(:self))
         _(configuration.wild_card_scope).must_equal("all")
         _(configuration.out_of_scope_placeholder).must_equal("*")
         _(configuration.presented_object_separator).must_equal(
@@ -38,12 +40,12 @@ class ObjectInspectorTest < Minitest::Spec
     end
 
     describe ".configure" do
-      subject { klazz }
+      subject { unit_class }
 
       context "GIVEN a custom configuration" do
         before do
           subject.configure do |config|
-            config.formatter_class = OpenStruct
+            config.formatter_class = MyCustomFormatter
             config.inspect_method_prefix = "ins"
             config.default_scope = :custom
             config.wild_card_scope = :WILD_CARD
@@ -61,10 +63,10 @@ class ObjectInspectorTest < Minitest::Spec
         it "sets custom configuration and converts values to frozen Strings" do
           configuration = subject.configuration
 
-          _(configuration.formatter_class).must_equal(OpenStruct)
+          _(configuration.formatter_class).must_equal(MyCustomFormatter)
           _(configuration.inspect_method_prefix).must_equal("ins")
           _(configuration.default_scope).must_equal(
-            scope_klazz.new(:custom))
+            scope_unit_class.new(:custom))
           _(configuration.wild_card_scope).must_equal("WILD_CARD")
           _(configuration.out_of_scope_placeholder).must_equal("0")
           _(configuration.presented_object_separator).must_equal(";")
@@ -77,15 +79,15 @@ class ObjectInspectorTest < Minitest::Spec
     end
 
     describe ".reset_configuration" do
-      subject { klazz }
+      subject { unit_class }
 
       it "resets the Configuration to the expected default values" do
         configuration = subject.configuration
 
         _(configuration.formatter_class).must_equal(
-          klazz::TemplatingFormatter)
+          unit_class::TemplatingFormatter)
         _(configuration.inspect_method_prefix).must_equal("inspect")
-        _(configuration.default_scope).must_equal(scope_klazz.new(:self))
+        _(configuration.default_scope).must_equal(scope_unit_class.new(:self))
         _(configuration.wild_card_scope).must_equal("all")
         _(configuration.out_of_scope_placeholder).must_equal("*")
         _(configuration.presented_object_separator).must_equal(
@@ -99,12 +101,12 @@ class ObjectInspectorTest < Minitest::Spec
 
     describe "Configuration" do
       describe "#formatter_class=" do
-        subject { configuration_klazz.new }
+        subject { configuration_unit_class.new }
 
         context "GIVEN a Class constant" do
           it "sets the value as expected" do
-            subject.formatter_class = OpenStruct
-            _(subject.formatter_class).must_equal(OpenStruct)
+            subject.formatter_class = MyCustomFormatter
+            _(subject.formatter_class).must_equal(MyCustomFormatter)
           end
         end
 
