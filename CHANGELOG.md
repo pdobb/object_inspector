@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+### 0.9.0 - 2025-3-23
+
 - Add `issues` to the (probably never-used) CombiningFormatter + Internal refactoring/cleanup.
 - Update benchmark code + results info for Ruby v3.4 in README
 
