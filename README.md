@@ -5,7 +5,7 @@
 
 Object Inspector takes Object#inspect to the next level. Specify any combination of identification attributes, flags, issues, info, and/or a name along with an optional, self-definable scope option to represent objects. Great for the console, logging, etc.
 
-Why? Because object inspection code should be uniform, easy to build, and its output should be easy to read!
+Why? Because object inspection code should be uniform and easy to build, and its output should be easy to read! Consistency improves readability.
 
 If you'd like to just jump into an example: [Full Example](#full-example).
 
@@ -19,11 +19,15 @@ gem "object_inspector"
 
 And then execute:
 
-    $ bundle
+```sh
+$ bundle
+```
 
 Or install it yourself:
 
-    $ gem install object_inspector
+```sh
+$ gem install object_inspector
+```
 
 ## Compatibility
 
@@ -42,19 +46,19 @@ gem "object_inspector", "0.6.3"
 For Ruby 3.1 support, install object_inspector gem version 0.7.0.
 
 ```ruby
-gem "object_inspector", "0.6.3"
+gem "object_inspector", "0.7.0"
 ```
 
 Object Inspector has no other dependencies.
 
 ## Configuration
 
-Global/default values for Object Inspector can be configured via the ObjectInspector::Configuration object.
-
-_Note: In a Rails app, the following would go in e.g. `config/initializers/object_inspector.rb`_
+Global/default values for Object Inspector can be configured via the [ObjectInspector::Configuration] object.
 
 ```ruby
-# Default values are shown.
+# config/initializers/object_inspector.rb
+
+# Default values are shown. Customize to your liking.
 ObjectInspector.configure do |config|
   config.formatter_class = ObjectInspector::TemplatingFormatter
   config.inspect_method_prefix = "inspect"
@@ -71,7 +75,7 @@ end
 
 ## Usage
 
-Given, an object of any type, call ObjectInspector::Inspector.inspect.
+Pass an object of any type into `ObjectInspector::Inspector.inspect`.
 
 ```ruby
 class MyObject
@@ -83,11 +87,11 @@ end
 MyObject.new.inspect  # => "<MyObject>"
 ```
 
-See also [Helper Usage](#helper-usage) for an even simpler usage option.
+See: [Helper Usage](#helper-usage) for simpler usage.
 
 ### Output Customization
 
-Use the `identification`, `flags`, `info`, and/or `name` options to customize inspect output.
+Use the `identification`, `flags`, `issues`, `info`, and/or `name` options to customize inspect output.
 
 ```ruby
 class MyObject
@@ -96,15 +100,17 @@ class MyObject
       self,
       identification: "My Object",
       flags: "FLAG1 / FLAG2",
+      issues: "ISSUE1",
       info: "INFO",
       name: "NAME")
   end
 end
 
-MyObject.new.inspect  # => "<My Object(FLAG1 / FLAG2) INFO :: NAME>"
+MyObject.new.inspect
+# => "<My Object(FLAG1 / FLAG2) !!ISSUE1!! INFO :: NAME>"
 ```
 
-Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and/or `inspect_name` (or `display_name`) as either public or private methods on Object.
+Or, define `inspect_identification`, `inspect_flags`, `inspect_issues`, `inspect_info`, and/or `inspect_name` (or `display_name`) as either public or private methods on Object.
 
 ```ruby
 class MyObject
@@ -114,11 +120,11 @@ class MyObject
 
   private
 
-  def inspect_identification; "My Object" end
-  def inspect_flags; "FLAG1 / FLAG2" end
-  def inspect_issues; "ISSUE1 | ISSUE2" end
-  def inspect_info; "INFO" end
-  def inspect_name; "NAME" end  # Or: def display_name; "NAME" end
+  def inspect_identification = "My Object"
+  def inspect_flags = "FLAG1 / FLAG2"
+  def inspect_issues = "ISSUE1 | ISSUE2"
+  def inspect_info = "INFO"
+  def inspect_name = "NAME"  # Or: def display_name = "NAME"
 end
 
 MyObject.new.inspect
@@ -127,7 +133,7 @@ MyObject.new.inspect
 
 ## Helper Usage
 
-To save some typing, include ObjectInspector::InspectHelper into an object and ObjectInspector::Inspector.inspect will be called on `self` automatically.
+To save some typing, include ObjectInspector::InspectHelper into an object and `ObjectInspector::Inspector.inspect` will be called on `self` automatically.
 
 ```ruby
 class MyObject
@@ -164,11 +170,11 @@ class MyObject
 
   private
 
-  def inspect_identification; "My Object" end
-  def inspect_flags; "FLAG1 / FLAG2" end
-  def inspect_issues; "ISSUE1 | ISSUE2" end
-  def inspect_info; "INFO" end
-  def inspect_name; "NAME" end  # Or: def display_name; "NAME" end
+  def inspect_identification = "My Object"
+  def inspect_flags = "FLAG1 / FLAG2"
+  def inspect_issues = "ISSUE1 | ISSUE2"
+  def inspect_info = "INFO"
+  def inspect_name = "NAME"  # Or: def display_name = "NAME"
 end
 
 MyObject.new.inspect
@@ -192,15 +198,16 @@ my_object.inspect(scope: <scope_name>)
 
 Options:
 
-- `:self` (Default) -- Is meant to confine object interrogation to self (don't interrogate neighboring objects).
-- `:all` -- Is meant to match on all scopes, regardless of their name.
-- `<custom>` -- Anything else that makes sense for the object to key on.
+- `:self` (Default)--Is meant to confine object interrogation to self (don't interrogate neighboring objects).
+- `:all`--Is meant to match on all scopes, regardless of their name.
+- `<custom>`--Anything else that makes sense for the object to key on.
 
 ```ruby
 scope = ObjectInspector::Scope.new
-scope.self?     # => true
-scope.verbose?  # => false
-scope.complex?  # => false
+scope.self?       # => true
+scope.verbose?    # => false
+scope.complex?    # => false
+scope.<anything>? # => false
 ```
 
 #### Multiple Scope Names
@@ -223,6 +230,7 @@ scope = ObjectInspector::Scope.new(:all)
 scope.self?     # => true
 scope.verbose?  # => true
 scope.complex?  # => true
+scope.all?      # => true
 ```
 
 ### Scope blocks
@@ -240,20 +248,19 @@ scope.complex? { "MATCH" }  # => "*"
 ObjectInspector::Scope also offers helper methods for uniformly joining inspect elements:
 
 ```ruby
-join_name # Joins name parts with ` - ` by default
-join_flags # Joins flags with ` / ` by default
-join_info # Joins info items with ` | ` by default
+join_name   # Joins name parts with ` - ` by default
+join_flags  # Joins flags with ` / ` by default
+join_issues # Joins issues with ` | ` by default
+join_info   # Joins info items with ` | ` by default
 ```
 
 For example:
 
 ```ruby
-scope = ObjectInspector::Scope.new(:verbose)
-scope.join_name([1, 2, 3])  # => "1 - 2 - 3"
-scope.join_name([1, 2, 3, nil])  # => "1 - 2 - 3"
-scope.join_flags([1, 2, 3])  # => "1 / 2 / 3"
+scope = ObjectInspector::Scope.new(:all)
+scope.join_name([1, 2, 3, nil])   # => "1 - 2 - 3"
 scope.join_flags([1, 2, 3, nil])  # => "1 / 2 / 3"
-scope.join_info([1, 2, 3])   # => "1 | 2 | 3"
+scope.join_issues([1, 2, 3, nil]) # => "1 | 2 | 3"
 scope.join_info([1, 2, 3, nil])   # => "1 | 2 | 3"
 ```
 
@@ -272,11 +279,11 @@ class MyObject
   end
 
   def associated_object1
-    OpenStruct.new(flags: "AO1_FLAG1")
+    Data.define(:flags)["AO1_FLAG1"]
   end
 
   def associated_object2
-    OpenStruct.new(flags: "AO2_FLAG1")
+    Data.define(:flags)["AO2_FLAG1"]
   end
 
   # Or `def inspect_name`
@@ -304,8 +311,11 @@ class MyObject
     scope.join_flags(flags)
   end
 
-  def inspect_issues
-    "!!WARNING!!"
+  def inspect_issues(scope:)
+    scope.join_issues([
+      "I1",
+      scope.verbose? { "VI2" },
+    ])
   end
 
   def inspect_info(scope:)
@@ -319,37 +329,40 @@ end
 
 my_object = MyObject.new("Name")
 
+my_object.inspect
+# => "<MyObject[2](DEFAULT_FLAG / *) !!I1 | *!! Default Info | * :: Name>"
+
+my_object.inspect(scope: :self)
+# => "<MyObject[2](DEFAULT_FLAG / *) !!I1 | *!! Default Info | * :: Name>"
+
 my_object.inspect(scope: :complex)
-# => "<MyObject[a2:2](DEFAULT_FLAG / *) !!!!WARNING!!!! Default Info | Complex Info | * :: Name>"
+# => "<MyObject[2](DEFAULT_FLAG / *) !!I1 | *!! Default Info | Complex Info | * :: Name>"
 
 my_object.inspect(scope: :verbose)
-# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!!!WARNING!!!! Default Info | Verbose Info :: Name>"
+# => "<MyObject[2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!I1 | VI2!! Default Info | Verbose Info :: Name>"
 
 my_object.inspect(scope: %i[self complex verbose])
-# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!!!WARNING!!!! Default Info | Complex Info | Verbose Info :: Name>"
+# => "<MyObject[2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!I1 | VI2!! Default Info | Complex Info | Verbose Info :: Name>"
 
 my_object.inspect(scope: :all)
-# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!!!WARNING!!!! Default Info | Complex Info | Verbose Info :: Name>"
-
-my_object.inspect
-# => "<MyObject[a2:2](DEFAULT_FLAG / *) !!!!WARNING!!!! Default Info | * :: Name>"
+# => "<MyObject[2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!I1 | VI2!! Default Info | Complex Info | Verbose Info :: Name>"
 
 ObjectInspector.configuration.default_scope = :complex
 my_object.inspect
-# => "<MyObject[a2:2](DEFAULT_FLAG / *) !!!!WARNING!!!! Default Info | Complex Info | * :: Name>"
+# => "<MyObject[2](DEFAULT_FLAG / *) !!I1 | *!! Default Info | Complex Info | * :: Name>"
 
 ObjectInspector.configuration.default_scope = %i[self complex verbose]
 my_object.inspect
-# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!!!WARNING!!!! Default Info | Complex Info | Verbose Info :: Name>"
+# => "<MyObject[2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!I1 | VI2!! Default Info | Complex Info | Verbose Info :: Name>"
 
 ObjectInspector.configuration.default_scope = :all
 my_object.inspect
-# => "<MyObject[a2:2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!!!WARNING!!!! Default Info | Complex Info | Verbose Info :: Name>"
+# => "<MyObject[2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!I1 | VI2!! Default Info | Complex Info | Verbose Info :: Name>"
 ```
 
 ## Wrapped Objects
 
-If the Object being inspected wraps another object -- i.e. defines #to_model and #to_model returns an object other than self -- the inspect output will re-inspect the wrapped object. The wrapper points to the wrapped object with an arrow (⇨).
+If the Object being inspected wraps another object--i.e. defines #to_model and #to_model returns an object other than self--the inspect output will re-inspect the wrapped object. The wrapper points to the wrapped object with an arrow (⇨).
 
 ```ruby
 class MyWrapperObject
@@ -361,7 +374,7 @@ class MyWrapperObject
 
   private
 
-  def inspect_flags; "WRAPPER_FLAG1" end
+  def inspect_flags = "WRAPPER_FLAG1"
 end
 
 class MyWrappedObject
@@ -369,8 +382,8 @@ class MyWrappedObject
 
   private
 
-  def inspect_flags; "FLAG1 / FLAG2" end
-  def inspect_info; "INFO" end
+  def inspect_flags = "FLAG1 / FLAG2"
+  def inspect_info = "INFO"
 end
 
 MyWrapperObject.new.inspect
@@ -424,10 +437,10 @@ class MyWrappedObject
 
   private
 
-  def inspect_flags; "FLAG1" end
-  def inspect_info; "INFO" end
-  def inspect_issues; "ISSUE1" end
-  def inspect_name; "NAME" end
+  def inspect_flags = "FLAG1"
+  def inspect_info = "INFO"
+  def inspect_issues = "ISSUE1"
+  def inspect_name = "NAME"
 end
 
 MyDelegatingWrapperObject.new(MyWrappedObject.new).inspect
@@ -442,10 +455,10 @@ When passed as an option (as opposed to being called via an Object-defined metho
 class MyObject
   include ObjectInspector::InspectorsHelper
 
-  def my_method1; "Result1" end
-  def my_method2; "Result2" end
+  def my_method1 = "Result1"
+  def my_method2 = "Result2"
 
-  def inspect_info; :my_method2 end
+  def inspect_info = :my_method2
 end
 
 MyObject.new.inspect(info: "my_method1")  # => "<MyObject my_method1>"
@@ -461,17 +474,18 @@ Pass `nil` to any inspect method type to not display it:
 class MyObject
   include ObjectInspector::InspectorsHelper
 
-  def inspect_identification; "My Object" end
-  def inspect_info; "INFO" end
-  def inspect_flags; "FLAG1" end
-  def inspect_issues; "ISSUE1" end
+  def inspect_identification = "My Object"
+  def inspect_info = "INFO"
+  def inspect_flags = "FLAG1"
+  def inspect_issues = "ISSUE1"
+  def inspect_name = "NAME"
 end
 
 MyObject.new.inspect
-# => "<My Object(FLAG1) !!ISSUE1!! INFO>"
+# => "<My Object(FLAG1) !!ISSUE1!! INFO :: NAME>"
 MyObject.new.inspect(info: nil, flags: nil, issues: nil)
-# => "<My Object>"
-MyObject.new.inspect(identification: nil, info: nil, flags: nil, issues: nil)
+# => "<My Object :: NAME>"
+MyObject.new.inspect(identification: nil, info: nil, flags: nil, issues: nil, name: nil)
 # => "<MyObject>"
 ```
 
@@ -490,11 +504,12 @@ class MyObject
   include ObjectInspector::InspectorsHelper
 
   def inspect
-    super(formatter: MyCustomFormatter,
-          identification: "IDENTIFICATION",
-          flags: "FLAG1 / FLAG2",
-          info: "INFO",
-          name: "NAME")
+    super(
+      formatter: MyCustomFormatter,
+      identification: "IDENTIFICATION",
+      flags: "FLAG1 / FLAG2",
+      info: "INFO",
+      name: "NAME")
   end
 end
 
@@ -529,10 +544,10 @@ class MyObject
     identify(:my_method1, :my_method2)
   end
 
-  def inspect_flags; "FLAG1 / FLAG2" end
-  def inspect_issues; "ISSUE1 | ISSUE2" end
-  def inspect_info; "INFO" end
-  def inspect_name; "NAME" end
+  def inspect_flags = "FLAG1 / FLAG2"
+  def inspect_issues = "ISSUE1 | ISSUE2"
+  def inspect_info = "INFO"
+  def inspect_name = "NAME"
 end
 
 MyObject.new.inspect
@@ -562,7 +577,7 @@ load "script/benchmarking/object_inspector.rb"
 
 ### Benchmarking Formatters
 
-[ObjectInspector::TemplatingFormatter] -- which is the default Formatter -- outperforms [ObjectInspector::CombiningFormatter] by about 30% on average.
+[ObjectInspector::TemplatingFormatter]--which is the default Formatter--outperforms [ObjectInspector::CombiningFormatter] by about 30% on average.
 
 Performance of Formatters can be tested by playing the [Formatters Benchmarking Scripts](https://github.com/pdobb/object_inspector/blob/master/script/benchmarking/formatters.rb) in the IRB console for this gem.
 
