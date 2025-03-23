@@ -5,9 +5,20 @@
 
 require "benchmark/ips"
 
-inspector_klass = ObjectInspector::Inspector
+inspector_class = ObjectInspector::Inspector
 
-MyObject = Struct.new(:identification, :flags, :info, :name)
+MyObject ||= Struct.new(:identification, :flags, :issues, :info, :name)
+
+def object_with_flags_and_issues_and_info_and_name
+  @object_with_flags_and_issues_and_info_and_name ||=
+    MyObject.new({
+      identification: "IDENTIFICATION",
+      flags: "FLAG1 | FLAG2",
+      issues: "ISSUE1",
+      info: "INFO",
+      name: "NAME"
+    })
+end
 
 def object_with_flags_and_info_and_name
   @object_with_flags_and_info_and_name ||=
@@ -77,20 +88,25 @@ def object_with_base
     })
 end
 
-puts "== Averaged ============================================================="
+def ruby_version = @ruby_version ||= `ruby -v | awk '{ print $2 }'`.strip
+puts("Reporting for: Ruby v#{ruby_version}\n\n")
+
+puts("== Averaged ============================================================")
 Benchmark.ips do |x|
-  x.report(inspector_klass) do
-    inspector_klass.inspect(object_with_flags_and_info_and_name)
-    inspector_klass.inspect(object_with_flags_and_info)
-    inspector_klass.inspect(object_with_flags_and_name)
-    inspector_klass.inspect(object_with_info_and_name)
-    inspector_klass.inspect(object_with_name)
-    inspector_klass.inspect(object_with_flags)
-    inspector_klass.inspect(object_with_info)
-    inspector_klass.inspect(object_with_base)
+  x.report(inspector_class) do
+    inspector_class.inspect(object_with_flags_and_issues_and_info_and_name)
+    inspector_class.inspect(object_with_flags_and_info_and_name)
+    inspector_class.inspect(object_with_flags_and_info)
+    inspector_class.inspect(object_with_flags_and_name)
+    inspector_class.inspect(object_with_info_and_name)
+    inspector_class.inspect(object_with_name)
+    inspector_class.inspect(object_with_flags)
+    inspector_class.inspect(object_with_info)
+    inspector_class.inspect(object_with_base)
   end
 
   x.report("Ruby") do
+    object_with_flags_and_issues_and_info_and_name.inspect
     object_with_flags_and_info_and_name.inspect
     object_with_flags_and_info.inspect
     object_with_flags_and_name.inspect
@@ -103,4 +119,4 @@ Benchmark.ips do |x|
 
   x.compare!
 end
-puts "== Done"
+puts("== Done ================================================================")

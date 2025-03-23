@@ -5,19 +5,30 @@
 
 require "benchmark/ips"
 
-custom_formatter_klasses ||= []
+CUSTOM_FORMATTER_CLASSES ||= []
 
-formatter_klasses = [
+formatter_classes = [
   ObjectInspector::TemplatingFormatter,
   ObjectInspector::CombiningFormatter,
-  *Array(custom_formatter_klasses),
+  *Array(CUSTOM_FORMATTER_CLASSES),
 ]
 
 MyObject =
-  Struct.new(:identification, :flags, :info, :name) do
+  Struct.new(:identification, :flags, :issues, :info, :name) do
     def wrapped_object_inspection_result
     end
   end
+
+def object_with_flags_and_issues_and_info_and_name
+  @object_with_flags_and_issues_and_info_and_name ||=
+    MyObject.new({
+      identification: "IDENTIFICATION",
+      flags: "FLAG1 | FLAG2",
+      issues: "ISSUE1",
+      info: "INFO",
+      name: "NAME"
+    })
+end
 
 def inspector_with_flags_and_info_and_name
   @inspector_with_flags_and_info_and_name ||=
@@ -87,70 +98,79 @@ def inspector_with_base
     })
 end
 
-puts "== Averaged ============================================================="
+def ruby_version = @ruby_version ||= `ruby -v | awk '{ print $2 }'`.strip
+puts("Reporting for: Ruby v#{ruby_version}\n\n")
+
+puts("== Averaged ============================================================")
 Benchmark.ips do |x|
-  formatter_klasses.each do |formatter_klass|
-    x.report(formatter_klass) {
-      formatter_klass.new(inspector_with_flags_and_info_and_name).call
-      formatter_klass.new(inspector_with_flags_and_info).call
-      formatter_klass.new(inspector_with_flags_and_name).call
-      formatter_klass.new(inspector_with_info_and_name).call
-      formatter_klass.new(inspector_with_name).call
-      formatter_klass.new(inspector_with_flags).call
-      formatter_klass.new(inspector_with_info).call
-      formatter_klass.new(inspector_with_base).call
+  formatter_classes.each do |formatter_class|
+    x.report(formatter_class) {
+      formatter_class.new(object_with_flags_and_issues_and_info_and_name).call
+      formatter_class.new(inspector_with_flags_and_info_and_name).call
+      formatter_class.new(inspector_with_flags_and_info).call
+      formatter_class.new(inspector_with_flags_and_name).call
+      formatter_class.new(inspector_with_info_and_name).call
+      formatter_class.new(inspector_with_name).call
+      formatter_class.new(inspector_with_flags).call
+      formatter_class.new(inspector_with_info).call
+      formatter_class.new(inspector_with_base).call
     }
   end
 
   x.compare!
 end
-puts "== Done"
+puts("== Done ================================================================")
 
-puts "== Individualized ======================================================="
+puts("== Individualized ======================================================")
 Benchmark.ips do |x|
   # rubocop:disable Style/CombinableLoops
-  formatter_klasses.each do |formatter_klass|
-    x.report("#{formatter_klass} - Flags and Info and Name") {
-      formatter_klass.new(inspector_with_flags_and_info_and_name).call
+  formatter_classes.each do |formatter_class|
+    x.report("#{formatter_class} - Flags and Issues and Info and Name") {
+      formatter_class.new(object_with_flags_and_issues_and_info_and_name).call
     }
   end
-  formatter_klasses.each do |formatter_klass|
-    x.report("#{formatter_klass} - Flags and Info") {
-      formatter_klass.new(inspector_with_flags_and_info).call
+  formatter_classes.each do |formatter_class|
+    x.report("#{formatter_class} - Flags and Info and Name") {
+      formatter_class.new(inspector_with_flags_and_info_and_name).call
     }
   end
-  formatter_klasses.each do |formatter_klass|
-    x.report("#{formatter_klass} - Flags and Name") {
-      formatter_klass.new(inspector_with_flags_and_name).call
+  formatter_classes.each do |formatter_class|
+    x.report("#{formatter_class} - Flags and Info") {
+      formatter_class.new(inspector_with_flags_and_info).call
     }
   end
-  formatter_klasses.each do |formatter_klass|
-    x.report("#{formatter_klass} - Info and Name") {
-      formatter_klass.new(inspector_with_info_and_name).call
+  formatter_classes.each do |formatter_class|
+    x.report("#{formatter_class} - Flags and Name") {
+      formatter_class.new(inspector_with_flags_and_name).call
     }
   end
-  formatter_klasses.each do |formatter_klass|
-    x.report("#{formatter_klass} - Name") {
-      formatter_klass.new(inspector_with_name).call
+  formatter_classes.each do |formatter_class|
+    x.report("#{formatter_class} - Info and Name") {
+      formatter_class.new(inspector_with_info_and_name).call
     }
   end
-  formatter_klasses.each do |formatter_klass|
-    x.report("#{formatter_klass} - Flags") {
-      formatter_klass.new(inspector_with_flags).call
+  formatter_classes.each do |formatter_class|
+    x.report("#{formatter_class} - Name") {
+      formatter_class.new(inspector_with_name).call
     }
   end
-  formatter_klasses.each do |formatter_klass|
-    x.report("#{formatter_klass} - Info") {
-      formatter_klass.new(inspector_with_info).call
+  formatter_classes.each do |formatter_class|
+    x.report("#{formatter_class} - Flags") {
+      formatter_class.new(inspector_with_flags).call
     }
   end
-  formatter_klasses.each do |formatter_klass|
-    x.report("#{formatter_klass} - Base") {
-      formatter_klass.new(inspector_with_base).call
+  formatter_classes.each do |formatter_class|
+    x.report("#{formatter_class} - Info") {
+      formatter_class.new(inspector_with_info).call
+    }
+  end
+  formatter_classes.each do |formatter_class|
+    x.report("#{formatter_class} - Base") {
+      formatter_class.new(inspector_with_base).call
     }
   end
   # rubocop:enable Style/CombinableLoops
 
   x.compare!
 end
-puts "== Done"
+puts("== Done ================================================================")

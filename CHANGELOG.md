@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Update benchmark code + results info for Ruby v3.4 in README
+
 ### 0.8.2 - 2025-1-4
 
 - Fix failure in Ruby < v3.4, found by CI test suite.

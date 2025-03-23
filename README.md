@@ -543,15 +543,21 @@ MyObject.new.inspect
 
 ### Benchmarking Object Inspector
 
-ObjectInspetor is ~4x slower than Ruby's default inspect.
+ObjectInspetor is ~2.75x slower than Ruby's default inspect, in Ruby v3.4.
 
 Performance of Object Inspector can be tested by playing the [Object Inspector Benchmarking Script](https://github.com/pdobb/object_inspector/blob/master/script/benchmarking/object_inspector.rb) in the IRB console for this gem.
 
 ```ruby
 load "script/benchmarking/object_inspector.rb"
+# Reporting for: Ruby v3.4.2
+#
+# == Averaged =============================================================
+# ...
+#
 # Comparison:
-#                 Ruby:    30382.2 i/s
-# ObjectInspector::Inspector:     7712.2 i/s - 3.94x  slower
+#                 Ruby:    58957.2 i/s
+# ObjectInspector::Inspector:    21416.6 i/s - 2.75x  slower
+# == Done
 ```
 
 ### Benchmarking Formatters
@@ -562,32 +568,34 @@ Performance of Formatters can be tested by playing the [Formatters Benchmarking 
 
 ```ruby
 load "script/benchmarking/formatters.rb"
+# Reporting for: Ruby v3.4.2
+#
 # == Averaged =============================================================
 # ...
 #
 # Comparison:
-# ObjectInspector::TemplatingFormatter:    45725.3 i/s
-# ObjectInspector::CombiningFormatter:    34973.9 i/s - 1.31x  slower
-#
+# ObjectInspector::TemplatingFormatter:    65856.3 i/s
+# ObjectInspector::CombiningFormatter:    60920.0 i/s - 1.08x  slower
 # == Done
 ```
 
 #### Benchmarking Custom Formatters
 
-Custom Formatters may be similarly gauged for comparison by adding them to the `custom_formatter_klasses` array before playing the script.
+Custom Formatters may be similarly gauged for comparison by putting them into a constant `CUSTOM_FORMATTER_CLASSES` before playing the script in the IRB console for this gem.
 
 ```ruby
-custom_formatter_klasses = [MyCustomFormatter]
+CUSTOM_FORMATTER_CLASSES = [MyCustomFormatter]
 
-play script/benchmarking/formatters.rb
+load "script/benchmarking/formatters.rb"
+# Reporting for: Ruby v3.4.2
+#
 # == Averaged =============================================================
 # ...
 #
 # Comparison:
-#    MyCustomFormatter:    52001.2 i/s
-# ObjectInspector::TemplatingFormatter:    49854.2 i/s - same-ish: difference falls within error
-# ObjectInspector::CombiningFormatter:    38963.5 i/s - 1.33x  slower
-#
+#    MyCustomFormatter:    74227.7 i/s
+# ObjectInspector::TemplatingFormatter:    66148.5 i/s - 1.12x  slower
+# ObjectInspector::CombiningFormatter:    63289.7 i/s - 1.17x  slower
 # == Done
 ```
 
@@ -601,13 +609,13 @@ To install this gem onto your local machine, run `bundle exec rake install`.
 
 To test this gem:
 
-```bash
+```sh
 rake
 ```
 
 #### Linters
 
-```bash
+```sh
 rubocop
 
 reek

@@ -36,7 +36,7 @@ class ObjectInspector::Inspector
         **kwargs)
     @object = object
     @scope = ObjectInspector::Conversions.Scope(scope)
-    @formatter_klass = formatter
+    @formatter_class = formatter
     @kwargs = kwargs
   end
 
@@ -57,7 +57,7 @@ class ObjectInspector::Inspector
     self.class.inspect(
       extract_wrapped_object,
       scope: @scope,
-      formatter: @formatter_klass,
+      formatter: @formatter_class,
       kwargs: @kwargs)
   end
 
@@ -112,7 +112,7 @@ class ObjectInspector::Inspector
   private
 
   def formatter
-    @formatter_klass.new(self)
+    @formatter_class.new(self)
   end
 
   # @return [String] if `key` is found in {#kwargs} or if {#object} responds to
