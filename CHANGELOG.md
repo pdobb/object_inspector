@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Add ObjectInspector::InspectorsHelper#inspect! as a short form for #inspect(scope: :all)
+
 ### 0.9.0 - 2025-3-23
 
 - Add `issues` to the (probably never-used) CombiningFormatter + Internal refactoring/cleanup.

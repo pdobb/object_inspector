@@ -233,6 +233,8 @@ scope.complex?  # => true
 scope.all?      # => true
 ```
 
+_**NOTE**_: Calling `#inspect!` on an object that mixes in `ObjectInspector::InspectorsHelper` is equivalent to passing in the "wild card" scope.
+
 ### Scope blocks
 
 Passing a block to a scope predicate falls back to the out-of-scope placeholder (`*` by default) if the scope does not match.
@@ -347,6 +349,9 @@ my_object.inspect(scope: %i[self complex verbose])
 my_object.inspect(scope: :all)
 # => "<MyObject[2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!I1 | VI2!! Default Info | Complex Info | Verbose Info :: Name>"
 
+my_object.inspect! # 👀 Same as passing in `scope: :all`
+# => "<MyObject[2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!I1 | VI2!! Default Info | Complex Info | Verbose Info :: Name>"
+
 ObjectInspector.configuration.default_scope = :complex
 my_object.inspect
 # => "<MyObject[2](DEFAULT_FLAG / *) !!I1 | *!! Default Info | Complex Info | * :: Name>"
@@ -375,6 +380,7 @@ class MyWrapperObject
   private
 
   def inspect_flags = "WRAPPER_FLAG1"
+  def inspect_issues(scope:) = scope.complex? { "CI1" }
 end
 
 class MyWrappedObject
@@ -384,10 +390,14 @@ class MyWrappedObject
 
   def inspect_flags = "FLAG1 / FLAG2"
   def inspect_info = "INFO"
+  def inspect_issues(scope:) = scope.complex? { "CI1" }
 end
 
 MyWrapperObject.new.inspect
-# => "<MyWrapperObject(WRAPPER_FLAG1)> ⇨ <MyWrappedObject(FLAG1 / FLAG2) INFO>"
+# => "<MyWrapperObject(WRAPPER_FLAG1) !!*!!>  ⇨  <MyWrappedObject(FLAG1 / FLAG2) !!*!! INFO>"
+
+MyWrapperObject.new.inspect!
+# => "<MyWrapperObject(WRAPPER_FLAG1) !!CI1!!>  ⇨  <MyWrappedObject(FLAG1 / FLAG2) !!CI1!! INFO>"
 ```
 
 This feature is recursive.

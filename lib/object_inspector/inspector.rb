@@ -47,7 +47,8 @@ class ObjectInspector::Inspector
     formatter.call
   end
 
-  # Generate the inspect String for the wrapped object, if present.
+  # Generate the inspect String for the wrapped object, if `self` is a wrapper
+  # object.
   #
   # @return [String] if {#object_is_a_wrapper?}
   # @return [NilClass] if not {#object_is_a_wrapper?}
