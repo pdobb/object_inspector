@@ -11,13 +11,13 @@ class ObjectInspector::ConversionsTest < Minitest::Spec
     describe ".Scope" do
       subject { unit_class }
 
-      context "GIVEN an ObjectInspector::Scope" do
+      given "an ObjectInspector::Scope" do
         it "returns the same ObjectInspector::Scope" do
           _(unit_class.Scope(scope1).object_id).must_equal(scope1.object_id)
         end
       end
 
-      context "GIVEN a Symbol" do
+      given "a Symbol" do
         it "returns a new Scope for the given Symbol" do
           new_scope = unit_class.Scope(:verbose)
           _(new_scope.names).must_include("verbose")

@@ -136,7 +136,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
     }
 
     describe "#call" do
-      context "GIVEN an Inspector with a wrapped object" do
+      given "an Inspector with a wrapped object" do
         subject { unit_class.new(inspector_with_wrapped_object) }
 
         it "returns the expected String" do
@@ -147,7 +147,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #flags, #issues, #info and #name" do
+      given "an Inspector with #flags, #issues, #info and #name" do
         subject {
           unit_class.new(inspector_with_flags_and_issues_and_info_and_name)
         }
@@ -158,7 +158,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #flags and #issues and #info" do
+      given "an Inspector with #flags and #issues and #info" do
         subject { unit_class.new(inspector_with_flags_and_issues_and_info) }
 
         it "returns the expected String" do
@@ -167,7 +167,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #flags and #issues and #name" do
+      given "an Inspector with #flags and #issues and #name" do
         subject { unit_class.new(inspector_with_flags_and_issues_and_name) }
 
         it "returns the expected String" do
@@ -176,7 +176,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #flags and #info and #name" do
+      given "an Inspector with #flags and #info and #name" do
         subject { unit_class.new(inspector_with_flags_and_info_and_name) }
 
         it "returns the expected String" do
@@ -185,7 +185,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #issues and #info and #name" do
+      given "an Inspector with #issues and #info and #name" do
         subject { unit_class.new(inspector_with_issues_and_info_and_name) }
 
         it "returns the expected String" do
@@ -194,7 +194,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with flags and #issues" do
+      given "an Inspector with flags and #issues" do
         subject { unit_class.new(inspector_with_flags_and_issues) }
 
         it "returns the expected String" do
@@ -203,7 +203,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #flags and #info" do
+      given "an Inspector with #flags and #info" do
         subject { unit_class.new(inspector_with_flags_and_info) }
 
         it "returns the expected String" do
@@ -212,7 +212,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #flags and #name" do
+      given "an Inspector with #flags and #name" do
         subject { unit_class.new(inspector_with_flags_and_name) }
 
         it "returns the expected String" do
@@ -221,7 +221,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #info and #name" do
+      given "an Inspector with #info and #name" do
         subject { unit_class.new(inspector_with_info_and_name) }
 
         it "returns the expected String" do
@@ -229,7 +229,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #issues and #info" do
+      given "an Inspector with #issues and #info" do
         subject { unit_class.new(inspector_with_issues_and_info) }
 
         it "returns the expected String" do
@@ -238,7 +238,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #issues and #name" do
+      given "an Inspector with #issues and #name" do
         subject { unit_class.new(inspector_with_issues_and_name) }
 
         it "returns the expected String" do
@@ -247,7 +247,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #name" do
+      given "an Inspector with #name" do
         subject { unit_class.new(inspector_with_name) }
 
         it "returns the expected String" do
@@ -255,7 +255,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #flags" do
+      given "an Inspector with #flags" do
         subject { unit_class.new(inspector_with_flags) }
 
         it "returns the expected String" do
@@ -263,7 +263,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #issues" do
+      given "an Inspector with #issues" do
         subject { unit_class.new(inspector_with_issues) }
 
         it "returns the expected String" do
@@ -272,7 +272,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #info" do
+      given "an Inspector with #info" do
         subject { unit_class.new(inspector_with_info) }
 
         it "returns the expected String" do
@@ -280,7 +280,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #base" do
+      given "an Inspector with #base" do
         subject { unit_class.new(inspector_with_base) }
 
         it "returns the expected String" do

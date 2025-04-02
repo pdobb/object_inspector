@@ -42,7 +42,7 @@ class ObjectInspectorTest < Minitest::Spec
     describe ".configure" do
       subject { unit_class }
 
-      context "GIVEN a custom configuration" do
+      given "a custom configuration" do
         before do
           subject.configure do |config|
             config.formatter_class = MyCustomFormatter
@@ -103,14 +103,14 @@ class ObjectInspectorTest < Minitest::Spec
       describe "#formatter_class=" do
         subject { configuration_unit_class.new }
 
-        context "GIVEN a Class constant" do
+        given "a Class constant" do
           it "sets the value as expected" do
             subject.formatter_class = MyCustomFormatter
             _(subject.formatter_class).must_equal(MyCustomFormatter)
           end
         end
 
-        context "GIVEN a String" do
+        given "a String" do
           it "raises TypeError" do
             _(-> {
               subject.formatter_class = "STRING"

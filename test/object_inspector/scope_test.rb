@@ -55,7 +55,7 @@ class ObjectInspector::ScopeTest < Minitest::Spec
     end
 
     describe "#to_s" do
-      context "GIVEN a single scope name" do
+      given "a single scope name" do
         subject { self_scope }
 
         it "returns a String" do
@@ -63,7 +63,7 @@ class ObjectInspector::ScopeTest < Minitest::Spec
         end
       end
 
-      context "GIVEN multiple scope names" do
+      given "multiple scope names" do
         subject { self_and_verbose_scope }
 
         it "returns a String" do
@@ -81,42 +81,42 @@ class ObjectInspector::ScopeTest < Minitest::Spec
     end
 
     describe "#<method_name>?" do
-      context "GIVEN method_name matches Scope#name" do
+      given "method_name matches Scope#name" do
         subject { self_scope }
 
-        context "GIVEN no block" do
+        given "no block" do
           it "returns true" do
             _(subject.self?).must_equal(true)
           end
         end
 
-        context "GIVEN a block" do
+        given "a block" do
           it "evaluates the block" do
             _(subject.self? { "BLOCK_RESULT" }).must_equal("BLOCK_RESULT")
           end
         end
       end
 
-      context "GIVEN method_name does not match Scope#name" do
+      given "method_name does not match Scope#name" do
         subject { verbose_scope }
 
-        context "GIVEN no block" do
+        given "no block" do
           it "returns false" do
             _(subject.self?).must_equal(false)
           end
         end
 
-        context "GIVEN a block" do
+        given "a block" do
           it "returns the out-of-scope placeholder" do
             _(subject.self? { "BLOCK_RESULT" }).must_equal("*")
           end
         end
       end
 
-      context "GIVEN Scope#name is :all" do
+      given "Scope#name is :all" do
         subject { all_scope }
 
-        context "GIVEN no block" do
+        given "no block" do
           it "returns true, regardless of the predicate method name used" do
             _(subject.all?).must_equal(true)
             _(subject.self?).must_equal(true)
@@ -124,7 +124,7 @@ class ObjectInspector::ScopeTest < Minitest::Spec
           end
         end
 
-        context "GIVEN a block" do
+        given "a block" do
           it "evaluates the block, regardless of the predicate method name" do
             _(subject.all? { "BLOCK_RESULT" }).must_equal("BLOCK_RESULT")
             _(subject.self? { "BLOCK_RESULT" }).must_equal("BLOCK_RESULT")
@@ -136,7 +136,7 @@ class ObjectInspector::ScopeTest < Minitest::Spec
     end
 
     describe "#respond_to?" do
-      context "GIVEN method_name matches Scope#name" do
+      given "method_name matches Scope#name" do
         subject { self_scope }
 
         it "returns true" do
@@ -144,7 +144,7 @@ class ObjectInspector::ScopeTest < Minitest::Spec
         end
       end
 
-      context "GIVEN method_name does not match Scope#name" do
+      given "method_name does not match Scope#name" do
         subject { self_scope }
 
         it "returns true" do

@@ -92,7 +92,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
     }
 
     describe "#call" do
-      context "GIVEN an Inspector with a wrapped object" do
+      given "an Inspector with a wrapped object" do
         subject { klazz.new(inspector_with_wrapped_object) }
 
         it "returns the expected String" do
@@ -103,7 +103,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #flags and #info and #name" do
+      given "an Inspector with #flags and #info and #name" do
         subject { klazz.new(inspector_with_flags_and_info_and_name) }
 
         it "returns the expected String" do
@@ -112,7 +112,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #flags #issues and #info and #name" do
+      given "an Inspector with #flags #issues and #info and #name" do
         subject { klazz.new(inspector_with_flags_and_issues_and_info_and_name) }
 
         it "returns the expected String" do
@@ -121,7 +121,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #flags and #info" do
+      given "an Inspector with #flags and #info" do
         subject { klazz.new(inspector_with_flags_and_info) }
 
         it "returns the expected String" do
@@ -130,7 +130,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #flags and #name" do
+      given "an Inspector with #flags and #name" do
         subject { klazz.new(inspector_with_flags_and_name) }
 
         it "returns the expected String" do
@@ -139,7 +139,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #info and #name" do
+      given "an Inspector with #info and #name" do
         subject { klazz.new(inspector_with_info_and_name) }
 
         it "returns the expected String" do
@@ -147,7 +147,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #name" do
+      given "an Inspector with #name" do
         subject { klazz.new(inspector_with_name) }
 
         it "returns the expected String" do
@@ -155,7 +155,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #flags" do
+      given "an Inspector with #flags" do
         subject { klazz.new(inspector_with_flags) }
 
         it "returns the expected String" do
@@ -163,7 +163,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #info" do
+      given "an Inspector with #info" do
         subject { klazz.new(inspector_with_info) }
 
         it "returns the expected String" do
@@ -171,7 +171,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Inspector with #base" do
+      given "an Inspector with #base" do
         subject { klazz.new(inspector_with_base) }
 
         it "returns the expected String" do

@@ -27,7 +27,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     describe "#to_s" do
-      context "GIVEN the default #scope (:self)" do
+      given "the default #scope (:self)" do
         subject { unit_class.new(full_object1) }
 
         it "returns a String in the expected format for the Object" do
@@ -36,7 +36,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         end
       end
 
-      context "GIVEN a non-default #scope" do
+      given "a non-default #scope" do
         subject { unit_class.new(full_object1, scope: :verbose) }
 
         it "returns a String in the expected format for the Object" do
@@ -48,7 +48,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     describe "#identification" do
-      context "GIVEN Object#inspect_identification is defined" do
+      given "Object#inspect_identification is defined" do
         subject { unit_class.new(full_object1) }
 
         it "returns Object#inspect_identification" do
@@ -57,7 +57,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         end
       end
 
-      context "GIVEN Object#inspect_identification isn't defined" do
+      given "Object#inspect_identification isn't defined" do
         subject { unit_class.new(simple_object1) }
 
         it "returns the Object's Class Name" do
@@ -65,7 +65,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         end
       end
 
-      context "GIVEN :identification is passed in" do
+      given ":identification is passed in" do
         subject {
           unit_class.new(
             simple_object1,
@@ -79,7 +79,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     describe "#flags" do
-      context "GIVEN Object#inspect_flags is defined" do
+      given "Object#inspect_flags is defined" do
         subject { unit_class.new(full_object1) }
 
         it "returns Object#inspect_flags" do
@@ -87,7 +87,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         end
       end
 
-      context "GIVEN Object#inspect_flags isn't defined" do
+      given "Object#inspect_flags isn't defined" do
         subject { unit_class.new(simple_object1) }
 
         it "returns nil" do
@@ -95,7 +95,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         end
       end
 
-      context "GIVEN :flags is passed in" do
+      given ":flags is passed in" do
         subject { unit_class.new(simple_object1, flags: "PASSED_IN_FLAG") }
 
         it "returns the passed in :flags" do
@@ -105,7 +105,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     describe "#info" do
-      context "GIVEN Object#inspect_info is defined" do
+      given "Object#inspect_info is defined" do
         subject { unit_class.new(full_object1) }
 
         it "returns Object#inspect_info" do
@@ -113,7 +113,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         end
       end
 
-      context "GIVEN Object#inspect_info isn't defined" do
+      given "Object#inspect_info isn't defined" do
         subject { unit_class.new(simple_object1) }
 
         it "returns nil" do
@@ -121,7 +121,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         end
       end
 
-      context "GIVEN :info is passed in" do
+      given ":info is passed in" do
         subject { unit_class.new(simple_object1, info: "PASSED_IN_INFO") }
 
         it "returns the passed in :info" do
@@ -131,14 +131,14 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     describe "#name" do
-      context "GIVEN Object#inspect_name is defined" do
+      given "Object#inspect_name is defined" do
         subject { unit_class.new(inspect_name_object1) }
 
         it "returns Object#inspect_name" do
           _(subject.name).must_equal("INSPECT_NAME")
         end
 
-        context "GIVEN Object#display_name is defined" do
+        given "Object#display_name is defined" do
           subject { unit_class.new(inspect_and_display_name_object1) }
 
           it "returns Object#inspect_name" do
@@ -146,7 +146,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
           end
         end
 
-        context "GIVEN :name is passed in" do
+        given ":name is passed in" do
           subject {
             unit_class.new(inspect_name_object1, name: "PASSED_IN_NAME")
           }
@@ -157,14 +157,14 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         end
       end
 
-      context "GIVEN Object#inspect_name isn't defined" do
+      given "Object#inspect_name isn't defined" do
         subject { unit_class.new(simple_object1) }
 
         it "returns nil" do
           _(subject.name).must_be_nil
         end
 
-        context "GIVEN Object#display_name is defined" do
+        given "Object#display_name is defined" do
           subject { unit_class.new(display_name_object1) }
 
           it "returns Object#display_name" do
@@ -175,7 +175,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     describe "#wrapped_object_inspection_result" do
-      context "GIVEN #object_is_a_wrapper? is true" do
+      given "#object_is_a_wrapper? is true" do
         subject { unit_class.new(wrapper_for_full_test_object1) }
 
         it "returns Object#to_model#inspect" do
@@ -184,7 +184,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         end
       end
 
-      context "GIVEN #object_is_a_wrapper? is false" do
+      given "#object_is_a_wrapper? is false" do
         subject { unit_class.new(simple_object1) }
 
         it "returns nil" do
@@ -196,7 +196,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     describe "#evaluate_passed_in_value" do
       subject { unit_class.new(simple_object1) }
 
-      context "GIVEN #value is a Symbol" do
+      given "#value is a Symbol" do
         it "returns Object#<value>, GIVEN Object responds to #value" do
           _(
             subject.__send__(:evaluate_passed_in_value, :simple_test_method))
@@ -209,7 +209,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
         end
       end
 
-      context "GIVEN #value is not a Symbol" do
+      given "#value is not a Symbol" do
         it "returns #value" do
           _(
             subject.__send__(:evaluate_passed_in_value, "simple_test_method"))

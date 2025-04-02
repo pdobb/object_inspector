@@ -21,7 +21,7 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
         end
       end
 
-      context "GIVEN a full object" do
+      given "a full object" do
         subject { full_object1 }
 
         it "returns a String in the expected format for the Object" do
@@ -30,7 +30,7 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
         end
       end
 
-      context "GIVEN a delegating wrapper object" do
+      given "a delegating wrapper object" do
         subject { delegating_wrapper_for_full_object1 }
 
         it "returns a String in the expected format for the Object" do
@@ -53,7 +53,7 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
         end
       end
 
-      context "GIVEN a full object" do
+      given "a full object" do
         subject { full_object1 }
 
         it "returns a String in the expected format for the Object" do
@@ -63,7 +63,7 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
         end
       end
 
-      context "GIVEN a delegating wrapper object" do
+      given "a delegating wrapper object" do
         subject { delegating_wrapper_for_full_object1 }
 
         it "returns a String in the expected format for the Object" do

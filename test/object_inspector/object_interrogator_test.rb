@@ -30,14 +30,14 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
     let(:unit_class) { ObjectInspector::ObjectInterrogator }
 
     describe "#call" do
-      context "GIVEN an Object with no keyword Arguments" do
+      given "an Object with no keyword Arguments" do
         subject {
           unit_class.new(
             object: SimpleTestObject.new,
             method_name: method_name)
         }
 
-        context "GIVEN a public method_name" do
+        given "a public method_name" do
           let(:method_name) { :example_method }
 
           it "returns the expected result" do
@@ -45,7 +45,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           end
         end
 
-        context "GIVEN a private method_name" do
+        given "a private method_name" do
           let(:method_name) { :example_private_method }
 
           it "returns the expected result" do
@@ -53,7 +53,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           end
         end
 
-        context "GIVEN an invalid method_name" do
+        given "an invalid method_name" do
           let(:method_name) { :invalid_method }
 
           it "returns nil" do
@@ -62,7 +62,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Object with all optional keyword Arguments" do
+      given "an Object with all optional keyword Arguments" do
         subject {
           unit_class.new(
             object: AllOptionalKeywordArgumentsTestObject.new,
@@ -70,7 +70,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
             kwargs: kwargs)
         }
 
-        context "GIVEN a valid keyword argument" do
+        given "a valid keyword argument" do
           let(:kwargs) { { a: "a" } }
 
           it "returns the expected result" do
@@ -78,7 +78,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           end
         end
 
-        context "GIVEN an invalid keyword argument" do
+        given "an invalid keyword argument" do
           let(:kwargs) { { invalid_kwarg: 1 } }
 
           it "returns the expected result" do
@@ -86,7 +86,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
           end
         end
 
-        context "GIVEN no keyword arguments" do
+        given "no keyword arguments" do
           let(:kwargs) { {} }
 
           it "returns the expected result" do
@@ -95,7 +95,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Object with some optional keyword Arguments" do
+      given "an Object with some optional keyword Arguments" do
         subject {
           unit_class.new(
             object: SomeOptionalKeywordArgumentsTestObject.new,
@@ -103,7 +103,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
             kwargs: kwargs)
         }
 
-        context "GIVEN a missing required keyword argument" do
+        given "a missing required keyword argument" do
           let(:kwargs) { { b: "b" } }
 
           it "raises ArgumentError" do
@@ -112,7 +112,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
         end
       end
 
-      context "GIVEN an Object with all required keyword Arguments" do
+      given "an Object with all required keyword Arguments" do
         subject {
           unit_class.new(
             object: AllRequiredKeywordArgumentsTestObject.new,
@@ -120,7 +120,7 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
             kwargs: kwargs)
         }
 
-        context "GIVEN no keyword arguments" do
+        given "no keyword arguments" do
           let(:kwargs) { {} }
 
           it "raises ArgumentError" do
