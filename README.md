@@ -181,6 +181,30 @@ MyObject.new.inspect
 # => "<My Object(FLAG1) !!ISSUE1 | ISSUE2!! INFO :: NAME>"
 ```
 
+### Helper Inclusion
+
+It may be useful to conditionally include ObjectInspector::InspectorsHelper, as well as other similar methods, via a mix-in.
+
+```ruby
+module ObjectInspectionBehaviors
+  extend ActiveSupport::Concern
+
+  included do
+    # If you'd like to preserve the original inspect method, here is your
+    # chance to.
+    alias_method :__inspect__, :inspect
+
+    include ObjectInspector::InspectorsHelper
+  end
+
+  # An example of another, similar style of method you may wish to utilize in
+  # this mix-in.
+  def introspect
+    self
+  end
+end
+```
+
 ## Scopes
 
 Use the `scope` option to define the scope of the `inspect_*` methods. The supplied value will be wrapped by the ObjectInspector::Scope helper object.
