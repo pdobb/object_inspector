@@ -3,77 +3,75 @@
 require "test_helper"
 
 class ObjectInspector::InspectorsHelperTest < Minitest::Spec
-  describe "ObjectInspector::InspectorsHelper" do
-    let(:simple_object1) { SimpleTestObject.new }
+  let(:simple_object1) { SimpleTestObject.new }
 
-    let(:delegating_wrapper_for_full_object1) {
-      DelegatingWrapperForFullTestObject.new(full_object1)
-    }
-    let(:full_object1) { FullTestObject.new }
+  let(:delegating_wrapper_for_full_object1) {
+    DelegatingWrapperForFullTestObject.new(full_object1)
+  }
+  let(:full_object1) { FullTestObject.new }
 
-    describe "#inspect" do
-      subject { simple_object1 }
+  describe "#inspect" do
+    subject { simple_object1 }
 
-      describe "GIVEN a simple object" do
-        it "calls ObjectInspector::Inspector from Object#inspect" do
-          _(subject.inspect).must_equal(
-            "<ObjectInspector::InspectorsHelperTest::SimpleTestObject>")
-        end
-      end
-
-      given "a full object" do
-        subject { full_object1 }
-
-        it "returns a String in the expected format for the Object" do
-          _(subject.inspect).must_equal(
-            "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>")
-        end
-      end
-
-      given "a delegating wrapper object" do
-        subject { delegating_wrapper_for_full_object1 }
-
-        it "returns a String in the expected format for the Object" do
-          # rubocop:disable Layout/LineLength
-          _(subject.inspect).must_equal(
-            "<ObjectInspector::InspectorsHelperTest::DelegatingWrapperForFullTestObject>  ⇨  "\
-            "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>")
-          # rubocop:enable Layout/LineLength
-        end
+    describe "GIVEN a simple object" do
+      it "calls ObjectInspector::Inspector from Object#inspect" do
+        _(subject.inspect).must_equal(
+          "<ObjectInspector::InspectorsHelperTest::SimpleTestObject>")
       end
     end
 
-    describe "#inspect!" do
-      subject { simple_object1 }
+    given "a full object" do
+      subject { full_object1 }
 
-      describe "GIVEN a simple object" do
-        it "returns the expected String" do
-          _(subject.inspect!).must_equal(
-            "<ObjectInspector::InspectorsHelperTest::SimpleTestObject>")
-        end
+      it "returns a String in the expected format for the Object" do
+        _(subject.inspect).must_equal(
+          "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>")
       end
+    end
 
-      given "a full object" do
-        subject { full_object1 }
+    given "a delegating wrapper object" do
+      subject { delegating_wrapper_for_full_object1 }
 
-        it "returns a String in the expected format for the Object" do
-          _(subject.inspect!).must_equal(
-            "<Identification[id:9](FLAG1 | FLAG2 | FLAG3) "\
-            "Info: 1 | Info: 2 | Info: 3 :: Name: 1 | Name: 2 | Name: 3>")
-        end
+      it "returns a String in the expected format for the Object" do
+        # rubocop:disable Layout/LineLength
+        _(subject.inspect).must_equal(
+          "<ObjectInspector::InspectorsHelperTest::DelegatingWrapperForFullTestObject>  ⇨  "\
+          "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>")
+        # rubocop:enable Layout/LineLength
       end
+    end
+  end
 
-      given "a delegating wrapper object" do
-        subject { delegating_wrapper_for_full_object1 }
+  describe "#inspect!" do
+    subject { simple_object1 }
 
-        it "returns a String in the expected format for the Object" do
-          # rubocop:disable Layout/LineLength
-          _(subject.inspect!).must_equal(
-            "<ObjectInspector::InspectorsHelperTest::DelegatingWrapperForFullTestObject>  ⇨  "\
-            "<Identification[id:9](FLAG1 | FLAG2 | FLAG3) "\
-            "Info: 1 | Info: 2 | Info: 3 :: Name: 1 | Name: 2 | Name: 3>")
-          # rubocop:enable Layout/LineLength
-        end
+    describe "GIVEN a simple object" do
+      it "returns the expected String" do
+        _(subject.inspect!).must_equal(
+          "<ObjectInspector::InspectorsHelperTest::SimpleTestObject>")
+      end
+    end
+
+    given "a full object" do
+      subject { full_object1 }
+
+      it "returns a String in the expected format for the Object" do
+        _(subject.inspect!).must_equal(
+          "<Identification[id:9](FLAG1 | FLAG2 | FLAG3) "\
+          "Info: 1 | Info: 2 | Info: 3 :: Name: 1 | Name: 2 | Name: 3>")
+      end
+    end
+
+    given "a delegating wrapper object" do
+      subject { delegating_wrapper_for_full_object1 }
+
+      it "returns a String in the expected format for the Object" do
+        # rubocop:disable Layout/LineLength
+        _(subject.inspect!).must_equal(
+          "<ObjectInspector::InspectorsHelperTest::DelegatingWrapperForFullTestObject>  ⇨  "\
+          "<Identification[id:9](FLAG1 | FLAG2 | FLAG3) "\
+          "Info: 1 | Info: 2 | Info: 3 :: Name: 1 | Name: 2 | Name: 3>")
+        # rubocop:enable Layout/LineLength
       end
     end
   end
