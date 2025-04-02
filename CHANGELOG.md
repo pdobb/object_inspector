@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+### 0.10.0 - 2025-4-1
+
 - Add a note about Helper Inclusion to README
 - Add ObjectInspector::InspectorsHelper#inspect! as a short form for #inspect(scope: :all)
 
