@@ -16,7 +16,8 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
     describe "GIVEN a simple object" do
       it "calls ObjectInspector::Inspector from Object#inspect" do
         _(subject.inspect).must_equal(
-          "<ObjectInspector::InspectorsHelperTest::SimpleTestObject>")
+          "<ObjectInspector::InspectorsHelperTest::SimpleTestObject>",
+        )
       end
     end
 
@@ -25,7 +26,8 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
 
       it "returns a String in the expected format for the Object" do
         _(subject.inspect).must_equal(
-          "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>")
+          "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>",
+        )
       end
     end
 
@@ -36,7 +38,8 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
         # rubocop:disable Layout/LineLength
         _(subject.inspect).must_equal(
           "<ObjectInspector::InspectorsHelperTest::DelegatingWrapperForFullTestObject>  ⇨  "\
-          "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>")
+          "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>",
+        )
         # rubocop:enable Layout/LineLength
       end
     end
@@ -48,7 +51,8 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
     describe "GIVEN a simple object" do
       it "returns the expected String" do
         _(subject.inspect!).must_equal(
-          "<ObjectInspector::InspectorsHelperTest::SimpleTestObject>")
+          "<ObjectInspector::InspectorsHelperTest::SimpleTestObject>",
+        )
       end
     end
 
@@ -58,7 +62,8 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
       it "returns a String in the expected format for the Object" do
         _(subject.inspect!).must_equal(
           "<Identification[id:9](FLAG1 | FLAG2 | FLAG3) "\
-          "Info: 1 | Info: 2 | Info: 3 :: Name: 1 | Name: 2 | Name: 3>")
+          "Info: 1 | Info: 2 | Info: 3 :: Name: 1 | Name: 2 | Name: 3>",
+        )
       end
     end
 
@@ -70,7 +75,8 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
         _(subject.inspect!).must_equal(
           "<ObjectInspector::InspectorsHelperTest::DelegatingWrapperForFullTestObject>  ⇨  "\
           "<Identification[id:9](FLAG1 | FLAG2 | FLAG3) "\
-          "Info: 1 | Info: 2 | Info: 3 :: Name: 1 | Name: 2 | Name: 3>")
+          "Info: 1 | Info: 2 | Info: 3 :: Name: 1 | Name: 2 | Name: 3>",
+        )
         # rubocop:enable Layout/LineLength
       end
     end

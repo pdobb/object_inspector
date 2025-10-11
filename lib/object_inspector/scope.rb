@@ -29,7 +29,9 @@ class ObjectInspector::Scope
   # @param parts [Array<#to_s>]
   # @param separator [#to_s] (ObjectInspector.configuration.flags_separator)
   def join_name(
-        parts, separator: ObjectInspector.configuration.name_separator)
+    parts,
+    separator: ObjectInspector.configuration.name_separator
+  )
     _join(parts, separator)
   end
 
@@ -38,7 +40,9 @@ class ObjectInspector::Scope
   # @param flags [Array<#to_s>]
   # @param separator [#to_s] (ObjectInspector.configuration.flags_separator)
   def join_flags(
-        flags, separator: ObjectInspector.configuration.flags_separator)
+    flags,
+    separator: ObjectInspector.configuration.flags_separator
+  )
     _join(flags, separator)
   end
 
@@ -47,7 +51,9 @@ class ObjectInspector::Scope
   # @param issues [Array<#to_s>]
   # @param separator [#to_s] (ObjectInspector.configuration.issues_separator)
   def join_issues(
-        issues, separator: ObjectInspector.configuration.issues_separator)
+    issues,
+    separator: ObjectInspector.configuration.issues_separator
+  )
     _join(issues, separator)
   end
 
@@ -56,7 +62,9 @@ class ObjectInspector::Scope
   # @param items [Array<#to_s>]
   # @param separator [#to_s] (ObjectInspector.configuration.info_separator)
   def join_info(
-        items, separator: ObjectInspector.configuration.info_separator)
+    items,
+    separator: ObjectInspector.configuration.info_separator
+  )
     _join(items, separator)
   end
 
@@ -68,7 +76,7 @@ class ObjectInspector::Scope
   def ==(other)
     @names.sort == Array(other).map(&:to_s).sort!
   end
-  alias_method :eql?, :==
+  alias eql? ==
 
   # @return [String] the contents of {#names}, joined by `, `.
   def to_s(separator: ", ")
@@ -135,6 +143,7 @@ class ObjectInspector::Scope
   end
 
   # :reek:BooleanParameter
+
   def respond_to_missing?(method_name, include_private = false)
     method_name[-1] == "?" || super
   end

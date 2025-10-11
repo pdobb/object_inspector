@@ -10,7 +10,8 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
     InspectableTestClass.new(
       identification: "WRAPPER",
       wrapped_object_inspection_result:
-        inspector_unit_class.new(SimpleTestObject.new))
+        inspector_unit_class.new(SimpleTestObject.new),
+    )
   }
   let(:inspector_with_flags_and_issues_and_info_and_name) {
     InspectableTestClass.new(
@@ -18,95 +19,111 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
       flags: "FLAG1 | FLAG2",
       issues: "ISSUE1 | ISSUE2",
       info: "INFO",
-      name: "NAME")
+      name: "NAME",
+    )
   }
   let(:inspector_with_flags_and_issues_and_info) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
       flags: "FLAG1 | FLAG2",
       issues: "ISSUE1 | ISSUE2",
-      info: "INFO")
+      info: "INFO",
+    )
   }
   let(:inspector_with_flags_and_issues_and_name) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
       flags: "FLAG1 | FLAG2",
       issues: "ISSUE1 | ISSUE2",
-      name: "NAME")
+      name: "NAME",
+    )
   }
   let(:inspector_with_flags_and_info_and_name) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
       flags: "FLAG1 | FLAG2",
       info: "INFO",
-      name: "NAME")
+      name: "NAME",
+    )
   }
   let(:inspector_with_issues_and_info_and_name) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
       issues: "ISSUE1 | ISSUE2",
       info: "INFO",
-      name: "NAME")
+      name: "NAME",
+    )
   }
   let(:inspector_with_flags_and_issues) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
       flags: "FLAG1 | FLAG2",
-      issues: "ISSUE1 | ISSUE2")
+      issues: "ISSUE1 | ISSUE2",
+    )
   }
   let(:inspector_with_flags_and_info) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
       flags: "FLAG1 | FLAG2",
-      info: "INFO")
+      info: "INFO",
+    )
   }
   let(:inspector_with_flags_and_name) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
       flags: "FLAG1 | FLAG2",
-      name: "NAME")
+      name: "NAME",
+    )
   }
   let(:inspector_with_info_and_name) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
       info: "INFO",
-      name: "NAME")
+      name: "NAME",
+    )
   }
   let(:inspector_with_issues_and_name) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
       issues: "ISSUE1 | ISSUE2",
-      name: "NAME")
+      name: "NAME",
+    )
   }
   let(:inspector_with_issues_and_info) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
       issues: "ISSUE1 | ISSUE2",
-      info: "INFO")
+      info: "INFO",
+    )
   }
   let(:inspector_with_name) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
-      name: "NAME")
+      name: "NAME",
+    )
   }
   let(:inspector_with_flags) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
-      flags: "FLAG1 | FLAG2")
+      flags: "FLAG1 | FLAG2",
+    )
   }
   let(:inspector_with_issues) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
-      issues: "ISSUE1 | ISSUE2")
+      issues: "ISSUE1 | ISSUE2",
+    )
   }
   let(:inspector_with_info) {
     InspectableTestClass.new(
       identification: "IDENTIFICATION",
-      info: "INFO")
+      info: "INFO",
+    )
   }
   let(:inspector_with_base) {
     InspectableTestClass.new(
-      identification: "IDENTIFICATION")
+      identification: "IDENTIFICATION",
+    )
   }
 
   describe "#call" do
@@ -117,7 +134,8 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
         _(subject.call).must_equal(
           "<WRAPPER> "\
           "#{ObjectInspector.configuration.presented_object_separator} "\
-          "<SIMPLE_TEST_OBJECT>")
+          "<SIMPLE_TEST_OBJECT>",
+        )
       end
     end
 
@@ -128,7 +146,8 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
 
       it "returns the expected String" do
         _(subject.call).must_equal(
-          "<IDENTIFICATION(FLAG1 | FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>")
+          "<IDENTIFICATION(FLAG1 | FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>",
+        )
       end
     end
 
@@ -137,7 +156,8 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
 
       it "returns the expected String" do
         _(subject.call).must_equal(
-          "<IDENTIFICATION(FLAG1 | FLAG2) !!ISSUE1 | ISSUE2!! INFO>")
+          "<IDENTIFICATION(FLAG1 | FLAG2) !!ISSUE1 | ISSUE2!! INFO>",
+        )
       end
     end
 
@@ -146,7 +166,8 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
 
       it "returns the expected String" do
         _(subject.call).must_equal(
-          "<IDENTIFICATION(FLAG1 | FLAG2) !!ISSUE1 | ISSUE2!! :: NAME>")
+          "<IDENTIFICATION(FLAG1 | FLAG2) !!ISSUE1 | ISSUE2!! :: NAME>",
+        )
       end
     end
 
@@ -155,7 +176,8 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
 
       it "returns the expected String" do
         _(subject.call).must_equal(
-          "<IDENTIFICATION(FLAG1 | FLAG2) INFO :: NAME>")
+          "<IDENTIFICATION(FLAG1 | FLAG2) INFO :: NAME>",
+        )
       end
     end
 
@@ -164,7 +186,8 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
 
       it "returns the expected String" do
         _(subject.call).must_equal(
-          "<IDENTIFICATION !!ISSUE1 | ISSUE2!! INFO :: NAME>")
+          "<IDENTIFICATION !!ISSUE1 | ISSUE2!! INFO :: NAME>",
+        )
       end
     end
 
@@ -173,7 +196,8 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
 
       it "returns the expected String" do
         _(subject.call).must_equal(
-          "<IDENTIFICATION(FLAG1 | FLAG2) !!ISSUE1 | ISSUE2!!>")
+          "<IDENTIFICATION(FLAG1 | FLAG2) !!ISSUE1 | ISSUE2!!>",
+        )
       end
     end
 
@@ -182,7 +206,8 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
 
       it "returns the expected String" do
         _(subject.call).must_equal(
-          "<IDENTIFICATION(FLAG1 | FLAG2) INFO>")
+          "<IDENTIFICATION(FLAG1 | FLAG2) INFO>",
+        )
       end
     end
 
@@ -191,7 +216,8 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
 
       it "returns the expected String" do
         _(subject.call).must_equal(
-          "<IDENTIFICATION(FLAG1 | FLAG2) :: NAME>")
+          "<IDENTIFICATION(FLAG1 | FLAG2) :: NAME>",
+        )
       end
     end
 
@@ -208,7 +234,8 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
 
       it "returns the expected String" do
         _(subject.call).must_equal(
-          "<IDENTIFICATION !!ISSUE1 | ISSUE2!! INFO>")
+          "<IDENTIFICATION !!ISSUE1 | ISSUE2!! INFO>",
+        )
       end
     end
 
@@ -217,7 +244,8 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
 
       it "returns the expected String" do
         _(subject.call).must_equal(
-          "<IDENTIFICATION !!ISSUE1 | ISSUE2!! :: NAME>")
+          "<IDENTIFICATION !!ISSUE1 | ISSUE2!! :: NAME>",
+        )
       end
     end
 
@@ -242,7 +270,8 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
 
       it "returns the expected String" do
         _(subject.call).must_equal(
-          "<IDENTIFICATION !!ISSUE1 | ISSUE2!!>")
+          "<IDENTIFICATION !!ISSUE1 | ISSUE2!!>",
+        )
       end
     end
 
@@ -264,7 +293,7 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
   end
 
   class SimpleTestObject
-    def inspect_identification; "SIMPLE_TEST_OBJECT" end
+    def inspect_identification = "SIMPLE_TEST_OBJECT"
   end
 
   InspectableTestClass =
@@ -275,16 +304,19 @@ class ObjectInspector::TemplatingFormatterTest < Minitest::Spec
       :info,
       :name,
       :wrapped_object_inspection_result,
-      keyword_init: true) do
+      keyword_init: true,
+    ) do
       # :reek:LongParameterList
       def initialize(
-            identification: nil,
-            flags: nil,
-            issues: nil,
-            info: nil,
-            name: nil,
-            wrapped_object_inspection_result: nil)
+        identification: nil,
+        flags: nil,
+        issues: nil,
+        info: nil,
+        name: nil,
+        wrapped_object_inspection_result: nil
+      )
         super
       end
     end
+  public_constant :InspectableTestClass
 end

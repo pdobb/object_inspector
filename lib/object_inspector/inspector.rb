@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
+# :reek:TooManyMethods
+
 # ObjectInspector::Inspector organizes inspection of the associated {#object}
 # via the passed in options and via an {ObjectInspector::BaseFormatter}
 # instance.
 #
-# :reek:TooManyMethods
 class ObjectInspector::Inspector
   attr_reader :object
 
@@ -12,9 +13,9 @@ class ObjectInspector::Inspector
   # required to use ObjectInspector::Inspector.
   #
   # @return [String]
-  def self.inspect(...)
-    new(...).to_s
-  end
+  def self.inspect(...) = new(...).to_s
+
+  # :reek:DuplicateMethodCall (ObjectInspecto.configuration)
 
   # @param object [Object] the object being inspected
   # @param scope [Symbol] Object inspection type. For example:
@@ -27,13 +28,12 @@ class ObjectInspector::Inspector
   # @param kwargs [Hash] options to be sent to {#object} via the
   #   {ObjectInspector::ObjectInterrogator} when calling the `inspect_*`
   #   methods
-  #
-  # :reek:DuplicateMethodCall (ObjectInspecto.configuration)
   def initialize(
-        object,
-        scope: ObjectInspector.configuration.default_scope,
-        formatter: ObjectInspector.configuration.formatter_class,
-        **kwargs)
+    object,
+    scope: ObjectInspector.configuration.default_scope,
+    formatter: ObjectInspector.configuration.formatter_class,
+    **kwargs
+  )
     @object = object
     @scope = ObjectInspector::Conversions.Scope(scope)
     @formatter_class = formatter
@@ -59,7 +59,8 @@ class ObjectInspector::Inspector
       extract_wrapped_object,
       scope: @scope,
       formatter: @formatter_class,
-      kwargs: @kwargs)
+      kwargs: @kwargs,
+    )
   end
 
   # Core object identification details, such as the {#object} class name and
@@ -102,11 +103,13 @@ class ObjectInspector::Inspector
     key = :name
 
     if @kwargs.key?(key)
-      value(key: key)
+      value(key:)
     else
       interrogate_object_inspect_method(key) ||
         interrogate_object(
-          method_name: :display_name, kwargs: object_method_keyword_arguments)
+          method_name: :display_name,
+          kwargs: object_method_keyword_arguments,
+        )
     end
   end
 
@@ -151,27 +154,32 @@ class ObjectInspector::Inspector
   #   `#{object_inspection_method_name}` (e.g. `inspect_flags`)
   # @return [NilClass] if not found on {#object}
   def interrogate_object_inspect_method(
-        name,
-        prefix: ObjectInspector.configuration.inspect_method_prefix)
+    name,
+    prefix: ObjectInspector.configuration.inspect_method_prefix
+  )
     interrogate_object(
-      method_name: object_inspection_method_name(name, prefix: prefix),
-      kwargs: object_method_keyword_arguments)
+      method_name: object_inspection_method_name(name, prefix:),
+      kwargs: object_method_keyword_arguments,
+    )
   end
 
   def interrogate_object(method_name:, kwargs: {})
     interrogator =
       ObjectInspector::ObjectInterrogator.new(
         object: @object,
-        method_name: method_name,
-        kwargs: kwargs)
+        method_name:,
+        kwargs:,
+      )
 
     interrogator.call
   end
 
   # :reek:UtilityFunction
+
   def object_inspection_method_name(
-        name,
-        prefix: ObjectInspector.configuration.inspect_method_prefix)
+    name,
+    prefix: ObjectInspector.configuration.inspect_method_prefix
+  )
     "#{prefix}_#{name}"
   end
 
@@ -186,6 +194,7 @@ class ObjectInspector::Inspector
   end
 
   # :reek:ManualDispatch
+
   def object_is_a_wrapper?
     @object.respond_to?(:to_model) &&
       @object.to_model != @object

@@ -5,13 +5,13 @@
 module ObjectInspector::Conversions
   module_function
 
+  # :reek:UncommunicativeMethodName
+
   # Convert the passed in value to an {ObjectInspector::Scope} object.
   # Just returns the passed in value if it already is an
   # {ObjectInspector::Scope} object.
   #
   # @return [ObjectInspector::Scope]
-  #
-  # :reek:UncommunicativeMethodName
   def Scope(value) # rubocop:disable Naming/MethodName
     case value
     when ObjectInspector::Scope

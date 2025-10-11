@@ -124,8 +124,7 @@ class ObjectInspector::ScopeTest < Minitest::Spec
         it "evaluates the block, regardless of the predicate method name" do
           _(subject.all? { "BLOCK_RESULT" }).must_equal("BLOCK_RESULT")
           _(subject.self? { "BLOCK_RESULT" }).must_equal("BLOCK_RESULT")
-          _(subject.verbose? { "BLOCK_RESULT" }).must_equal(
-            "BLOCK_RESULT")
+          _(subject.verbose? { "BLOCK_RESULT" }).must_equal("BLOCK_RESULT")
         end
       end
     end
@@ -264,6 +263,4 @@ class ObjectInspector::ScopeTest < Minitest::Spec
         .must_be_nil
     end
   end
-
-  SimpleTestObject = Class.new
 end

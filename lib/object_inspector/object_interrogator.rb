@@ -40,6 +40,7 @@ class ObjectInspector::ObjectInterrogator
 
   # :reek:ManualDispatch
   # :reek:BooleanParameter
+
   def object_responds_to_method_name?(include_private: true)
     object.respond_to?(method_name, include_private)
   end

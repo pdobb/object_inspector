@@ -3,7 +3,8 @@
 require "test_helper"
 
 class ObjectInspectorTest < Minitest::Spec
-  MyCustomFormatter = Class.new
+  TestFormatter = Class.new
+  private_constant :TestFormatter
 
   let(:unit_class) { ObjectInspector }
   let(:configuration_unit_class) { ObjectInspector::Configuration }
@@ -24,13 +25,15 @@ class ObjectInspectorTest < Minitest::Spec
       configuration = subject.configuration
 
       _(configuration.formatter_class).must_equal(
-        unit_class::TemplatingFormatter)
+        unit_class::TemplatingFormatter,
+      )
       _(configuration.inspect_method_prefix).must_equal("inspect")
       _(configuration.default_scope).must_equal(scope_unit_class.new(:self))
       _(configuration.wild_card_scope).must_equal("all")
       _(configuration.out_of_scope_placeholder).must_equal("*")
       _(configuration.presented_object_separator).must_equal(
-        " #{[0x21E8].pack("U")} ")
+        " #{[0x21E8].pack("U")} ",
+      )
       _(configuration.name_separator).must_equal(" - ")
       _(configuration.flags_separator).must_equal(" / ")
       _(configuration.issues_separator).must_equal(" | ")
@@ -44,7 +47,7 @@ class ObjectInspectorTest < Minitest::Spec
     given "a custom configuration" do
       before do
         subject.configure do |config|
-          config.formatter_class = MyCustomFormatter
+          config.formatter_class = TestFormatter
           config.inspect_method_prefix = "ins"
           config.default_scope = :custom
           config.wild_card_scope = :WILD_CARD
@@ -62,10 +65,9 @@ class ObjectInspectorTest < Minitest::Spec
       it "sets custom configuration and converts values to frozen Strings" do
         configuration = subject.configuration
 
-        _(configuration.formatter_class).must_equal(MyCustomFormatter)
+        _(configuration.formatter_class).must_equal(TestFormatter)
         _(configuration.inspect_method_prefix).must_equal("ins")
-        _(configuration.default_scope).must_equal(
-          scope_unit_class.new(:custom))
+        _(configuration.default_scope).must_equal(scope_unit_class.new(:custom))
         _(configuration.wild_card_scope).must_equal("WILD_CARD")
         _(configuration.out_of_scope_placeholder).must_equal("0")
         _(configuration.presented_object_separator).must_equal(";")
@@ -84,13 +86,15 @@ class ObjectInspectorTest < Minitest::Spec
       configuration = subject.configuration
 
       _(configuration.formatter_class).must_equal(
-        unit_class::TemplatingFormatter)
+        unit_class::TemplatingFormatter,
+      )
       _(configuration.inspect_method_prefix).must_equal("inspect")
       _(configuration.default_scope).must_equal(scope_unit_class.new(:self))
       _(configuration.wild_card_scope).must_equal("all")
       _(configuration.out_of_scope_placeholder).must_equal("*")
       _(configuration.presented_object_separator).must_equal(
-        " #{[0x21E8].pack("U")} ")
+        " #{[0x21E8].pack("U")} ",
+      )
       _(configuration.name_separator).must_equal(" - ")
       _(configuration.flags_separator).must_equal(" / ")
       _(configuration.issues_separator).must_equal(" | ")
@@ -104,8 +108,8 @@ class ObjectInspectorTest < Minitest::Spec
 
       given "a Class constant" do
         it "sets the value as expected" do
-          subject.formatter_class = MyCustomFormatter
-          _(subject.formatter_class).must_equal(MyCustomFormatter)
+          subject.formatter_class = TestFormatter
+          _(subject.formatter_class).must_equal(TestFormatter)
         end
       end
 

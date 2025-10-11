@@ -20,8 +20,10 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
     it "returns a String in the expected format" do
       result = subject.inspect(simple_object1)
+
       _(result).must_equal(
-        "<ObjectInspector::InspectorTest::SimpleTestObject>")
+        "<ObjectInspector::InspectorTest::SimpleTestObject>",
+      )
     end
   end
 
@@ -31,7 +33,8 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
       it "returns a String in the expected format for the Object" do
         _(subject.to_s).must_equal(
-          "<Identification[id:1](FLAG1) Info: 1 :: Name: 1>")
+          "<Identification[id:1](FLAG1) Info: 1 :: Name: 1>",
+        )
       end
     end
 
@@ -41,7 +44,8 @@ class ObjectInspector::InspectorTest < Minitest::Spec
       it "returns a String in the expected format for the Object" do
         _(subject.to_s).must_equal(
           "<Identification[id:1](FLAG1 | FLAG2) "\
-          "Info: 1 | Info: 2 :: Name: 1 | Name: 2>")
+          "Info: 1 | Info: 2 :: Name: 1 | Name: 2>",
+        )
       end
     end
   end
@@ -52,7 +56,8 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
       it "returns Object#inspect_identification" do
         _(subject.identification).must_equal(
-          full_object1.inspect_identification)
+          full_object1.inspect_identification,
+        )
       end
     end
 
@@ -68,7 +73,8 @@ class ObjectInspector::InspectorTest < Minitest::Spec
       subject {
         unit_class.new(
           simple_object1,
-          identification: "PASSED_IN_IDENTIFICATION")
+          identification: "PASSED_IN_IDENTIFICATION",
+        )
       }
 
       it "returns the passed in :identification" do
@@ -198,7 +204,8 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     given "#value is a Symbol" do
       it "returns Object#<value>, GIVEN Object responds to #value" do
         _(
-          subject.__send__(:evaluate_passed_in_value, :simple_test_method))
+          subject.__send__(:evaluate_passed_in_value, :simple_test_method),
+        )
           .must_equal("TEST_RESULT")
       end
 
@@ -211,7 +218,8 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     given "#value is not a Symbol" do
       it "returns #value" do
         _(
-          subject.__send__(:evaluate_passed_in_value, "simple_test_method"))
+          subject.__send__(:evaluate_passed_in_value, "simple_test_method"),
+        )
           .must_equal("simple_test_method")
       end
     end
@@ -237,17 +245,17 @@ class ObjectInspector::InspectorTest < Minitest::Spec
   end
 
   class InspectNameTestObject
-    def inspect_name; "INSPECT_NAME" end
+    def inspect_name = "INSPECT_NAME"
   end
 
   class DisplayNameTestObject
-    def display_name; "DISPLAY_NAME" end
+    def display_name = "DISPLAY_NAME"
   end
 
   class InspectAndDisplayNameTestObject
-    def inspect_name; "INSPECT_NAME" end
+    def inspect_name = "INSPECT_NAME"
 
-    def display_name; "DISPLAY_NAME" end
+    def display_name = "DISPLAY_NAME"
   end
 
   class SimpleTestObject

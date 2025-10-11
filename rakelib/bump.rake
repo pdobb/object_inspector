@@ -24,17 +24,21 @@ namespace :bump do
   task :ruby do
     replace_in_file(
       "object_inspector.gemspec",
-      /ruby_version = .*">= (.*)"/ => RubyVersions.lowest_supported_minor)
+      /ruby_version = .*">= (.*)"/ => RubyVersions.lowest_supported_minor,
+    )
     replace_in_file(
       ".rubocop.yml",
-      /TargetRubyVersion: (.*)/ => RubyVersions.lowest_supported_minor)
+      /TargetRubyVersion: (.*)/ => RubyVersions.lowest_supported_minor,
+    )
     replace_in_file(
       ".github/workflows/ci.yml",
-      /ruby-version: "([\d.]+)"/ => RubyVersions.latest)
+      /ruby-version: "([\d.]+)"/ => RubyVersions.latest,
+    )
     replace_in_file(
       ".github/workflows/ci.yml",
       /ruby-version: (\[(?:"[\d.]+"(?:, )?)*\])/ =>
-        RubyVersions.latest_supported_minors.to_s)
+        RubyVersions.latest_supported_minors.to_s,
+    )
   end
 
   desc "Update year to current in LICENSE.txt"
@@ -43,12 +47,14 @@ namespace :bump do
   end
 end
 
-def replace_in_file(path, replacements)
+def replace_in_file(path, replacements) # rubocop:disable Metrics/MethodLength
   file_contents = File.read(path)
   original_file_contents = file_contents.dup
 
   replacements.each do |regex, text|
-    raise("Can't find #{regex} in #{path}") unless regex.match?(file_contents)
+    unless regex.match?(file_contents)
+      raise(StandardError, "Can't find #{regex} in #{path}")
+    end
 
     file_contents.gsub!(regex) do |match|
       match[regex, 1] = text
@@ -65,12 +71,17 @@ end
 # https://www.ruby-lang.org/en/downloads/
 module RubyVersions
   MINOR_VERSION_REGEX = /\d+\.\d+/
+  private_constant :MINOR_VERSION_REGEX
+
   RUBY_VERSIONS_YAML_PATH =
     "https://raw.githubusercontent.com/ruby/www.ruby-lang.org/HEAD/_data/downloads.yml"
+  private_constant :RUBY_VERSIONS_YAML_PATH
+
   VERSION_TYPES = %i[
     security_maintenance
     stable
   ].freeze
+  private_constant :VERSION_TYPES
 
   def self.latest
     latest_supported_patches.last

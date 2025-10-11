@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# ObjectInspector is the base namespace for all modules/classes related to the
+# ObjectInspector is the base namespace for all modules/classes used by the
 # object_inspector gem.
 module ObjectInspector
   # Accessor for the {ObjectInspector::Configuration} object.
@@ -19,11 +19,11 @@ module ObjectInspector
     @configuration = Configuration.new
   end
 
+  # :reek:TooManyInstanceVariables
+
   # ObjectInspector::Configuration stores the default configuration options for
   # the ObjectInspector gem. Modification of attributes is possible at any time,
   # and values will persist for the duration of the running process.
-  #
-  # :reek:TooManyInstanceVariables
   class Configuration
     attr_reader :formatter_class,
                 :inspect_method_prefix,

@@ -10,7 +10,8 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
       subject {
         unit_class.new(
           object: SimpleTestObject.new,
-          method_name: method_name)
+          method_name:,
+        )
       }
 
       given "a public method_name" do
@@ -43,7 +44,8 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
         unit_class.new(
           object: AllOptionalKeywordArgumentsTestObject.new,
           method_name: :example_method,
-          kwargs: kwargs)
+          kwargs:,
+        )
       }
 
       given "a valid keyword argument" do
@@ -76,7 +78,8 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
         unit_class.new(
           object: SomeOptionalKeywordArgumentsTestObject.new,
           method_name: :example_method,
-          kwargs: kwargs)
+          kwargs:,
+        )
       }
 
       given "a missing required keyword argument" do
@@ -93,7 +96,8 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
         unit_class.new(
           object: AllRequiredKeywordArgumentsTestObject.new,
           method_name: :example_method,
-          kwargs: kwargs)
+          kwargs:,
+        )
       }
 
       given "no keyword arguments" do
@@ -107,25 +111,25 @@ class ObjectInspector::ObjectInterrogatorTest < Minitest::Spec
   end
 
   class SimpleTestObject
-    def example_method; "a"; end
+    def example_method = "a"
 
     private
 
-    def example_private_method; "b"; end
+    def example_private_method = "b"
   end
 
   class AllOptionalKeywordArgumentsTestObject
     # :reek:UncommunicativeParameterName
-    def example_method(a: 1, b: 2); [a, b]; end
+    def example_method(a: 1, b: 2) = [a, b]
   end
 
   class SomeOptionalKeywordArgumentsTestObject
     # :reek:UncommunicativeParameterName
-    def example_method(a:, b: 2); [a, b]; end
+    def example_method(a:, b: 2) = [a, b]
   end
 
   class AllRequiredKeywordArgumentsTestObject
     # :reek:UncommunicativeParameterName
-    def example_method(a:, b:); [a, b]; end
+    def example_method(a:, b:) = [a, b]
   end
 end
