@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+#### BREAKING CHANGES
+
+- Refactor `ObjectInspector::InspectorsHelper` -> `ObjectInspector::Behaviors`
+
+#### Non-Breaking Changes
+
 - Tidy up API Documentation a bit
 
 ### 0.10.0 - 2025-4-1

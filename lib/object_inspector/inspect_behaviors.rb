@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# ObjectInspector::InspectorsHelper can be included into any object to
-# simplify the process of instantiating an ObjectInspector::Inspector and
-# generating the inspection output.
-module ObjectInspector::InspectorsHelper
+# ObjectInspector::InspectBehaviors can be included into any object to override
+# the default `#inspect` method for that object to instead call
+# {ObjectInspector::Inspector.inspect}.
+module ObjectInspector::InspectBehaviors
   # Calls {ObjectInspector::Inspector.inspect} on the passed in `object`,
   # passing through any keyword arguments.
   #

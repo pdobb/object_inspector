@@ -133,11 +133,11 @@ MyObject.new.inspect
 
 ## Helper Usage
 
-To save some typing, include ObjectInspector::InspectHelper into an object and `ObjectInspector::Inspector.inspect` will be called on `self` automatically.
+To save some typing, include ObjectInspector::InspectBehaviors into an object and `ObjectInspector::Inspector.inspect` will be called on `self` automatically.
 
 ```ruby
 class MyObject
-  include ObjectInspector::InspectorsHelper
+  include ObjectInspector::InspectBehaviors
 end
 
 MyObject.new.inspect  # => "<MyObject>"
@@ -147,7 +147,7 @@ To access the ObjectInspector::Inspector's options via the helper, call into `su
 
 ```ruby
 class MyObject
-  include ObjectInspector::InspectorsHelper
+  include ObjectInspector::InspectBehaviors
 
   def inspect
     super(identification: "My Object",
@@ -166,7 +166,7 @@ Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and/or `in
 
 ```ruby
 class MyObject
-  include ObjectInspector::InspectorsHelper
+  include ObjectInspector::InspectBehaviors
 
   private
 
@@ -183,7 +183,7 @@ MyObject.new.inspect
 
 ### Helper Inclusion
 
-It may be useful to conditionally include ObjectInspector::InspectorsHelper, as well as other similar methods, via a mix-in.
+It may be useful to conditionally include ObjectInspector::InspectBehaviors, as well as other similar methods, via a mix-in.
 
 ```ruby
 module ObjectInspectionBehaviors
@@ -194,7 +194,7 @@ module ObjectInspectionBehaviors
     # chance to.
     alias_method :__inspect__, :inspect
 
-    include ObjectInspector::InspectorsHelper
+    include ObjectInspector::InspectBehaviors
   end
 
   # An example of another, similar style of method you may wish to utilize in
@@ -257,7 +257,7 @@ scope.complex?  # => true
 scope.all?      # => true
 ```
 
-_**NOTE**_: Calling `#inspect!` on an object that mixes in `ObjectInspector::InspectorsHelper` is equivalent to passing in the "wild card" scope.
+_**NOTE**_: Calling `#inspect!` on an object that mixes in `ObjectInspector::InspectBehaviors` is equivalent to passing in the "wild card" scope.
 
 ### Scope blocks
 
@@ -294,7 +294,7 @@ scope.join_info([1, 2, 3, nil])   # => "1 | 2 | 3"
 
 ```ruby
 class MyObject
-  include ObjectInspector::InspectorsHelper
+  include ObjectInspector::InspectBehaviors
 
   attr_reader :name,
               :a2
@@ -395,7 +395,7 @@ If the Object being inspected wraps another object--i.e. defines #to_model and #
 
 ```ruby
 class MyWrapperObject
-  include ObjectInspector::InspectorsHelper
+  include ObjectInspector::InspectBehaviors
 
   def to_model
     @to_model ||= MyWrappedObject.new
@@ -408,7 +408,7 @@ class MyWrapperObject
 end
 
 class MyWrappedObject
-  include ObjectInspector::InspectorsHelper
+  include ObjectInspector::InspectBehaviors
 
   private
 
@@ -432,7 +432,7 @@ If the Object being inspected is wrapped by an object that delegates all unknown
 
 ```ruby
 class MyDelegatingWrapperObject
-  include ObjectInspector::InspectorsHelper
+  include ObjectInspector::InspectBehaviors
 
   def initialize(my_object)
     @my_object = my_object
@@ -463,7 +463,7 @@ class MyDelegatingWrapperObject
 end
 
 class MyWrappedObject
-  include ObjectInspector::InspectorsHelper
+  include ObjectInspector::InspectBehaviors
 
   def display_name
     "WRAPPED_OBJECT_NAME"
@@ -487,7 +487,7 @@ When passed as an option (as opposed to being called via an Object-defined metho
 
 ```ruby
 class MyObject
-  include ObjectInspector::InspectorsHelper
+  include ObjectInspector::InspectBehaviors
 
   def my_method1 = "Result1"
   def my_method2 = "Result2"
@@ -506,7 +506,7 @@ Pass `nil` to any inspect method type to not display it:
 
 ```ruby
 class MyObject
-  include ObjectInspector::InspectorsHelper
+  include ObjectInspector::InspectBehaviors
 
   def inspect_identification = "My Object"
   def inspect_info = "INFO"
@@ -535,7 +535,7 @@ class MyCustomFormatter < ObjectInspector::BaseFormatter
 end
 
 class MyObject
-  include ObjectInspector::InspectorsHelper
+  include ObjectInspector::InspectBehaviors
 
   def inspect
     super(
@@ -562,7 +562,7 @@ Object Inspector works great with the [Object Identifier](https://github.com/pdo
 
 ```ruby
 class MyObject
-  include ObjectInspector::InspectorsHelper
+  include ObjectInspector::InspectBehaviors
 
   def my_method1
     1

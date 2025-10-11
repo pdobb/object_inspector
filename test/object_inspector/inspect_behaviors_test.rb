@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class ObjectInspector::InspectorsHelperTest < Minitest::Spec
+class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
   let(:simple_object1) { SimpleTestObject.new }
 
   let(:delegating_wrapper_for_full_object1) {
@@ -16,7 +16,7 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
     describe "GIVEN a simple object" do
       it "calls ObjectInspector::Inspector from Object#inspect" do
         _(subject.inspect).must_equal(
-          "<ObjectInspector::InspectorsHelperTest::SimpleTestObject>",
+          "<ObjectInspector::InspectBehaviorsTest::SimpleTestObject>",
         )
       end
     end
@@ -37,7 +37,7 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
       it "returns a String in the expected format for the Object" do
         # rubocop:disable Layout/LineLength
         _(subject.inspect).must_equal(
-          "<ObjectInspector::InspectorsHelperTest::DelegatingWrapperForFullTestObject>  ⇨  "\
+          "<ObjectInspector::InspectBehaviorsTest::DelegatingWrapperForFullTestObject>  ⇨  "\
           "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>",
         )
         # rubocop:enable Layout/LineLength
@@ -51,7 +51,7 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
     describe "GIVEN a simple object" do
       it "returns the expected String" do
         _(subject.inspect!).must_equal(
-          "<ObjectInspector::InspectorsHelperTest::SimpleTestObject>",
+          "<ObjectInspector::InspectBehaviorsTest::SimpleTestObject>",
         )
       end
     end
@@ -73,7 +73,7 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
       it "returns a String in the expected format for the Object" do
         # rubocop:disable Layout/LineLength
         _(subject.inspect!).must_equal(
-          "<ObjectInspector::InspectorsHelperTest::DelegatingWrapperForFullTestObject>  ⇨  "\
+          "<ObjectInspector::InspectBehaviorsTest::DelegatingWrapperForFullTestObject>  ⇨  "\
           "<Identification[id:9](FLAG1 | FLAG2 | FLAG3) "\
           "Info: 1 | Info: 2 | Info: 3 :: Name: 1 | Name: 2 | Name: 3>",
         )
@@ -83,12 +83,12 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
   end
 
   class SimpleTestObject
-    include ObjectInspector::InspectorsHelper
+    include ObjectInspector::InspectBehaviors
   end
 
   # :reek:RepeatedConditional
   class FullTestObject
-    include ObjectInspector::InspectorsHelper
+    include ObjectInspector::InspectBehaviors
 
     private
 
@@ -120,7 +120,7 @@ class ObjectInspector::InspectorsHelperTest < Minitest::Spec
   end
 
   class DelegatingWrapperForFullTestObject
-    include ObjectInspector::InspectorsHelper
+    include ObjectInspector::InspectBehaviors
 
     def initialize(object)
       @object = object
