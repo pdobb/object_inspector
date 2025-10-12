@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    object_inspector (0.7.0)
+    object_inspector (0.7.1)
 
 GEM
   remote: https://rubygems.org/
@@ -150,6 +150,7 @@ GEM
 PLATFORMS
   arm64-darwin-23
   arm64-darwin-24
+  arm64-darwin-25
   x86_64-linux
 
 DEPENDENCIES

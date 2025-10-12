@@ -1,6 +1,8 @@
 ## [Unreleased]
 
-- Allow disabling ObjectInspector for the current session with: `ObjectInspector.configuration.disable`. Re-enable with: `ObjectInspector.configuration.enable`. Or, toggle with `ObjectInspector.configuration.toggle`.
+### 0.7.1 - 2025-10-12
+
+- Backport from v1.0.0: Allow disabling ObjectInspector for the current session with: `ObjectInspector.configuration.disable`. Re-enable with: `ObjectInspector.configuration.enable`. Or, toggle with `ObjectInspector.configuration.toggle`.
 
 ### 0.7.0 - 2024-11-21
 
