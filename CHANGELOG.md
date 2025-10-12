@@ -6,6 +6,7 @@
 
 #### Non-Breaking Changes
 
+- Internal refactoring
 - Allow ObjectInspector::Scope to be initialized with individually-passed scope names
 - Show pretty-inspect output for ObjectInspector::Scope objects
 - Tidy up API Documentation a bit

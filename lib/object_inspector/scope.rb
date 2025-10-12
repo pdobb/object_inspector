@@ -86,7 +86,7 @@ class ObjectInspector::Scope
   # @return [FalseClass] If self and `other` resolve to a different set of
   #   objects.
   def ==(other)
-    @names == Array(other).map(&:to_s).sort!
+    names == Array(other).map(&:to_s).sort!
   end
   alias eql? ==
 
@@ -155,7 +155,7 @@ class ObjectInspector::Scope
   end
 
   def any_names_match?(other_name)
-    @names.any?(other_name)
+    names.any?(other_name)
   end
 
   # :reek:BooleanParameter

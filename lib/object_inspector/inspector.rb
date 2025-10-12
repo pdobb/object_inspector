@@ -34,8 +34,8 @@ class ObjectInspector::Inspector
   # @param formatter [ObjectInspector::BaseFormatter]
   #   (ObjectInspector.configuration.formatter) The formatter object type
   #   to use for formatting the inspect String.
-  # @param kwargs [Hash] Options to be sent to {#object} via the
-  #   {ObjectInspector::ObjectInterrogator} when calling the `inspect_*`
+  # @param kwargs [Hash] Options to be sent to {#object} via
+  #   {ObjectInspector::InterrogateObject} when calling the `inspect_*`
   #   methods.
   def initialize(
     object,
@@ -77,7 +77,7 @@ class ObjectInspector::Inspector
   #
   # @return [String]
   def identification
-    (value(key: :identification) || @object.class).to_s
+    (value(key: :identification) || object.class).to_s
   end
 
   # Boolean flags/states applicable to {#object}.
@@ -124,8 +124,12 @@ class ObjectInspector::Inspector
 
   private
 
+  attr_reader :scope,
+              :formatter_class,
+              :kwargs
+
   def formatter
-    @formatter_class.new(self)
+    formatter_class.new(self)
   end
 
   # @return [String] If `key` is found in {#kwargs} or if {#object} responds to
@@ -133,8 +137,8 @@ class ObjectInspector::Inspector
   # @return [NilClass] If not found in {#kwargs} or {#object}.
   def value(key:)
     return_value =
-      if @kwargs.key?(key)
-        evaluate_passed_in_value(@kwargs[key])
+      if kwargs.key?(key)
+        evaluate_passed_in_value(kwargs[key])
       else
         interrogate_object_inspect_method(key)
       end
@@ -173,14 +177,7 @@ class ObjectInspector::Inspector
   end
 
   def interrogate_object(method_name:, kwargs: {})
-    interrogator =
-      ObjectInspector::ObjectInterrogator.new(
-        object: @object,
-        method_name:,
-        kwargs:,
-      )
-
-    interrogator.call
+    ObjectInspector::InterrogateObject.(object, method_name:, kwargs:)
   end
 
   # :reek:UtilityFunction
@@ -193,19 +190,17 @@ class ObjectInspector::Inspector
   end
 
   def object_method_keyword_arguments
-    {
-      scope: @scope,
-    }
+    { scope: }
   end
 
   def extract_wrapped_object
-    @object.to_model
+    object.to_model
   end
 
   # :reek:ManualDispatch
 
   def object_is_a_wrapper?
-    @object.respond_to?(:to_model) &&
-      @object.to_model != @object
+    object.respond_to?(:to_model) &&
+      object.to_model != object
   end
 end

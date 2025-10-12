@@ -5,12 +5,14 @@
 #
 # If {#object}#{#method_name} accepts the supplied `kwargs` then they are passed
 # in as well. If not, then any supplied `kwargs` will be ignored.
-class ObjectInspector::ObjectInterrogator
+class ObjectInspector::InterrogateObject
+  def self.call(...) = new(...).call
+
   attr_reader :object,
               :method_name,
               :kwargs
 
-  def initialize(object:, method_name:, kwargs: {})
+  def initialize(object, method_name:, kwargs: {})
     @object = object
     @method_name = method_name
     @kwargs = kwargs

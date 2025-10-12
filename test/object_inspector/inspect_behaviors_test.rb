@@ -11,9 +11,9 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
   let(:full_object1) { FullTestObject.new }
 
   describe "#inspect" do
-    subject { simple_object1 }
+    given "a simple object" do
+      subject { simple_object1 }
 
-    describe "GIVEN a simple object" do
       it "calls ObjectInspector::Inspector from Object#inspect" do
         _(subject.inspect).must_equal(
           "<ObjectInspector::InspectBehaviorsTest::SimpleTestObject>",
@@ -46,9 +46,9 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
   end
 
   describe "#inspect!" do
-    subject { simple_object1 }
+    given "a simple object" do
+      subject { simple_object1 }
 
-    describe "GIVEN a simple object" do
       it "returns the expected String" do
         _(subject.inspect!).must_equal(
           "<ObjectInspector::InspectBehaviorsTest::SimpleTestObject>",

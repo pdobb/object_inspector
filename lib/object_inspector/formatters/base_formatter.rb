@@ -24,14 +24,14 @@ class ObjectInspector::BaseFormatter
   # @return [NilClass] If not given.
   def wrapped_object_inspection_result
     @wrapped_object_inspection_result ||=
-      @inspector.wrapped_object_inspection_result
+      inspector.wrapped_object_inspection_result
   end
 
   # Delegates to {Inspector#identification}.
   #
   # @return [String] If given.
   def identification
-    @identification ||= @inspector.identification
+    @identification ||= inspector.identification
   end
 
   # Delegates to {Inspector#flags}.
@@ -39,7 +39,7 @@ class ObjectInspector::BaseFormatter
   # @return [String] If given.
   # @return [NilClass] If not given.
   def flags
-    @flags ||= @inspector.flags
+    @flags ||= inspector.flags
   end
 
   # Delegates to {Inspector#issues}.
@@ -47,7 +47,7 @@ class ObjectInspector::BaseFormatter
   # @return [String] If given.
   # @return [NilClass] If not given.
   def issues
-    @issues ||= @inspector.issues
+    @issues ||= inspector.issues
   end
 
   # Delegates to {Inspector#info}.
@@ -55,7 +55,7 @@ class ObjectInspector::BaseFormatter
   # @return [String] If given.
   # @return [NilClass] If not given.
   def info
-    @info ||= @inspector.info
+    @info ||= inspector.info
   end
 
   # Delegates to {Inspector#name}.
@@ -63,6 +63,6 @@ class ObjectInspector::BaseFormatter
   # @return [String] If given.
   # @return [NilClass] If not given.
   def name
-    @name ||= @inspector.name
+    @name ||= inspector.name
   end
 end
