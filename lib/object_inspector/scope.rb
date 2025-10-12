@@ -99,6 +99,10 @@ class ObjectInspector::Scope
     names
   end
 
+  def inspect
+    "<#{self.class.name} :: #{names.inspect}>"
+  end
+
   private
 
   def method_missing(method_name, *args, &)

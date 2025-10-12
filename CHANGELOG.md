@@ -6,6 +6,7 @@
 
 #### Non-Breaking Changes
 
+- Show pretty-inspect output for ObjectInspector::Scope objects
 - Tidy up API Documentation a bit
 
 ### 0.10.0 - 2025-4-1
