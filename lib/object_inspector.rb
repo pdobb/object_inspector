@@ -36,7 +36,8 @@ module ObjectInspector
                 :issues_separator,
                 :info_separator
 
-    def initialize
+    def initialize # rubocop:disable Metrics/MethodLength
+      @enabled = true
       @formatter_class = TemplatingFormatter
       @inspect_method_prefix = "inspect"
       @default_scope = Scope.new(:self)
@@ -47,6 +48,21 @@ module ObjectInspector
       @flags_separator = " / "
       @issues_separator = " | "
       @info_separator = " | "
+    end
+
+    def toggle = enabled? ? disable : enable
+    def enabled? = @enabled
+
+    def enable
+      @enabled = true
+      puts(" -> ObjectInspector enabled")
+    end
+
+    def disabled? = !enabled?
+
+    def disable
+      @enabled = false
+      puts(" -> ObjectInspector disabled")
     end
 
     def formatter_class=(value)

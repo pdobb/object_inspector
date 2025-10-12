@@ -6,6 +6,7 @@
 
 #### Non-Breaking Changes
 
+- Allow disabling ObjectInspector for the current session with: `ObjectInspector.configuration.disable`. Re-enable with: `ObjectInspector.configuration.enable`
 - Internal refactoring
 - Allow ObjectInspector::Scope to be initialized with individually-passed scope names
 - Show pretty-inspect output for ObjectInspector::Scope objects

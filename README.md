@@ -60,6 +60,7 @@ Global/default values for Object Inspector can be configured via the [ObjectInsp
 
 # Default values are shown. Customize to your liking.
 ObjectInspector.configure do |config|
+  config.enabled = true
   config.formatter_class = ObjectInspector::TemplatingFormatter
   config.inspect_method_prefix = "inspect"
   config.default_scope = ObjectInspector::Scope.new(:self)
@@ -84,7 +85,10 @@ class MyObject
   end
 end
 
-MyObject.new.inspect  # => "<MyObject>"
+MyObject.new.inspect # => "<MyObject>"
+
+MyObject.new # =>
+<MyObject>
 ```
 
 See: [Helper Usage](#helper-usage) for simpler usage.
@@ -106,8 +110,8 @@ class MyObject
   end
 end
 
-MyObject.new.inspect
-# => "<My Object(FLAG1 / FLAG2) !!ISSUE1!! INFO :: NAME>"
+MyObject.new # =>
+<My Object(FLAG1 / FLAG2) !!ISSUE1!! INFO :: NAME>
 ```
 
 Or, define `inspect_identification`, `inspect_flags`, `inspect_issues`, `inspect_info`, and/or `inspect_name` (or `display_name`) as either public or private methods on Object.
@@ -127,8 +131,8 @@ class MyObject
   def inspect_name = "NAME"  # Or: def display_name = "NAME"
 end
 
-MyObject.new.inspect
-# => "<My Object(FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>"
+MyObject.new # =>
+<My Object(FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>
 ```
 
 ## Helper Usage
@@ -140,7 +144,8 @@ class MyObject
   include ObjectInspector::InspectBehaviors
 end
 
-MyObject.new.inspect  # => "<MyObject>"
+MyObject.new # =>
+<MyObject>
 ```
 
 To access the ObjectInspector::Inspector's options via the helper, call into `super`.
@@ -158,8 +163,8 @@ class MyObject
   end
 end
 
-MyObject.new.inspect
-# => "<My Object(FLAG1) !!ISSUE1 | ISSUE2!! INFO :: NAME>"
+MyObject.new # =>
+<My Object(FLAG1) !!ISSUE1 | ISSUE2!! INFO :: NAME>
 ```
 
 Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and/or `inspect_name` (or `display_name`) in Object.
@@ -177,32 +182,72 @@ class MyObject
   def inspect_name = "NAME"  # Or: def display_name = "NAME"
 end
 
-MyObject.new.inspect
-# => "<My Object(FLAG1) !!ISSUE1 | ISSUE2!! INFO :: NAME>"
+MyObject.new # =>
+<My Object(FLAG1) !!ISSUE1 | ISSUE2!! INFO :: NAME>
+```
+
+### Disabling ObjectInspector
+
+You may disable / re-enable Object Inspector output (via the included helper method) for the current session:
+
+```ruby
+MyObject.new # =>
+<My Object(FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>
+
+ObjectInspector.configuration.disable # =>
+ -> ObjectInspector disabled
+MyObject.new # =>
+#<MyObject:0x000000012332c458>
+
+ObjectInspector.configuration.enable # =>
+ -> ObjectInspector enabled
+MyObject.new # =>
+<My Object(FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>
+```
+
+Or, toggle current state:
+
+```ruby
+ObjectInspector.configuration.toggle; # =>
+ -> ObjectInspector disabled
+
+ObjectInspector.configuration.toggle; # =>
+ -> ObjectInspector enabled
 ```
 
 ### Helper Inclusion
 
-It may be useful to conditionally include ObjectInspector::InspectBehaviors, as well as other similar methods, via a mix-in.
+Instead of including `ObjectInspector::InspectBehaviors` directly, it may be useful to define your own mix-in.
 
 ```ruby
 module ObjectInspectionBehaviors
-  extend ActiveSupport::Concern
+  include ObjectInspector::InspectBehaviors
 
-  included do
-    # If you'd like to preserve the original inspect method, here is your
-    # chance to.
-    alias_method :__inspect__, :inspect
-
-    include ObjectInspector::InspectBehaviors
-  end
-
-  # An example of another, similar style of method you may wish to utilize in
-  # this mix-in.
+  # For defining #inspect chains.
   def introspect
+    # { self => ... }
     self
   end
 end
+```
+
+#### Usage:
+
+```ruby
+class MyObject
+  include ObjectInspectionBehaviors # 👀 Defined above.
+
+  private
+
+  def inspect_identification = "My Object"
+  def inspect_flags = "FLAG1 / FLAG2"
+  def inspect_issues = "ISSUE1 | ISSUE2"
+  def inspect_info = "INFO"
+  def inspect_name = "NAME"  # Or: def display_name = "NAME"
+end
+
+MyObject.new # =>
+<My Object(FLAG1) !!ISSUE1 | ISSUE2!! INFO :: NAME>
 ```
 
 ## Scopes
@@ -212,7 +257,7 @@ The default value is `ObjectInspector::Scope.new(:self)`.
 
 ### Scope Names
 
-ObjectInspector::Scope acts like [ActiveSupport::StringInquirer](http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html). This is a prettier way to test for a given type of "scope" within objects.
+ObjectInspector::Scope acts like an [ActiveSupport::StringInquirer](http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html). This is a prettier way to test for a given type of "scope" within objects.
 
 The ObjectInspector::Scope objects in these examples are the same as specifying `<scope_name>` like this:
 
@@ -240,9 +285,9 @@ It is also possible to pass in multiple scope names to match on.
 
 ```ruby
 scope = ObjectInspector::Scope.new(%i[verbose complex])
-scope.self?     # => false
-scope.verbose?  # => true
-scope.complex?  # => true
+scope.self?    # => false
+scope.verbose? # => true
+scope.complex? # => true
 ```
 
 #### The "Wild Card" Scope
@@ -251,10 +296,10 @@ Finally, `:all` is a "wild card" scope name, and will match on all scope names.
 
 ```ruby
 scope = ObjectInspector::Scope.new(:all)
-scope.self?     # => true
-scope.verbose?  # => true
-scope.complex?  # => true
-scope.all?      # => true
+scope.self?    # => true
+scope.verbose? # => true
+scope.complex? # => true
+scope.all?     # => true
 ```
 
 _**NOTE**_: Calling `#inspect!` on an object that mixes in `ObjectInspector::InspectBehaviors` is equivalent to passing in the "wild card" scope.
@@ -265,8 +310,8 @@ Passing a block to a scope predicate falls back to the out-of-scope placeholder 
 
 ```ruby
 scope = ObjectInspector::Scope.new(:verbose)
-scope.verbose? { "MATCH" }  # => "MATCH"
-scope.complex? { "MATCH" }  # => "*"
+scope.verbose? { "MATCH" } # => "MATCH"
+scope.complex? { "MATCH" } # => "*"
 ```
 
 ### Scope Joiners
@@ -274,10 +319,10 @@ scope.complex? { "MATCH" }  # => "*"
 ObjectInspector::Scope also offers helper methods for uniformly joining inspect elements:
 
 ```ruby
-join_name   # Joins name parts with ` - ` by default
-join_flags  # Joins flags with ` / ` by default
-join_issues # Joins issues with ` | ` by default
-join_info   # Joins info items with ` | ` by default
+scope.join_name   # Joins name parts with ` - ` by default
+scope.join_flags  # Joins flags with ` / ` by default
+scope.join_issues # Joins issues with ` | ` by default
+scope.join_info   # Joins info items with ` | ` by default
 ```
 
 For example:
@@ -377,16 +422,16 @@ my_object.inspect! # 👀 Same as passing in `scope: :all`
 # => "<MyObject[2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!I1 | VI2!! Default Info | Complex Info | Verbose Info :: Name>"
 
 ObjectInspector.configuration.default_scope = :complex
-my_object.inspect
-# => "<MyObject[2](DEFAULT_FLAG / *) !!I1 | *!! Default Info | Complex Info | * :: Name>"
+my_object # =>
+<MyObject[2](DEFAULT_FLAG / *) !!I1 | *!! Default Info | Complex Info | * :: Name>
 
 ObjectInspector.configuration.default_scope = %i[self complex verbose]
-my_object.inspect
-# => "<MyObject[2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!I1 | VI2!! Default Info | Complex Info | Verbose Info :: Name>"
+my_object # =>
+<MyObject[2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!I1 | VI2!! Default Info | Complex Info | Verbose Info :: Name>
 
 ObjectInspector.configuration.default_scope = :all
-my_object.inspect
-# => "<MyObject[2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!I1 | VI2!! Default Info | Complex Info | Verbose Info :: Name>"
+my_object # =>
+<MyObject[2](DEFAULT_FLAG / AO1_FLAG1 / AO2_FLAG1) !!I1 | VI2!! Default Info | Complex Info | Verbose Info :: Name>
 ```
 
 ## Wrapped Objects
@@ -417,11 +462,11 @@ class MyWrappedObject
   def inspect_issues(scope:) = scope.complex? { "CI1" }
 end
 
-MyWrapperObject.new.inspect
-# => "<MyWrapperObject(WRAPPER_FLAG1) !!*!!>  ⇨  <MyWrappedObject(FLAG1 / FLAG2) !!*!! INFO>"
+MyWrapperObject.new # =>
+<MyWrapperObject(WRAPPER_FLAG1) !!*!!>  ⇨  <MyWrappedObject(FLAG1 / FLAG2) !!*!! INFO>
 
-MyWrapperObject.new.inspect!
-# => "<MyWrapperObject(WRAPPER_FLAG1) !!CI1!!>  ⇨  <MyWrappedObject(FLAG1 / FLAG2) !!CI1!! INFO>"
+MyWrapperObject.new! # =>
+<MyWrapperObject(WRAPPER_FLAG1) !!CI1!!>  ⇨  <MyWrappedObject(FLAG1 / FLAG2) !!CI1!! INFO>
 ```
 
 This feature is recursive.
@@ -477,8 +522,8 @@ class MyWrappedObject
   def inspect_name = "NAME"
 end
 
-MyDelegatingWrapperObject.new(MyWrappedObject.new).inspect
-# => "<MyDelegatingWrapperObject>  ⇨  <MyWrappedObject(FLAG1) !!ISSUE1!! INFO :: NAME>"
+MyDelegatingWrapperObject.new(MyWrappedObject.new) # =>
+<MyDelegatingWrapperObject>  ⇨  <MyWrappedObject(FLAG1) !!ISSUE1!! INFO :: NAME>
 ```
 
 ## On-the-fly Inspect Methods
@@ -495,9 +540,9 @@ class MyObject
   def inspect_info = :my_method2
 end
 
-MyObject.new.inspect(info: "my_method1")  # => "<MyObject my_method1>"
-MyObject.new.inspect(info: :my_method2)   # => "<MyObject Result2>"
-MyObject.new.inspect                      # => "<MyObject my_method2>"
+MyObject.new.inspect(info: "my_method1") # => "<MyObject my_method1>"
+MyObject.new.inspect(info: :my_method2)  # => "<MyObject Result2>"
+MyObject.new.inspect                     # => "<MyObject my_method2>"
 ```
 
 ## Clearing Output for Specified Inspect Method
@@ -547,14 +592,43 @@ class MyObject
   end
 end
 
-MyObject.new.inspect
-# => "[IDENTIFICATION Flags: FLAG1 / FLAG2 -- Info: INFO -- Name: NAME]"
+MyObject.new # =>
+[IDENTIFICATION Flags: FLAG1 / FLAG2 -- Info: INFO -- Name: NAME]
 ```
 
 See examples:
 
 - [ObjectInspector::TemplatingFormatter]
 - [ObjectInspector::CombiningFormatter]
+
+## Help
+
+### How can I see the original inspect output on ActiveRecord objects?
+
+Simply [disable Object Inspector](#disabling-object-inspector) and you'll see ActiveRecord's Pretty Print formatting shine through again. For example:
+
+```ruby
+class User < ApplicationRecord
+  include ObjectInspectionBehaviors # 👀 Defined above.
+
+  # ...
+end
+
+User.new # =>
+<User[1] :: John Smith>
+
+ObjectInspector.configuration.disable; # =>
+ -> ObjectInspector disabled
+
+User.new # =>
+#<User:0x0000000125ce9890
+ id: "6c6d6f4b-05fd-4d81-af3e-1947a6a38aa0",
+ first_name: "John",
+ last_name: "Smith",
+ time_zone: nil,
+ created_at: "2025-02-10 12:27:23.793833000 -0600",
+ updated_at: "2025-02-11 13:15:00.301991000 -0600">
+```
 
 ## Supporting Gems
 
@@ -584,8 +658,50 @@ class MyObject
   def inspect_name = "NAME"
 end
 
-MyObject.new.inspect
-# => "<MyObject[my_method1:1, my_method2:2](FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>"
+MyObject.new # =>
+<MyObject[my_method1:1, my_method2:2](FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>
+```
+
+## Adding Utilities Methods to `.irbrc` / `.pryrc`
+
+One may wish to add some convenience methods to their project-local `.irbrc`/`.pryrc` file, and/or their global `~/.irbrc`/`~/.pryrc` file. For example:
+
+```ruby
+# OBJECT INSPECTOR GEM
+
+def toggle_object_inspector = ObjectInspector.configuration.toggle
+alias oit toggle_object_inspector
+
+def get_object_inspector_current_scope
+  ObjectInspector.configuration.default_scope
+end
+alias oi get_object_inspector_current_scope
+
+# :simple is the default inspection scope.
+def set_object_inspector_scope_simple = set_object_inspector_scope(:simple)
+alias ois set_object_inspector_scope_simple
+
+def set_object_inspector_scope_complex = set_object_inspector_scope(:complex)
+alias oic set_object_inspector_scope_complex
+
+def set_object_inspector_scope_verbose = set_object_inspector_scope(:verbose)
+alias oiv set_object_inspector_scope_verbose
+
+# Set :all (wild-card) inspection scope.
+def set_object_inspector_scope_all = set_object_inspector_scope(:all)
+alias oia set_object_inspector_scope_all
+
+# Set a custom scope or set of scopes.
+#
+# @example
+#   set_object_inspector_scope(:my_custom_scope)
+#   set_object_inspector_scope(:complex, :verbose)
+#   set_object_inspector_scope(%i[complex verbose my_custom_scope])
+def set_object_inspector_scope(*names)
+  ObjectInspector.configuration.default_scope = *names
+  get_object_inspector_current_scope
+end
+alias oiset set_object_inspector_scope
 ```
 
 ## Performance

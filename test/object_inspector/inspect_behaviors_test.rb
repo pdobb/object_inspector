@@ -43,6 +43,24 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
         # rubocop:enable Layout/LineLength
       end
     end
+
+    given "ObjectInspector.configuration.enabled? = false" do
+      before do
+        ObjectInspector.configuration.disable
+      end
+
+      after do
+        ObjectInspector.configuration.enable
+      end
+
+      subject { full_object1 }
+
+      it "calls the original #inspect method, ignoring" do
+        _(subject.inspect).must_match(
+          /#<ObjectInspector::InspectBehaviorsTest::FullTestObject:0x\w+>/,
+        )
+      end
+    end
   end
 
   describe "#inspect!" do
@@ -78,6 +96,24 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
           "Info: 1 | Info: 2 | Info: 3 :: Name: 1 | Name: 2 | Name: 3>",
         )
         # rubocop:enable Layout/LineLength
+      end
+    end
+
+    given "ObjectInspector.configuration.enabled? = false" do
+      before do
+        ObjectInspector.configuration.disable
+      end
+
+      after do
+        ObjectInspector.configuration.enable
+      end
+
+      subject { simple_object1 }
+
+      it "ignores the disabling and returns the expected #inspect! String" do
+        _(subject.inspect!).must_equal(
+          "<ObjectInspector::InspectBehaviorsTest::SimpleTestObject>",
+        )
       end
     end
   end

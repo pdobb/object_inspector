@@ -8,8 +8,10 @@ module ObjectInspector::InspectBehaviors
   # passing through any keyword arguments.
   #
   # @return [String]
-  def inspect(object = self, **)
-    ObjectInspector::Inspector.inspect(object, **)
+  def inspect(**)
+    return super() if ObjectInspector.configuration.disabled?
+
+    ObjectInspector::Inspector.inspect(self, **)
   end
 
   # Like {#inspect} but forces scope to `:all`. This (the bang (!) version) is
@@ -18,7 +20,17 @@ module ObjectInspector::InspectBehaviors
   # on how the inspect hooks are setup.
   #
   # @return [String]
-  def inspect!(object = self, **)
-    ObjectInspector::Inspector.inspect(object, **, scope: :all)
+  def inspect!(**)
+    ObjectInspector::Inspector.inspect(self, **, scope: :all)
+  end
+
+  private
+
+  # :reek:UtilityFunction
+
+  # Allow ActiveRecord::Core#pretty_print to produce the standard Pretty-printed
+  # output (vs just straight #inspect String) when ObjectInspector is disabled.
+  def custom_inspect_method_defined?
+    ObjectInspector.configuration.enabled?
   end
 end
