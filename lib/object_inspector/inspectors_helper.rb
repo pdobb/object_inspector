@@ -8,7 +8,19 @@ module ObjectInspector::InspectorsHelper
   # passing it the passed in `kwargs` (keyword arguments).
   #
   # @return [String]
-  def inspect(object = self, **kwargs)
-    ObjectInspector::Inspector.inspect(object, **kwargs)
+  def inspect(**kwargs)
+    return super() if ObjectInspector.configuration.disabled?
+
+    ObjectInspector::Inspector.inspect(self, **kwargs)
+  end
+
+  private
+
+  # :reek:UtilityFunction
+
+  # Allow ActiveRecord::Core#pretty_print to produce the standard Pretty-printed
+  # output (vs just straight #inspect String) when ObjectInspector is disabled.
+  def custom_inspect_method_defined?
+    ObjectInspector.configuration.enabled?
   end
 end

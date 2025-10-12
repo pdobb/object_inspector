@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Allow disabling ObjectInspector for the current session with: `ObjectInspector.configuration.disable`. Re-enable with: `ObjectInspector.configuration.enable`. Or, toggle with `ObjectInspector.configuration.toggle`.
+
 ### 0.7.0 - 2024-11-21
 
 - Update minimum Ruby version from 2.7 -> 3.1

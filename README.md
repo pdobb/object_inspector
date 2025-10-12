@@ -45,6 +45,7 @@ _Note: In a Rails app, the following would go in e.g. `config/initializers/objec
 ```ruby
 # Default values are shown.
 ObjectInspector.configure do |config|
+  config.enabled = true
   config.formatter_class = ObjectInspector::TemplatingFormatter
   config.inspect_method_prefix = "inspect"
   config.default_scope = ObjectInspector::Scope.new(:self)
