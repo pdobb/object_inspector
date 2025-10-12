@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Tidy up API Documentation a bit
+
 ### 0.10.0 - 2025-4-1
 
 - Add a note about Helper Inclusion to README

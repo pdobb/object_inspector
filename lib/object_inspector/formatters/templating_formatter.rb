@@ -4,9 +4,8 @@
 # :reek:TooManyMethods
 # rubocop:disable Metrics/ClassLength
 
-# ObjectInspector::TemplatingFormatter specializes on
-# {ObjectInspector::BaseFormatter} to return the standard/default inspect
-# output format via String templates.
+# Specializes on {ObjectInspector::BaseFormatter} to return the standard/default
+# inspect output format using String templates.
 #
 # @attr (see BaseFormatter)
 class ObjectInspector::TemplatingFormatter < ObjectInspector::BaseFormatter
@@ -52,8 +51,7 @@ class ObjectInspector::TemplatingFormatter < ObjectInspector::BaseFormatter
       "#{wrapped_object_inspection_result}"
   end
 
-  # rubocop:disable Metrics/MethodLength
-  def build_string
+  def build_string # rubocop:disable Metrics/MethodLength
     if flags
       build_string_with_flags_and_maybe_issues_and_info_and_name
     elsif issues
@@ -66,7 +64,6 @@ class ObjectInspector::TemplatingFormatter < ObjectInspector::BaseFormatter
       build_base_string
     end
   end
-  # rubocop:enable Metrics/MethodLength
 
   def build_string_with_flags_and_maybe_issues_and_info_and_name
     if issues

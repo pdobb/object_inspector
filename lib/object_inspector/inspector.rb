@@ -2,10 +2,19 @@
 
 # :reek:TooManyMethods
 
-# ObjectInspector::Inspector organizes inspection of the associated {#object}
-# via the passed in options and via an {ObjectInspector::BaseFormatter}
-# instance.
+# Organizes inspection of the associated {#object} via the passed in options and
+# via an {ObjectInspector::BaseFormatter} instance.
 #
+# @example
+#   ObjectInspector::Inspector.inspect(
+#     self,
+#     identification: self.class.name,
+#     flags: "FLAG1",
+#     issues: "ISSUE1",
+#     info: "INFO",
+#     name: "NAME",
+#   )
+#   # => "<Object(FLAG1) !!ISSUE1!! INFO :: NAME>"
 class ObjectInspector::Inspector
   attr_reader :object
 
@@ -23,11 +32,11 @@ class ObjectInspector::Inspector
   #   <custom>        -- Anything else that makes sense for {#object} to key
   #                      on
   # @param formatter [ObjectInspector::BaseFormatter]
-  #   (ObjectInspector.configuration.formatter) the formatter object type
-  #   to use for formatting the inspect String
-  # @param kwargs [Hash] options to be sent to {#object} via the
+  #   (ObjectInspector.configuration.formatter) The formatter object type
+  #   to use for formatting the inspect String.
+  # @param kwargs [Hash] Options to be sent to {#object} via the
   #   {ObjectInspector::ObjectInterrogator} when calling the `inspect_*`
-  #   methods
+  #   methods.
   def initialize(
     object,
     scope: ObjectInspector.configuration.default_scope,
@@ -50,8 +59,8 @@ class ObjectInspector::Inspector
   # Generate the inspect String for the wrapped object, if `self` is a wrapper
   # object.
   #
-  # @return [String] if {#object_is_a_wrapper?}
-  # @return [NilClass] if not {#object_is_a_wrapper?}
+  # @return [String] If {#object_is_a_wrapper?}.
+  # @return [NilClass] If not {#object_is_a_wrapper?}.
   def wrapped_object_inspection_result
     return unless object_is_a_wrapper?
 
@@ -73,32 +82,32 @@ class ObjectInspector::Inspector
 
   # Boolean flags/states applicable to {#object}.
   #
-  # @return [String] if given
-  # @return [NilClass] if not given
+  # @return [String] If given.
+  # @return [NilClass] If not given.
   def flags
     value(key: :flags)
   end
 
   # Issues/Warnings applicable to {#object}.
   #
-  # @return [String] if given
-  # @return [NilClass] if not given
+  # @return [String] If given.
+  # @return [NilClass] If not given.
   def issues
     value(key: :issues)
   end
 
   # Informational details applicable to {#object}.
   #
-  # @return [String] if given
-  # @return [NilClass] if not given
+  # @return [String] If given.
+  # @return [NilClass] If not given.
   def info
     value(key: :info)
   end
 
   # A human-friendly identifier for {#object}.
   #
-  # @return [String] if given
-  # @return [NilClass] if not given
+  # @return [String] If given.
+  # @return [NilClass] If not given.
   def name
     key = :name
 
@@ -119,9 +128,9 @@ class ObjectInspector::Inspector
     @formatter_class.new(self)
   end
 
-  # @return [String] if `key` is found in {#kwargs} or if {#object} responds to
-  #   `#{object_inspection_method_name}` (e.g. `inspect_flags`)
-  # @return [NilClass] if not found in {#kwargs} or {#object}
+  # @return [String] If `key` is found in {#kwargs} or if {#object} responds to
+  #   `#{object_inspection_method_name}` (e.g. `inspect_flags`).
+  # @return [NilClass] If not found in {#kwargs} or {#object}.
   def value(key:)
     return_value =
       if @kwargs.key?(key)
@@ -136,10 +145,10 @@ class ObjectInspector::Inspector
   # Call `value` on {#object} if it responds to it and the result is not nil,
   # else just return `value`.
   #
-  # @return [#to_s] if {#object} responds to `value` and if the call result
-  #   isn't nil
-  # @return [#nil] if {#object} doesn't respond to `value` or if the call
-  #   result is nil
+  # @return [#to_s] If {#object} responds to `value` and if the call result
+  #   isn't nil.
+  # @return [#nil] If {#object} doesn't respond to `value` or if the call
+  #   result is nil.
   def evaluate_passed_in_value(value)
     if value.is_a?(Symbol)
       interrogate_object(method_name: value) || value
@@ -150,9 +159,9 @@ class ObjectInspector::Inspector
 
   # Attempt to call `inspect_*` on {#object} based on the passed in `name`.
   #
-  # @return [String] if {#object} responds to
-  #   `#{object_inspection_method_name}` (e.g. `inspect_flags`)
-  # @return [NilClass] if not found on {#object}
+  # @return [String] If {#object} responds to
+  #   `#{object_inspection_method_name}` (e.g. `inspect_flags`).
+  # @return [NilClass] If not found on {#object}.
   def interrogate_object_inspect_method(
     name,
     prefix: ObjectInspector.configuration.inspect_method_prefix

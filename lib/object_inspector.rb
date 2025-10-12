@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# ObjectInspector is the base namespace for all modules/classes used by the
+# Defines the base namespace for all modules/classes used by the
 # object_inspector gem.
 module ObjectInspector
   # Accessor for the {ObjectInspector::Configuration} object.

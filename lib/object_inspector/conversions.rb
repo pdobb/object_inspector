@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# ObjectInspector::Conversions defines conversion functions used by
-# ObjectInspector.
+# Defines general conversion functions used by ObjectInspector.
 module ObjectInspector::Conversions
   module_function
 
@@ -10,6 +9,15 @@ module ObjectInspector::Conversions
   # Convert the passed in value to an {ObjectInspector::Scope} object.
   # Just returns the passed in value if it already is an
   # {ObjectInspector::Scope} object.
+  #
+  # @example
+  #   ObjectInspector::Conversions.Scope("test")
+  #   # => <ObjectInspector::Scope :: ["test"]>
+  #
+  #   ObjectInspector::Conversions.Scope(
+  #     ObjectInspector::Scope.new(:my_custom_scope),
+  #   )
+  #   # => <ObjectInspector::Scope :: ["my_custom_scope"]>
   #
   # @return [ObjectInspector::Scope]
   def Scope(value) # rubocop:disable Naming/MethodName

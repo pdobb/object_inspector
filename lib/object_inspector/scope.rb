@@ -2,9 +2,8 @@
 
 # :reek:TooManyMethods
 
-# ObjectInspector::Scope defines a predicate method that matches {#names} and
-# responds with `true`. This is a prettier way to test for a given type of
-# "scope" within objects.
+# Defines a predicate method that matches {#names} and responds with `true`.
+# This is a prettier way to test for a given type of "scope" within objects.
 #
 # It is possible to pass in multiple scope names to match on.
 #
@@ -13,12 +12,24 @@
 # Passing a block to a scope predicate falls back to the out-of-scope
 # placeholder (`*` by default) if the scope does not match.
 #
+# @example
+#   ObjectInspector::Scope.new
+#   # => <ObjectInspector::Scope :: ["self"]>
+#
+#   ObjectInspector::Scope.new(:my_custom_scope)
+#   # => <ObjectInspector::Scope :: ["my_custom_scope"]>
+#
+#   ObjectInspector::Scope.new(%w[verbose complex])
+#   # => <ObjectInspector::Scope :: ["complex", "verbose"]>
+#
 # @see ActiveSupport::StringInquirer
 #   http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html
 #
 # @attr names [Array<#to_s>]
 class ObjectInspector::Scope
   attr_reader :names
+
+  # :reek:FeatureEnvy
 
   def initialize(names = %w[self])
     @names = Array(names).map { |name| String(name) }
@@ -70,9 +81,9 @@ class ObjectInspector::Scope
 
   # Compare self with the passed in object.
   #
-  # @return [TrueClass] if self and `other` resolve to the same set of objects
-  # @return [FalseClass] if self and `other` resolve to a different set of
-  #   objects
+  # @return [TrueClass] If self and `other` resolve to the same set of objects.
+  # @return [FalseClass] If self and `other` resolve to a different set of
+  #   objects.
   def ==(other)
     @names.sort == Array(other).map(&:to_s).sort!
   end

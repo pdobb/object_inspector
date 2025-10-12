@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# ObjectInspector::ObjectInterrogator collaborates with {#object} to return
-# Object#{#method_name} if {#object} responds to the method.
+# Collaborates with {#object} to return {#object}#{#method_name} if {#object}
+# responds to {#method_name}.
 #
-# If Object#{#method_name} accepts the supplied `kwargs` then they are passed
+# If {#object}#{#method_name} accepts the supplied `kwargs` then they are passed
 # in as well. If not, then any supplied `kwargs` will be ignored.
 class ObjectInspector::ObjectInterrogator
   attr_reader :object,
@@ -16,10 +16,10 @@ class ObjectInspector::ObjectInterrogator
     @kwargs = kwargs
   end
 
-  # @return [String, ...] whatever type Object#{#method_name} returns
+  # @return [String, ...] Whatever type Object#{#method_name} returns.
   #
-  # @raise [ArgumentError] if Object#{#method_name} has an unexpected method
-  #   signature
+  # @raise [ArgumentError] If Object#{#method_name} has an unexpected method
+  #   signature.
   def call
     return unless object_responds_to_method_name?
 
