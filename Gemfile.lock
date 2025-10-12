@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    object_inspector (0.10.0)
+    object_inspector (1.0.0)
 
 GEM
   remote: https://rubygems.org/
