@@ -31,8 +31,9 @@ class ObjectInspector::Scope
 
   # :reek:FeatureEnvy
 
-  def initialize(names = %w[self])
-    @names = Array(names).map { |name| String(name) }
+  def initialize(*names)
+    names = names.empty? ? %w[self] : names.flatten
+    @names = names.map! { |name| String(name) }.sort!
   end
 
   # Join the passed in name parts with the passed in separator.
@@ -85,7 +86,7 @@ class ObjectInspector::Scope
   # @return [FalseClass] If self and `other` resolve to a different set of
   #   objects.
   def ==(other)
-    @names.sort == Array(other).map(&:to_s).sort!
+    @names == Array(other).map(&:to_s).sort!
   end
   alias eql? ==
 
