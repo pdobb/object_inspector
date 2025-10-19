@@ -76,98 +76,22 @@ end
 
 ## Usage
 
-Pass an object of any type into `ObjectInspector::Inspector.inspect`.
-
-```ruby
-class MyObject
-  def inspect
-    ObjectInspector::Inspector.inspect(self)
-  end
-end
-
-MyObject.new.inspect # => "<MyObject>"
-
-MyObject.new # =>
-<MyObject>
-```
-
-See: [Helper Usage](#helper-usage) for simpler usage.
-
-### Output Customization
-
-Use the `identification`, `flags`, `issues`, `info`, and/or `name` options to customize inspect output.
-
-```ruby
-class MyObject
-  def inspect
-    ObjectInspector::Inspector.inspect(
-      self,
-      identification: "My Object",
-      flags: "FLAG1 / FLAG2",
-      issues: "ISSUE1",
-      info: "INFO",
-      name: "NAME")
-  end
-end
-
-MyObject.new # =>
-<My Object(FLAG1 / FLAG2) !!ISSUE1!! INFO :: NAME>
-```
-
-Or, define `inspect_identification`, `inspect_flags`, `inspect_issues`, `inspect_info`, and/or `inspect_name` (or `display_name`) as either public or private methods on Object.
-
-```ruby
-class MyObject
-  def inspect
-    ObjectInspector::Inspector.inspect(self)
-  end
-
-  private
-
-  def inspect_identification = "My Object"
-  def inspect_flags = "FLAG1 / FLAG2"
-  def inspect_issues = "ISSUE1 | ISSUE2"
-  def inspect_info = "INFO"
-  def inspect_name = "NAME"  # Or: def display_name = "NAME"
-end
-
-MyObject.new # =>
-<My Object(FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>
-```
-
-## Helper Usage
-
-To save some typing, include ObjectInspector::InspectBehaviors into an object and `ObjectInspector::Inspector.inspect` will be called on `self` automatically.
+Including `ObjectInspector::InspectBehaviors` into an object will cause `ObjectInspector::Inspector.inspect` to be called on `self` automatically.
 
 ```ruby
 class MyObject
   include ObjectInspector::InspectBehaviors
 end
 
+MyObject.new.inspect # =>
+"<MyObject>"
+
+# NOTE: IRB's Pretty Print processor calls `inspect` and unwraps the quotes:
 MyObject.new # =>
 <MyObject>
 ```
 
-To access the ObjectInspector::Inspector's options via the helper, call into `super`.
-
-```ruby
-class MyObject
-  include ObjectInspector::InspectBehaviors
-
-  def inspect
-    super(identification: "My Object",
-          flags: "FLAG1",
-          issues: "ISSUE1 | ISSUE2",
-          info: "INFO",
-          name: "NAME")
-  end
-end
-
-MyObject.new # =>
-<My Object(FLAG1) !!ISSUE1 | ISSUE2!! INFO :: NAME>
-```
-
-Or, define `inspect_identification`, `inspect_flags`, `inspect_info`, and/or `inspect_name` (or `display_name`) in Object.
+Build out the inspect String by defining any of: `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspect_name` (or `display_name`).
 
 ```ruby
 class MyObject
@@ -186,36 +110,7 @@ MyObject.new # =>
 <My Object(FLAG1) !!ISSUE1 | ISSUE2!! INFO :: NAME>
 ```
 
-### Disabling ObjectInspector
-
-You may disable / re-enable Object Inspector output (via the included helper method) for the current session:
-
-```ruby
-MyObject.new # =>
-<My Object(FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>
-
-ObjectInspector.configuration.disable # =>
- -> ObjectInspector disabled
-MyObject.new # =>
-#<MyObject:0x000000012332c458>
-
-ObjectInspector.configuration.enable # =>
- -> ObjectInspector enabled
-MyObject.new # =>
-<My Object(FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>
-```
-
-Or, toggle current state:
-
-```ruby
-ObjectInspector.configuration.toggle; # =>
- -> ObjectInspector disabled
-
-ObjectInspector.configuration.toggle; # =>
- -> ObjectInspector enabled
-```
-
-### Helper Inclusion
+### Customizing `ObjectInspector::InspectBehaviors`
 
 Instead of including `ObjectInspector::InspectBehaviors` directly, it may be useful to define your own mix-in.
 
@@ -231,52 +126,41 @@ module ObjectInspectionBehaviors
 end
 ```
 
-#### Usage:
-
-```ruby
-class MyObject
-  include ObjectInspectionBehaviors # 👀 Defined above.
-
-  private
-
-  def inspect_identification = "My Object"
-  def inspect_flags = "FLAG1 / FLAG2"
-  def inspect_issues = "ISSUE1 | ISSUE2"
-  def inspect_info = "INFO"
-  def inspect_name = "NAME"  # Or: def display_name = "NAME"
-end
-
-MyObject.new # =>
-<My Object(FLAG1) !!ISSUE1 | ISSUE2!! INFO :: NAME>
-```
-
 ## Scopes
 
-Use the `scope` option to define the scope of the `inspect_*` methods. The supplied value will be wrapped by the ObjectInspector::Scope helper object.
-The default value is `ObjectInspector::Scope.new(:self)`.
+Use the `scope` option to define when each of the `inspect_*` methods should be included. The default scope is `:self`, or `ObjectInspector::Scope.new(:self)`.
 
 ### Scope Names
 
-ObjectInspector::Scope acts like an [ActiveSupport::StringInquirer](http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html). This is a prettier way to test for a given type of "scope" within objects.
+ObjectInspector::Scope acts like an [ActiveSupport::StringInquirer](http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html).
 
-The ObjectInspector::Scope objects in these examples are the same as specifying `<scope_name>` like this:
+Call `inspect` with a scope name like:
 
 ```ruby
 my_object.inspect(scope: <scope_name>)
 ```
 
-Options:
+#### Default Scope Names:
 
-- `:self` (Default)--Is meant to confine object interrogation to self (don't interrogate neighboring objects).
-- `:all`--Is meant to match on all scopes, regardless of their name.
-- `<custom>`--Anything else that makes sense for the object to key on.
+The default scope is: `:self`.
+
+- `:self` (Default): Is meant to restrict object interrogation to self.
+
+#### Custom Scope Names:
+
+Beyond just `:self`, any name can be used to define any scope that makes sense for your project. No need to provision them up front, just start using them! Suggested additional scope names include:
+
+- `:verbose`: For extra detail that may not normally be needed.
+- `:complex`: For revealing collaborating objects (used to prevent n+1 queries in the normal case)
 
 ```ruby
-scope = ObjectInspector::Scope.new
-scope.self?       # => true
-scope.verbose?    # => false
-scope.complex?    # => false
-scope.<anything>? # => false
+def inspect(scope:)
+  scope.inspect     # => <ObjectInspector::Scope :: ["self"]>
+  scope.self?       # => true
+  scope.verbose?    # => false
+  scope.complex?    # => false
+  scope.<anything>? # => false
+end
 ```
 
 #### Multiple Scope Names
@@ -284,10 +168,12 @@ scope.<anything>? # => false
 It is also possible to pass in multiple scope names to match on.
 
 ```ruby
-scope = ObjectInspector::Scope.new(%i[verbose complex])
-scope.self?    # => false
-scope.verbose? # => true
-scope.complex? # => true
+def inspect(scope: %i[verbose complex])
+  scope.inspect  # => <ObjectInspector::Scope :: ["complex", "verbose"]>
+  scope.self?    # => false
+  scope.verbose? # => true
+  scope.complex? # => true
+end
 ```
 
 #### The "Wild Card" Scope
@@ -295,11 +181,13 @@ scope.complex? # => true
 Finally, `:all` is a "wild card" scope name, and will match on all scope names.
 
 ```ruby
-scope = ObjectInspector::Scope.new(:all)
-scope.self?    # => true
-scope.verbose? # => true
-scope.complex? # => true
-scope.all?     # => true
+def inspect(scope: :all)
+  scope.inspect  # => <ObjectInspector::Scope :: ["all"]>
+  scope.self?    # => true
+  scope.verbose? # => true
+  scope.complex? # => true
+  scope.all?     # => true
+end
 ```
 
 _**NOTE**_: Calling `#inspect!` on an object that mixes in `ObjectInspector::InspectBehaviors` is equivalent to passing in the "wild card" scope.
@@ -566,6 +454,35 @@ MyObject.new.inspect(info: nil, flags: nil, issues: nil)
 # => "<My Object :: NAME>"
 MyObject.new.inspect(identification: nil, info: nil, flags: nil, issues: nil, name: nil)
 # => "<MyObject>"
+```
+
+## Temporarily Disabling ObjectInspector
+
+You may disable / re-enable Object Inspector output (via the included helper method) for the current session:
+
+```ruby
+MyObject.new # =>
+<My Object(FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>
+
+ObjectInspector.configuration.disable # =>
+ -> ObjectInspector disabled
+MyObject.new # =>
+#<MyObject:0x000000012332c458>
+
+ObjectInspector.configuration.enable # =>
+ -> ObjectInspector enabled
+MyObject.new # =>
+<My Object(FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>
+```
+
+Or, simply toggle the current state:
+
+```ruby
+ObjectInspector.configuration.toggle; # =>
+ -> ObjectInspector disabled
+
+ObjectInspector.configuration.toggle; # =>
+ -> ObjectInspector enabled
 ```
 
 ## Custom Formatters
