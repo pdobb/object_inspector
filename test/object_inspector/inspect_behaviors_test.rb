@@ -46,6 +46,7 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
 
     given "ObjectInspector.configuration.enabled? = false" do
       before do
+        MuchStub.on_call($stdout, :puts) { |call| @puts_call = call }
         ObjectInspector.configuration.disable
       end
 
@@ -101,6 +102,7 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
 
     given "ObjectInspector.configuration.enabled? = false" do
       before do
+        MuchStub.on_call($stdout, :puts) { |call| @puts_call = call }
         ObjectInspector.configuration.disable
       end
 
