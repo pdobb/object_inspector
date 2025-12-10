@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Fix: Remove extra space around presented object separator (by default: ` ⇨ `)
+
 ### 1.0.0 - 2025-10-12
 
 #### BREAKING CHANGES

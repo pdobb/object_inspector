@@ -80,11 +80,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
       subject { klazz.new(inspector_with_wrapped_object) }
 
       it "returns the expected String" do
-        _(subject.call).must_equal(
-          "<WRAPPER> "\
-          "#{ObjectInspector.configuration.presented_object_separator} "\
-          "<SIMPLE_TEST_OBJECT>",
-        )
+        _(subject.call).must_equal("<WRAPPER> ⇨ <SIMPLE_TEST_OBJECT>")
       end
     end
 

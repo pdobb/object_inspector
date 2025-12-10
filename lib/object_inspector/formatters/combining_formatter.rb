@@ -19,8 +19,8 @@ class ObjectInspector::CombiningFormatter < ObjectInspector::BaseFormatter
   private
 
   def build_wrapped_object_string
-    "#{build_string} "\
-      "#{ObjectInspector.configuration.presented_object_separator} "\
+    "#{build_string}"\
+      "#{ObjectInspector.configuration.presented_object_separator}"\
       "#{wrapped_object_inspection_result}"
   end
 

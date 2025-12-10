@@ -37,7 +37,7 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
       it "returns a String in the expected format for the Object" do
         # rubocop:disable Layout/LineLength
         _(subject.inspect).must_equal(
-          "<ObjectInspector::InspectBehaviorsTest::DelegatingWrapperForFullTestObject>  ⇨  "\
+          "<ObjectInspector::InspectBehaviorsTest::DelegatingWrapperForFullTestObject> ⇨ "\
           "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>",
         )
         # rubocop:enable Layout/LineLength
@@ -91,7 +91,7 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
       it "returns a String in the expected format for the Object" do
         # rubocop:disable Layout/LineLength
         _(subject.inspect!).must_equal(
-          "<ObjectInspector::InspectBehaviorsTest::DelegatingWrapperForFullTestObject>  ⇨  "\
+          "<ObjectInspector::InspectBehaviorsTest::DelegatingWrapperForFullTestObject> ⇨ "\
           "<Identification[id:9](FLAG1 | FLAG2 | FLAG3) "\
           "Info: 1 | Info: 2 | Info: 3 :: Name: 1 | Name: 2 | Name: 3>",
         )
