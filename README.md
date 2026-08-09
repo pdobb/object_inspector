@@ -751,7 +751,7 @@ To release a new version of this gem to RubyGems:
 
 1. Update the version number in `version.rb`
 2. Update `CHANGELOG.md`
-3. Run `bundle` to update Gemfile.lock with the latest version info
+3. Run `bundle install` to update Gemfile.lock with the latest version info
 4. Commit the changes. e.g. `Bump to vX.Y.Z`
 5. Run `rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 

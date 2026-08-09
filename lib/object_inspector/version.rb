@@ -4,6 +4,6 @@
 
 module ObjectInspector
   # The current ObjectInspector gem version.
-  VERSION = "1.0.0"
+  VERSION = "1.1.0"
   public_constant :VERSION
 end

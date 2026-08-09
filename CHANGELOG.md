@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+### 1.1.0 - 2026-8-9
+
 - Add documentation to README on the default `enabled` state + how to disable by default if desired (and why).
 - Allow for setting `enabled` via ObjectInspector.configure block (as shown in README)
 - Fix: Remove extra space around presented object separator (by default: ` ⇨ `)
