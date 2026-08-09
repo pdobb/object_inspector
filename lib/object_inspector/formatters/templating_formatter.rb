@@ -4,8 +4,8 @@
 # :reek:TooManyMethods
 # rubocop:disable Metrics/ClassLength
 
-# Specializes on {ObjectInspector::BaseFormatter} to return the standard/default
-# inspect output format using String templates.
+# Specializes on {ObjectInspector::BaseFormatter} to build the default inspect
+# output format using String templates.
 #
 # @attr (see BaseFormatter)
 class ObjectInspector::TemplatingFormatter < ObjectInspector::BaseFormatter

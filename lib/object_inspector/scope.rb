@@ -22,6 +22,9 @@
 #   ObjectInspector::Scope.new(%w[verbose complex])
 #   # => <ObjectInspector::Scope :: ["complex", "verbose"]>
 #
+#   ObjectInspector::Scope.new(:verbose, :self)
+#   # => <ObjectInspector::Scope :: ["self", "verbose"]>
+#
 # @see ActiveSupport::StringInquirer
 #   http://api.rubyonrails.org/classes/ActiveSupport/StringInquirer.html
 #
@@ -39,7 +42,7 @@ class ObjectInspector::Scope
   # Join the passed in name parts with the passed in separator.
   #
   # @param parts [Array<#to_s>]
-  # @param separator [#to_s] (ObjectInspector.configuration.flags_separator)
+  # @param separator [#to_s] (ObjectInspector.configuration.name_separator)
   def join_name(
     parts,
     separator: ObjectInspector.configuration.name_separator
@@ -100,6 +103,7 @@ class ObjectInspector::Scope
     names
   end
 
+  # @return [String] A pretty representation of the scope and its {#names}.
   def inspect
     "<#{self.class.name} :: #{names.inspect}>"
   end

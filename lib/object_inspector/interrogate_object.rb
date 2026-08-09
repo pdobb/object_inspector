@@ -6,6 +6,7 @@
 # If {#object}#{#method_name} accepts the supplied `kwargs` then they are passed
 # in as well. If not, then any supplied `kwargs` will be ignored.
 class ObjectInspector::InterrogateObject
+  # @return (see #call)
   def self.call(...) = new(...).call
 
   attr_reader :object,
@@ -18,9 +19,10 @@ class ObjectInspector::InterrogateObject
     @kwargs = kwargs
   end
 
-  # @return [String, ...] Whatever type Object#{#method_name} returns.
+  # @return [Object, nil] The result of calling {#method_name} on {#object},
+  #   or `nil` if {#object} does not respond to {#method_name}.
   #
-  # @raise [ArgumentError] If Object#{#method_name} has an unexpected method
+  # @raise [ArgumentError] If {#object}#{#method_name} has an unexpected method
   #   signature.
   def call
     return unless object_responds_to_method_name?

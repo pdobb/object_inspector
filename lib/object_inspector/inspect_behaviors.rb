@@ -4,8 +4,8 @@
 # the default `#inspect` method for that object to instead call
 # {ObjectInspector::Inspector.inspect}.
 module ObjectInspector::InspectBehaviors
-  # Calls {ObjectInspector::Inspector.inspect} on the passed in `object`,
-  # passing through any keyword arguments.
+  # Calls {ObjectInspector::Inspector.inspect} on `self`, passing through any
+  # keyword arguments.
   #
   # @return [String]
   def inspect(**)
@@ -14,10 +14,13 @@ module ObjectInspector::InspectBehaviors
     ObjectInspector::Inspector.inspect(self, **)
   end
 
-  # Like {#inspect} but forces scope to `:all`. This (the bang (!) version) is
-  # considered the "more dangerous" version of {#inspect} in the sense that the
-  # `:all` scope may result in additional queries or extra processing--depending
-  # on how the inspect hooks are setup.
+  # Like {#inspect} but:
+  # - Ignores the enabled/disabled state of ObjectInspector
+  # - Forces scope to `:all`
+  #
+  # This (the bang (!) version) is considered the "more dangerous" version of
+  # {#inspect} since the `:all` scope may result in additional queries or extra
+  # processing--depending on how the inspect hooks are setup.
   #
   # @return [String]
   def inspect!(**)

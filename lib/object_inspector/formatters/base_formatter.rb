@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # An abstract base class that interfaces with {ObjectInspector::Inspector}
-# objects to combine the supplied {#identification}, {#flags}, {#info}, and
-# {#name} strings into a friendly "inspect" String.
+# objects to combine the supplied {#identification}, {#flags}, {#issues},
+# {#info}, and {#name} Strings into a friendly "inspect" String.
 class ObjectInspector::BaseFormatter
   attr_reader :inspector
 
@@ -21,7 +21,7 @@ class ObjectInspector::BaseFormatter
   # Delegates to {Inspector#wrapped_object_inspection_result}.
   #
   # @return [String] If given.
-  # @return [NilClass] If not given.
+  # @return [nil] If not given.
   def wrapped_object_inspection_result
     @wrapped_object_inspection_result ||=
       inspector.wrapped_object_inspection_result
@@ -37,7 +37,7 @@ class ObjectInspector::BaseFormatter
   # Delegates to {Inspector#flags}.
   #
   # @return [String] If given.
-  # @return [NilClass] If not given.
+  # @return [nil] If not given.
   def flags
     @flags ||= inspector.flags
   end
@@ -45,7 +45,7 @@ class ObjectInspector::BaseFormatter
   # Delegates to {Inspector#issues}.
   #
   # @return [String] If given.
-  # @return [NilClass] If not given.
+  # @return [nil] If not given.
   def issues
     @issues ||= inspector.issues
   end
@@ -53,7 +53,7 @@ class ObjectInspector::BaseFormatter
   # Delegates to {Inspector#info}.
   #
   # @return [String] If given.
-  # @return [NilClass] If not given.
+  # @return [nil] If not given.
   def info
     @info ||= inspector.info
   end
@@ -61,7 +61,7 @@ class ObjectInspector::BaseFormatter
   # Delegates to {Inspector#name}.
   #
   # @return [String] If given.
-  # @return [NilClass] If not given.
+  # @return [nil] If not given.
   def name
     @name ||= inspector.name
   end

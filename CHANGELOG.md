@@ -7,7 +7,7 @@
 
 #### BREAKING CHANGES
 
-- Refactor `ObjectInspector::InspectorsHelper` -> `ObjectInspector::Behaviors`
+- Refactor `ObjectInspector::InspectorsHelper` -> `ObjectInspector::InspectBehaviors`
 
 #### Non-Breaking Changes
 

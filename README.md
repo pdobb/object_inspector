@@ -66,7 +66,7 @@ ObjectInspector.configure do |config|
   config.default_scope = ObjectInspector::Scope.new(:self)
   config.wild_card_scope = "all"
   config.out_of_scope_placeholder = "*"
-  config.presenter_inspect_flags = " ⇨ "
+  config.presented_object_separator = " ⇨ "
   config.name_separator = " - "
   config.flags_separator = " / "
   config.issues_separator = " | "
@@ -91,7 +91,7 @@ MyObject.new # =>
 <MyObject>
 ```
 
-Build out the inspect String by defining any of: `inspect_identification`, `inspect_flags`, `inspect_info`, and `inspect_name` (or `display_name`).
+Build out the inspect String by defining any of: `inspect_identification`, `inspect_flags`, `inspect_issues`, `inspect_info`, and `inspect_name` (or `display_name`).
 
 ```ruby
 class MyObject
@@ -107,7 +107,7 @@ class MyObject
 end
 
 MyObject.new # =>
-<My Object(FLAG1) !!ISSUE1 | ISSUE2!! INFO :: NAME>
+<My Object(FLAG1 / FLAG2) !!ISSUE1 | ISSUE2!! INFO :: NAME>
 ```
 
 ### Customizing `ObjectInspector::InspectBehaviors`
@@ -253,7 +253,8 @@ class MyObject
   private
 
   def inspect_identification
-    identify(:a2)
+    # Or use `identify(:a2)` from the Object Identifier gem (see Supporting Gems).
+    "#{self.class.name}[#{a2}]"
   end
 
   def inspect_flags(scope:)
@@ -351,10 +352,10 @@ class MyWrappedObject
 end
 
 MyWrapperObject.new # =>
-<MyWrapperObject(WRAPPER_FLAG1) !!*!!>  ⇨  <MyWrappedObject(FLAG1 / FLAG2) !!*!! INFO>
+<MyWrapperObject(WRAPPER_FLAG1) !!*!!> ⇨ <MyWrappedObject(FLAG1 / FLAG2) !!*!! INFO>
 
-MyWrapperObject.new! # =>
-<MyWrapperObject(WRAPPER_FLAG1) !!CI1!!>  ⇨  <MyWrappedObject(FLAG1 / FLAG2) !!CI1!! INFO>
+MyWrapperObject.new.inspect! # =>
+<MyWrapperObject(WRAPPER_FLAG1) !!CI1!!> ⇨ <MyWrappedObject(FLAG1 / FLAG2) !!CI1!! INFO>
 ```
 
 This feature is recursive.
@@ -411,7 +412,7 @@ class MyWrappedObject
 end
 
 MyDelegatingWrapperObject.new(MyWrappedObject.new) # =>
-<MyDelegatingWrapperObject>  ⇨  <MyWrappedObject(FLAG1) !!ISSUE1!! INFO :: NAME>
+<MyDelegatingWrapperObject> ⇨ <MyWrappedObject(FLAG1) !!ISSUE1!! INFO :: NAME>
 ```
 
 ## On-the-fly Inspect Methods
@@ -458,7 +459,7 @@ MyObject.new.inspect(identification: nil, info: nil, flags: nil, issues: nil, na
 
 ## Temporarily Disabling ObjectInspector
 
-You may disable / re-enable Object Inspector output (via the included helper method) for the current session:
+To disable / re-enable Object Inspector output for the current session:
 
 ```ruby
 MyObject.new # =>
@@ -484,6 +485,9 @@ ObjectInspector.configuration.toggle; # =>
 ObjectInspector.configuration.toggle; # =>
  -> ObjectInspector enabled
 ```
+
+_**NOTE**_: `#inspect!` ignores the enabled/disabled setting and still invokes Object
+Inspector -- using the wild-card (`:all`) scope.
 
 ## Custom Formatters
 
@@ -522,7 +526,7 @@ See examples:
 
 ### How can I see the original inspect output on ActiveRecord objects?
 
-Simply [disable Object Inspector](#disabling-object-inspector) and you'll see ActiveRecord's Pretty Print formatting shine through again. For example:
+Simply [disable Object Inspector](#temporarily-disabling-objectinspector) and you'll see ActiveRecord's Pretty Print formatting shine through again. For example:
 
 ```ruby
 class User < ApplicationRecord
@@ -594,9 +598,9 @@ def get_object_inspector_current_scope
 end
 alias oi get_object_inspector_current_scope
 
-# :simple is the default inspection scope.
-def set_object_inspector_scope_simple = set_object_inspector_scope(:simple)
-alias ois set_object_inspector_scope_simple
+# :self is the gem's default inspection scope.
+def set_object_inspector_scope_self = set_object_inspector_scope(:self)
+alias ois set_object_inspector_scope_self
 
 def set_object_inspector_scope_complex = set_object_inspector_scope(:complex)
 alias oic set_object_inspector_scope_complex
@@ -625,7 +629,7 @@ alias oiset set_object_inspector_scope
 
 ### Benchmarking Object Inspector
 
-ObjectInspetor is ~2.75x slower than Ruby's default inspect, in Ruby v3.4.
+ObjectInspector is ~2.75x slower than Ruby's default inspect, in Ruby v3.4.
 
 Performance of Object Inspector can be tested by playing the [Object Inspector Benchmarking Script](https://github.com/pdobb/object_inspector/blob/master/script/benchmarking/object_inspector.rb) in the IRB console for this gem.
 
@@ -734,6 +738,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/pdobb/
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
+[ObjectInspector::Configuration]: https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector.rb
 [ObjectInspector::TemplatingFormatter]: https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/templating_formatter.rb
 [ObjectInspector::CombiningFormatter]: https://github.com/pdobb/object_inspector/blob/master/lib/object_inspector/formatters/combining_formatter.rb
 [Object Inspector Benchmarking Scripts]: https://github.com/pdobb/object_inspector/blob/master/script/benchmarking/object_inspector.rb

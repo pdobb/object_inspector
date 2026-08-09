@@ -24,7 +24,7 @@ class ObjectInspector::Inspector
   # @return [String]
   def self.inspect(...) = new(...).to_s
 
-  # :reek:DuplicateMethodCall (ObjectInspecto.configuration)
+  # :reek:DuplicateMethodCall
 
   # @param object [Object] the object being inspected
   # @param scope [Symbol] Object inspection type. For example:
@@ -32,7 +32,7 @@ class ObjectInspector::Inspector
   #   <custom>        -- Anything else that makes sense for {#object} to key
   #                      on
   # @param formatter [ObjectInspector::BaseFormatter]
-  #   (ObjectInspector.configuration.formatter) The formatter object type
+  #   (ObjectInspector.configuration.formatter_class) The formatter object type
   #   to use for formatting the inspect String.
   # @param kwargs [Hash] Options to be sent to {#object} via
   #   {ObjectInspector::InterrogateObject} when calling the `inspect_*`
@@ -60,7 +60,7 @@ class ObjectInspector::Inspector
   # object.
   #
   # @return [String] If {#object_is_a_wrapper?}.
-  # @return [NilClass] If not {#object_is_a_wrapper?}.
+  # @return [nil] If not {#object_is_a_wrapper?}.
   def wrapped_object_inspection_result
     return unless object_is_a_wrapper?
 
@@ -83,7 +83,7 @@ class ObjectInspector::Inspector
   # Boolean flags/states applicable to {#object}.
   #
   # @return [String] If given.
-  # @return [NilClass] If not given.
+  # @return [nil] If not given.
   def flags
     value(key: :flags)
   end
@@ -91,7 +91,7 @@ class ObjectInspector::Inspector
   # Issues/Warnings applicable to {#object}.
   #
   # @return [String] If given.
-  # @return [NilClass] If not given.
+  # @return [nil] If not given.
   def issues
     value(key: :issues)
   end
@@ -99,7 +99,7 @@ class ObjectInspector::Inspector
   # Informational details applicable to {#object}.
   #
   # @return [String] If given.
-  # @return [NilClass] If not given.
+  # @return [nil] If not given.
   def info
     value(key: :info)
   end
@@ -107,7 +107,7 @@ class ObjectInspector::Inspector
   # A human-friendly identifier for {#object}.
   #
   # @return [String] If given.
-  # @return [NilClass] If not given.
+  # @return [nil] If not given.
   def name
     key = :name
 
@@ -134,7 +134,7 @@ class ObjectInspector::Inspector
 
   # @return [String] If `key` is found in {#kwargs} or if {#object} responds to
   #   `#{object_inspection_method_name}` (e.g. `inspect_flags`).
-  # @return [NilClass] If not found in {#kwargs} or {#object}.
+  # @return [nil] If not found in {#kwargs} or {#object}.
   def value(key:)
     return_value =
       if kwargs.key?(key)
@@ -151,8 +151,8 @@ class ObjectInspector::Inspector
   #
   # @return [#to_s] If {#object} responds to `value` and if the call result
   #   isn't nil.
-  # @return [#nil] If {#object} doesn't respond to `value` or if the call
-  #   result is nil.
+  # @return [nil] If {#object} doesn't respond to `value` or if the call result
+  #   is nil.
   def evaluate_passed_in_value(value)
     if value.is_a?(Symbol)
       interrogate_object(method_name: value) || value
@@ -165,7 +165,7 @@ class ObjectInspector::Inspector
   #
   # @return [String] If {#object} responds to
   #   `#{object_inspection_method_name}` (e.g. `inspect_flags`).
-  # @return [NilClass] If not found on {#object}.
+  # @return [nil] If not found on {#object}.
   def interrogate_object_inspect_method(
     name,
     prefix: ObjectInspector.configuration.inspect_method_prefix

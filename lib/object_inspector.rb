@@ -65,20 +65,29 @@ module ObjectInspector
       @info_separator = info_separator
     end
 
+    # @param value [Object] Coerced to a Boolean with `!!value`.
     def enabled=(value)
       @enabled = !!value
     end
 
+    # Toggles between {#enable} and {#disable} based on {#enabled?}.
     def toggle = enabled? ? disable : enable
+
+    # @return [Boolean]
     def enabled? = @enabled
 
+    # Enable Object Inspector for the current process and print a status
+    # message to `$stdout`.
     def enable
       self.enabled = true
       puts(" -> ObjectInspector enabled")
     end
 
+    # @return [Boolean]
     def disabled? = !enabled?
 
+    # Disable Object Inspector for the current process and print a status
+    # message to `$stdout`.
     def disable
       self.enabled = false
       puts(" -> ObjectInspector disabled")

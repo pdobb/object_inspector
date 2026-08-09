@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Specializes on {ObjectInspector::BaseFormatter} to return the standard/default
-# inspect output format by combining Strings.
+# Specializes on {ObjectInspector::BaseFormatter} to build inspect output by
+# combining Strings (as opposed to {ObjectInspector::TemplatingFormatter}).
 #
 # @attr (see BaseFormatter)
 class ObjectInspector::CombiningFormatter < ObjectInspector::BaseFormatter
