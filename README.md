@@ -625,6 +625,41 @@ end
 alias oiset set_object_inspector_scope
 ```
 
+## Default State
+
+> [!IMPORTANT]
+> ObjectInspector defaults to `enabled`. However, this implies an increased chance of causing additional queries/processing based on your usage.
+
+If your inspect methods reference other ActiveRecord models, you will be introducing Database queries into basic object inspection. While you can control this through careful use of `complex` scopes (see below), you may wish to default ObjectInspector to be `disabled` across the board for active web / background processes. Then, since ObjectInspector's utility really shines on the the Rails console, you can default it to `enabled` there.
+
+To set Object inspector to be `disabled` by default, but `enabled` on the Rails console:
+
+1. In an initializer, set [ObjectInspector::Configuration] to default to `disabled`:
+
+```ruby
+# config/initializers/object_inspector.rb
+ObjectInspector.configure do |config|
+  config.enabled = false
+end
+```
+
+2. Enable ObjectInspector via `.irbrc` (or `.pryrc`, or the like):
+
+```ruby
+# .irbrc:
+
+# ...
+
+ObjectInspector.configuration.enable
+# Note: ^ produces output: ` -> ObjectInspector enabled`
+
+# OR (silent version):
+
+ObjectInspector.configure do |config|
+  config.enabled = true
+end
+```
+
 ## Performance
 
 ### Benchmarking Object Inspector
