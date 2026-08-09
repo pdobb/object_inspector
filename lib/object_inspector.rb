@@ -65,18 +65,22 @@ module ObjectInspector
       @info_separator = info_separator
     end
 
+    def enabled=(value)
+      @enabled = !!value
+    end
+
     def toggle = enabled? ? disable : enable
     def enabled? = @enabled
 
     def enable
-      @enabled = true
+      self.enabled = true
       puts(" -> ObjectInspector enabled")
     end
 
     def disabled? = !enabled?
 
     def disable
-      @enabled = false
+      self.enabled = false
       puts(" -> ObjectInspector disabled")
     end
 

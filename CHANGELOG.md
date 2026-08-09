@@ -1,5 +1,6 @@
 ## [Unreleased]
 
+- Allow for setting `enabled` via ObjectInspector.configure block (as shown in README)
 - Fix: Remove extra space around presented object separator (by default: ` ⇨ `)
 
 ### 1.0.0 - 2025-10-12

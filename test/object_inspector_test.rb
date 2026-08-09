@@ -100,6 +100,20 @@ class ObjectInspectorTest < Minitest::Spec
       end
     end
 
+    describe "#enabled=" do
+      subject { ObjectInspector::Configuration.new }
+
+      it "enables ObjectInspector, GIVEN a truthy value" do
+        subject.enabled = [true, 1].sample
+        _(subject).must_be(:enabled?)
+      end
+
+      it "disables ObjectInspector, GIVEN a falsey value" do
+        subject.enabled = [nil, false].sample
+        _(subject).wont_be(:enabled?)
+      end
+    end
+
     describe "#toggle" do
       given "#enabled == true" do
         subject { ObjectInspector::Configuration.new(enabled: true) }
