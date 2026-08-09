@@ -11,47 +11,48 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
   let(:full_object1) { FullTestObject.new }
 
   describe "#inspect" do
-    given "a simple object" do
-      subject { simple_object1 }
-
-      it "calls ObjectInspector::Inspector from Object#inspect" do
-        _(subject.inspect).must_equal(
-          "<ObjectInspector::InspectBehaviorsTest::SimpleTestObject>",
-        )
+    given "ObjectInspector.configuration.enabled? = true" do
+      before do
+        MuchStub.(ObjectInspector.configuration, :enabled?) { true }
       end
-    end
 
-    given "a full object" do
-      subject { full_object1 }
+      given "a simple object" do
+        subject { simple_object1 }
 
-      it "returns a String in the expected format for the Object" do
-        _(subject.inspect).must_equal(
-          "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>",
-        )
+        it "calls ObjectInspector::Inspector from Object#inspect" do
+          _(subject.inspect).must_equal(
+            "<ObjectInspector::InspectBehaviorsTest::SimpleTestObject>",
+          )
+        end
       end
-    end
 
-    given "a delegating wrapper object" do
-      subject { delegating_wrapper_for_full_object1 }
+      given "a full object" do
+        subject { full_object1 }
 
-      it "returns a String in the expected format for the Object" do
-        # rubocop:disable Layout/LineLength
-        _(subject.inspect).must_equal(
-          "<ObjectInspector::InspectBehaviorsTest::DelegatingWrapperForFullTestObject> ⇨ "\
-          "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>",
-        )
-        # rubocop:enable Layout/LineLength
+        it "returns a String in the expected format for the Object" do
+          _(subject.inspect).must_equal(
+            "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>",
+          )
+        end
+      end
+
+      given "a delegating wrapper object" do
+        subject { delegating_wrapper_for_full_object1 }
+
+        it "returns a String in the expected format for the Object" do
+          # rubocop:disable Layout/LineLength
+          _(subject.inspect).must_equal(
+            "<ObjectInspector::InspectBehaviorsTest::DelegatingWrapperForFullTestObject> ⇨ "\
+            "<Identification[id:9](FLAG1) Info: 1 :: Name: 1>",
+          )
+          # rubocop:enable Layout/LineLength
+        end
       end
     end
 
     given "ObjectInspector.configuration.enabled? = false" do
       before do
-        MuchStub.on_call($stdout, :puts) { |call| @puts_call = call }
-        ObjectInspector.configuration.disable
-      end
-
-      after do
-        ObjectInspector.configuration.enable
+        MuchStub.(ObjectInspector.configuration, :enabled?) { false }
       end
 
       subject { full_object1 }
@@ -102,12 +103,7 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
 
     given "ObjectInspector.configuration.enabled? = false" do
       before do
-        MuchStub.on_call($stdout, :puts) { |call| @puts_call = call }
-        ObjectInspector.configuration.disable
-      end
-
-      after do
-        ObjectInspector.configuration.enable
+        MuchStub.(ObjectInspector.configuration, :enabled?) { false }
       end
 
       subject { simple_object1 }
@@ -116,6 +112,30 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
         _(subject.inspect!).must_equal(
           "<ObjectInspector::InspectBehaviorsTest::SimpleTestObject>",
         )
+      end
+    end
+  end
+
+  describe "#custom_inspect_method_defined?" do
+    subject { simple_object1 }
+
+    given "ObjectInspector#enabled? is true" do
+      before do
+        MuchStub.(ObjectInspector.configuration, :enabled?) { true }
+      end
+
+      it "returns true" do
+        _(subject.__send__(:custom_inspect_method_defined?)).must_equal(true)
+      end
+    end
+
+    given "ObjectInspector#enabled? is false" do
+      before do
+        MuchStub.(ObjectInspector.configuration, :enabled?) { false }
+      end
+
+      it "returns false" do
+        _(subject.__send__(:custom_inspect_method_defined?)).must_equal(false)
       end
     end
   end

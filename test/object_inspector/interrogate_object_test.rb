@@ -77,9 +77,9 @@ class ObjectInspector::InterrogateObjectTest < Minitest::Spec
         let(:kwargs) { { b: "b" } }
 
         it "raises ArgumentError" do
-          _(-> {
+          _ {
             subject.call(object, method_name:, kwargs:)
-          }).must_raise(ArgumentError)
+          }.must_raise(ArgumentError)
         end
       end
     end
@@ -92,9 +92,9 @@ class ObjectInspector::InterrogateObjectTest < Minitest::Spec
         let(:kwargs) { {} }
 
         it "raises ArgumentError" do
-          _(-> {
+          _ {
             subject.call(object, method_name:, kwargs:)
-          }).must_raise(ArgumentError)
+          }.must_raise(ArgumentError)
         end
       end
     end

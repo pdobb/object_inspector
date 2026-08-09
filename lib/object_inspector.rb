@@ -36,18 +36,31 @@ module ObjectInspector
                 :issues_separator,
                 :info_separator
 
-    def initialize # rubocop:disable Metrics/MethodLength
-      @enabled = true
-      @formatter_class = TemplatingFormatter
-      @inspect_method_prefix = "inspect"
-      @default_scope = Scope.new(:self)
-      @wild_card_scope = "all"
-      @out_of_scope_placeholder = "*"
-      @presented_object_separator = " #{[0x21E8].pack("U")} "
-      @name_separator = " - "
-      @flags_separator = " / "
-      @issues_separator = " | "
-      @info_separator = " | "
+    # :reek:LongParameterList, :reek:BooleanParameter
+    def initialize( # rubocop:disable Metrics/MethodLength, Metrics/ParameterLists
+      enabled: true,
+      formatter_class: TemplatingFormatter,
+      inspect_method_prefix: "inspect",
+      default_scope: Scope.new(:self),
+      wild_card_scope: "all",
+      out_of_scope_placeholder: "*",
+      presented_object_separator: " #{[0x21E8].pack("U")} ", # This is: " ⇨ "
+      name_separator: " - ",
+      flags_separator: " / ",
+      issues_separator: " | ",
+      info_separator: " | "
+    )
+      @enabled = enabled
+      @formatter_class = formatter_class
+      @inspect_method_prefix = inspect_method_prefix
+      @default_scope = default_scope
+      @wild_card_scope = wild_card_scope
+      @out_of_scope_placeholder = out_of_scope_placeholder
+      @presented_object_separator = presented_object_separator
+      @name_separator = name_separator
+      @flags_separator = flags_separator
+      @issues_separator = issues_separator
+      @info_separator = info_separator
     end
 
     def toggle = enabled? ? disable : enable

@@ -31,7 +31,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
       it "returns a String in the expected format for the Object" do
         _(subject.to_s).must_equal(
-          "<Identification[id:1](FLAG1) Info: 1 :: Name: 1>",
+          "<Identification[id:1](FLAG1) !!ISSUE1!! Info: 1 :: Name: 1>",
         )
       end
     end
@@ -42,7 +42,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
       it "returns a String in the expected format for the Object" do
         _(subject.to_s).must_equal(
           "<Identification[id:1](FLAG1 | FLAG2) "\
-          "Info: 1 | Info: 2 :: Name: 1 | Name: 2>",
+          "!!ISSUE1 | ISSUE2!! Info: 1 | Info: 2 :: Name: 1 | Name: 2>",
         )
       end
     end
@@ -52,10 +52,8 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     given "Object#inspect_identification is defined" do
       subject { ObjectInspector::Inspector.new(full_object1) }
 
-      it "returns Object#inspect_identification" do
-        _(subject.identification).must_equal(
-          full_object1.inspect_identification,
-        )
+      it "returns the expected String" do
+        _(subject.identification).must_equal("Identification[id:1]")
       end
     end
 
@@ -85,8 +83,8 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     given "Object#inspect_flags is defined" do
       subject { ObjectInspector::Inspector.new(full_object1) }
 
-      it "returns Object#inspect_flags" do
-        _(subject.flags).must_equal(full_object1.inspect_flags)
+      it "returns the expected String" do
+        _(subject.flags).must_equal("FLAG1")
       end
     end
 
@@ -107,12 +105,43 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
   end
 
+  describe "#issues" do
+    given "Object#inspect_issues is defined" do
+      subject { ObjectInspector::Inspector.new(full_object1) }
+
+      it "returns the expected String" do
+        _(subject.issues).must_equal("ISSUE1")
+      end
+    end
+
+    given "Object#inspect_issues isn't defined" do
+      subject { ObjectInspector::Inspector.new(simple_object1) }
+
+      it "returns nil" do
+        _(subject.issues).must_be_nil
+      end
+    end
+
+    given ":issues is passed in" do
+      subject {
+        ObjectInspector::Inspector.new(
+          simple_object1,
+          issues: "PASSED_IN_ISSUE",
+        )
+      }
+
+      it "returns the passed in :issues" do
+        _(subject.issues).must_equal("PASSED_IN_ISSUE")
+      end
+    end
+  end
+
   describe "#info" do
     given "Object#inspect_info is defined" do
       subject { ObjectInspector::Inspector.new(full_object1) }
 
-      it "returns Object#inspect_info" do
-        _(subject.info).must_equal(full_object1.inspect_info)
+      it "returns the expected String" do
+        _(subject.info).must_equal("Info: 1")
       end
     end
 
@@ -137,12 +166,14 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     given "Object#inspect_name is defined" do
       subject { ObjectInspector::Inspector.new(inspect_name_object1) }
 
-      it "returns Object#inspect_name" do
+      it "returns the expected String" do
         _(subject.name).must_equal("INSPECT_NAME")
       end
 
       given "Object#display_name is defined" do
-        subject { ObjectInspector::Inspector.new(inspect_and_display_name_object1) }
+        subject {
+          ObjectInspector::Inspector.new(inspect_and_display_name_object1)
+        }
 
         it "returns Object#inspect_name" do
           _(subject.name).must_equal("INSPECT_NAME")
@@ -185,8 +216,9 @@ class ObjectInspector::InspectorTest < Minitest::Spec
       subject { ObjectInspector::Inspector.new(wrapper_for_full_test_object1) }
 
       it "returns Object#to_model#inspect" do
-        _(subject.wrapped_object_inspection_result)
-          .must_equal("<Identification[id:1](FLAG1) Info: 1 :: Name: 1>")
+        _(subject.wrapped_object_inspection_result).must_equal(
+          "<Identification[id:1](FLAG1) !!ISSUE1!! Info: 1 :: Name: 1>",
+        )
       end
     end
 
@@ -234,6 +266,10 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
     def inspect_flags(scope: ObjectInspector::Scope.new)
       scope.self? ? "FLAG1" : "FLAG1 | FLAG2"
+    end
+
+    def inspect_issues(scope: ObjectInspector::Scope.new)
+      scope.self? ? "ISSUE1" : "ISSUE1 | ISSUE2"
     end
 
     def inspect_info(scope: ObjectInspector::Scope.new)
