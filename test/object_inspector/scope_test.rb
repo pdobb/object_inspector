@@ -3,26 +3,24 @@
 require "test_helper"
 
 class ObjectInspector::ScopeTest < Minitest::Spec
-  let(:unit_class) { ObjectInspector::Scope }
-
-  let(:self_scope) { unit_class.new(:self) }
-  let(:verbose_scope) { unit_class.new(:verbose) }
-  let(:all_scope) { unit_class.new(:all) }
-  let(:self_and_verbose_scope) { unit_class.new(%i[self verbose]) }
+  let(:self_scope) { ObjectInspector::Scope.new(:self) }
+  let(:verbose_scope) { ObjectInspector::Scope.new(:verbose) }
+  let(:all_scope) { ObjectInspector::Scope.new(:all) }
+  let(:self_and_verbose_scope) { ObjectInspector::Scope.new(%i[self verbose]) }
 
   describe "#==" do
     subject { self_scope }
 
     it "returns true, GIVEN a Scope with the same #names" do
-      _(subject).must_equal(unit_class.new(:self))
+      _(subject).must_equal(ObjectInspector::Scope.new(:self))
     end
 
     it "returns false, GIVEN a Scope with a different #name" do
-      _(subject).wont_equal(unit_class.new(:other))
+      _(subject).wont_equal(ObjectInspector::Scope.new(:other))
     end
 
     it "returns false, GIVEN a Scope with different #names" do
-      _(subject).wont_equal(unit_class.new(%i[self other]))
+      _(subject).wont_equal(ObjectInspector::Scope.new(%i[self other]))
     end
 
     it "returns true, GIVEN a String with the same name" do

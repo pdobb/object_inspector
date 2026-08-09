@@ -3,8 +3,6 @@
 require "test_helper"
 
 class ObjectInspector::InspectorTest < Minitest::Spec
-  let(:unit_class) { ObjectInspector::Inspector }
-
   let(:wrapper_for_full_test_object1) { WrapperForFullTestObject.new }
 
   let(:full_object1) { FullTestObject.new }
@@ -16,7 +14,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
   let(:simple_object1) { SimpleTestObject.new }
 
   describe ".inspect" do
-    subject { unit_class }
+    subject { ObjectInspector::Inspector }
 
     it "returns a String in the expected format" do
       result = subject.inspect(simple_object1)
@@ -29,7 +27,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
   describe "#to_s" do
     given "the default #scope (:self)" do
-      subject { unit_class.new(full_object1) }
+      subject { ObjectInspector::Inspector.new(full_object1) }
 
       it "returns a String in the expected format for the Object" do
         _(subject.to_s).must_equal(
@@ -39,7 +37,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     given "a non-default #scope" do
-      subject { unit_class.new(full_object1, scope: :verbose) }
+      subject { ObjectInspector::Inspector.new(full_object1, scope: :verbose) }
 
       it "returns a String in the expected format for the Object" do
         _(subject.to_s).must_equal(
@@ -52,7 +50,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
   describe "#identification" do
     given "Object#inspect_identification is defined" do
-      subject { unit_class.new(full_object1) }
+      subject { ObjectInspector::Inspector.new(full_object1) }
 
       it "returns Object#inspect_identification" do
         _(subject.identification).must_equal(
@@ -62,7 +60,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     given "Object#inspect_identification isn't defined" do
-      subject { unit_class.new(simple_object1) }
+      subject { ObjectInspector::Inspector.new(simple_object1) }
 
       it "returns the Object's Class Name" do
         _(subject.identification).must_equal(SimpleTestObject.name)
@@ -71,7 +69,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
     given ":identification is passed in" do
       subject {
-        unit_class.new(
+        ObjectInspector::Inspector.new(
           simple_object1,
           identification: "PASSED_IN_IDENTIFICATION",
         )
@@ -85,7 +83,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
   describe "#flags" do
     given "Object#inspect_flags is defined" do
-      subject { unit_class.new(full_object1) }
+      subject { ObjectInspector::Inspector.new(full_object1) }
 
       it "returns Object#inspect_flags" do
         _(subject.flags).must_equal(full_object1.inspect_flags)
@@ -93,7 +91,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     given "Object#inspect_flags isn't defined" do
-      subject { unit_class.new(simple_object1) }
+      subject { ObjectInspector::Inspector.new(simple_object1) }
 
       it "returns nil" do
         _(subject.flags).must_be_nil
@@ -101,7 +99,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     given ":flags is passed in" do
-      subject { unit_class.new(simple_object1, flags: "PASSED_IN_FLAG") }
+      subject { ObjectInspector::Inspector.new(simple_object1, flags: "PASSED_IN_FLAG") }
 
       it "returns the passed in :flags" do
         _(subject.flags).must_equal("PASSED_IN_FLAG")
@@ -111,7 +109,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
   describe "#info" do
     given "Object#inspect_info is defined" do
-      subject { unit_class.new(full_object1) }
+      subject { ObjectInspector::Inspector.new(full_object1) }
 
       it "returns Object#inspect_info" do
         _(subject.info).must_equal(full_object1.inspect_info)
@@ -119,7 +117,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     given "Object#inspect_info isn't defined" do
-      subject { unit_class.new(simple_object1) }
+      subject { ObjectInspector::Inspector.new(simple_object1) }
 
       it "returns nil" do
         _(subject.info).must_be_nil
@@ -127,7 +125,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     given ":info is passed in" do
-      subject { unit_class.new(simple_object1, info: "PASSED_IN_INFO") }
+      subject { ObjectInspector::Inspector.new(simple_object1, info: "PASSED_IN_INFO") }
 
       it "returns the passed in :info" do
         _(subject.info).must_equal("PASSED_IN_INFO")
@@ -137,14 +135,14 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
   describe "#name" do
     given "Object#inspect_name is defined" do
-      subject { unit_class.new(inspect_name_object1) }
+      subject { ObjectInspector::Inspector.new(inspect_name_object1) }
 
       it "returns Object#inspect_name" do
         _(subject.name).must_equal("INSPECT_NAME")
       end
 
       given "Object#display_name is defined" do
-        subject { unit_class.new(inspect_and_display_name_object1) }
+        subject { ObjectInspector::Inspector.new(inspect_and_display_name_object1) }
 
         it "returns Object#inspect_name" do
           _(subject.name).must_equal("INSPECT_NAME")
@@ -153,7 +151,10 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
       given ":name is passed in" do
         subject {
-          unit_class.new(inspect_name_object1, name: "PASSED_IN_NAME")
+          ObjectInspector::Inspector.new(
+            inspect_name_object1,
+            name: "PASSED_IN_NAME",
+          )
         }
 
         it "returns the passed in :name" do
@@ -163,14 +164,14 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     given "Object#inspect_name isn't defined" do
-      subject { unit_class.new(simple_object1) }
+      subject { ObjectInspector::Inspector.new(simple_object1) }
 
       it "returns nil" do
         _(subject.name).must_be_nil
       end
 
       given "Object#display_name is defined" do
-        subject { unit_class.new(display_name_object1) }
+        subject { ObjectInspector::Inspector.new(display_name_object1) }
 
         it "returns Object#display_name" do
           _(subject.name).must_equal("DISPLAY_NAME")
@@ -181,7 +182,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
 
   describe "#wrapped_object_inspection_result" do
     given "#object_is_a_wrapper? is true" do
-      subject { unit_class.new(wrapper_for_full_test_object1) }
+      subject { ObjectInspector::Inspector.new(wrapper_for_full_test_object1) }
 
       it "returns Object#to_model#inspect" do
         _(subject.wrapped_object_inspection_result)
@@ -190,7 +191,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
     end
 
     given "#object_is_a_wrapper? is false" do
-      subject { unit_class.new(simple_object1) }
+      subject { ObjectInspector::Inspector.new(simple_object1) }
 
       it "returns nil" do
         _(subject.wrapped_object_inspection_result).must_be_nil
@@ -199,7 +200,7 @@ class ObjectInspector::InspectorTest < Minitest::Spec
   end
 
   describe "#evaluate_passed_in_value" do
-    subject { unit_class.new(simple_object1) }
+    subject { ObjectInspector::Inspector.new(simple_object1) }
 
     given "#value is a Symbol" do
       it "returns Object#<value>, GIVEN Object responds to #value" do

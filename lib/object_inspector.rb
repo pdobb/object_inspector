@@ -19,7 +19,7 @@ module ObjectInspector
     @configuration = Configuration.new
   end
 
-  # :reek:TooManyInstanceVariables
+  # :reek:TooManyInstanceVariables, :reek:TooManyMethods
 
   # ObjectInspector::Configuration stores the default configuration options for
   # the ObjectInspector gem. Modification of attributes is possible at any time,

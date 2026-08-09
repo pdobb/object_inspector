@@ -3,14 +3,11 @@
 require "test_helper"
 
 class ObjectInspector::CombiningFormatterTest < Minitest::Spec
-  let(:klazz) { ObjectInspector::CombiningFormatter }
-  let(:inspector_klazz) { ObjectInspector::Inspector }
-
   let(:inspector_with_wrapped_object) {
     InspectableTestClass.new(
       identification: "WRAPPER",
       wrapped_object_inspection_result:
-        inspector_klazz.new(SimpleTestObject.new),
+        ObjectInspector::Inspector.new(SimpleTestObject.new),
     )
   }
   let(:inspector_with_flags_and_issues_and_info_and_name) {
@@ -77,7 +74,9 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
 
   describe "#call" do
     given "an Inspector with a wrapped object" do
-      subject { klazz.new(inspector_with_wrapped_object) }
+      subject {
+        ObjectInspector::CombiningFormatter.new(inspector_with_wrapped_object)
+      }
 
       it "returns the expected String" do
         _(subject.call).must_equal("<WRAPPER> ⇨ <SIMPLE_TEST_OBJECT>")
@@ -85,7 +84,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
     end
 
     given "an Inspector with #flags and #info and #name" do
-      subject { klazz.new(inspector_with_flags_and_info_and_name) }
+      subject { ObjectInspector::CombiningFormatter.new(inspector_with_flags_and_info_and_name) }
 
       it "returns the expected String" do
         _(subject.call).must_equal(
@@ -95,7 +94,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
     end
 
     given "an Inspector with #flags #issues and #info and #name" do
-      subject { klazz.new(inspector_with_flags_and_issues_and_info_and_name) }
+      subject { ObjectInspector::CombiningFormatter.new(inspector_with_flags_and_issues_and_info_and_name) }
 
       it "returns the expected String" do
         _(subject.call).must_equal(
@@ -105,7 +104,9 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
     end
 
     given "an Inspector with #flags and #info" do
-      subject { klazz.new(inspector_with_flags_and_info) }
+      subject {
+        ObjectInspector::CombiningFormatter.new(inspector_with_flags_and_info)
+      }
 
       it "returns the expected String" do
         _(subject.call).must_equal(
@@ -115,7 +116,9 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
     end
 
     given "an Inspector with #flags and #name" do
-      subject { klazz.new(inspector_with_flags_and_name) }
+      subject {
+        ObjectInspector::CombiningFormatter.new(inspector_with_flags_and_name)
+      }
 
       it "returns the expected String" do
         _(subject.call).must_equal(
@@ -125,7 +128,9 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
     end
 
     given "an Inspector with #info and #name" do
-      subject { klazz.new(inspector_with_info_and_name) }
+      subject {
+        ObjectInspector::CombiningFormatter.new(inspector_with_info_and_name)
+      }
 
       it "returns the expected String" do
         _(subject.call).must_equal("<IDENTIFICATION INFO :: NAME>")
@@ -133,7 +138,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
     end
 
     given "an Inspector with #name" do
-      subject { klazz.new(inspector_with_name) }
+      subject { ObjectInspector::CombiningFormatter.new(inspector_with_name) }
 
       it "returns the expected String" do
         _(subject.call).must_equal("<IDENTIFICATION :: NAME>")
@@ -141,7 +146,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
     end
 
     given "an Inspector with #flags" do
-      subject { klazz.new(inspector_with_flags) }
+      subject { ObjectInspector::CombiningFormatter.new(inspector_with_flags) }
 
       it "returns the expected String" do
         _(subject.call).must_equal("<IDENTIFICATION(FLAG1 | FLAG2)>")
@@ -149,7 +154,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
     end
 
     given "an Inspector with #info" do
-      subject { klazz.new(inspector_with_info) }
+      subject { ObjectInspector::CombiningFormatter.new(inspector_with_info) }
 
       it "returns the expected String" do
         _(subject.call).must_equal("<IDENTIFICATION INFO>")
@@ -157,7 +162,7 @@ class ObjectInspector::CombiningFormatterTest < Minitest::Spec
     end
 
     given "an Inspector with #base" do
-      subject { klazz.new(inspector_with_base) }
+      subject { ObjectInspector::CombiningFormatter.new(inspector_with_base) }
 
       it "returns the expected String" do
         _(subject.call).must_equal("<IDENTIFICATION>")
