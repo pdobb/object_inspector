@@ -11,6 +11,8 @@ module ObjectInspector
   # @yieldparam configuration [ObjectInspector::Configuration]
   def self.configure
     yield(configuration)
+
+    configuration
   end
 
   # Reset the current configuration settings memoized by

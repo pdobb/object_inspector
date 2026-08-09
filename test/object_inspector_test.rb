@@ -18,26 +18,34 @@ class ObjectInspectorTest < Minitest::Spec
   describe ".configure" do
     subject { ObjectInspector }
 
+    it "returns the ObjectInspector::Configuration object" do
+      result =
+        subject.configure { |_config|
+          # Do nothing
+        }
+
+      _(result).must_be_instance_of(ObjectInspector::Configuration)
+    end
+
     given "a custom configuration" do
       after do
         subject.reset_configuration
       end
 
       it "sets custom configuration and converts values to frozen Strings" do
-        subject.configure do |config|
-          config.formatter_class = TestFormatter
-          config.inspect_method_prefix = "test"
-          config.default_scope = :custom
-          config.wild_card_scope = :WILD_CARD
-          config.out_of_scope_placeholder = 0
-          config.presented_object_separator = ";"
-          config.name_separator = "|"
-          config.flags_separator = nil
-          config.issues_separator = "="
-          config.info_separator = "-"
-        end
-
-        result = subject.configuration
+        result =
+          subject.configure { |config|
+            config.formatter_class = TestFormatter
+            config.inspect_method_prefix = "test"
+            config.default_scope = :custom
+            config.wild_card_scope = :WILD_CARD
+            config.out_of_scope_placeholder = 0
+            config.presented_object_separator = ";"
+            config.name_separator = "|"
+            config.flags_separator = nil
+            config.issues_separator = "="
+            config.info_separator = "-"
+          }
 
         _(result.formatter_class).must_equal(TestFormatter)
         _(result.inspect_method_prefix).must_equal("test")
