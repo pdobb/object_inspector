@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+### 1.2.0 - 2026-8-9
+
 - Add Error Handling:
   - Fall back to the original `#inspect` when an inspect hook raises `StandardError`
   - Record the failure in thread-local `ObjectInspector.last_error`
