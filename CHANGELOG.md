@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+- Add Error Handling:
+  - Fall back to the original `#inspect` when an inspect hook raises `StandardError`
+  - Record the failure in thread-local `ObjectInspector.last_error`
+  - Clear it after the next successful inspect call
+  - Add a configurable callback hook `config.error_handler`
+    - Expected signature is: `->(exception, object:) { ... }` (default: no-op)
+
 ### 1.1.0 - 2026-8-9
 
 - Add documentation to README on the default `enabled` state + how to disable by default if desired (and why).

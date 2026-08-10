@@ -73,6 +73,86 @@ class ObjectInspectorTest < Minitest::Spec
     end
   end
 
+  describe ".record_error" do
+    subject { ObjectInspector }
+
+    after do
+      subject.clear_error
+      subject.reset_configuration
+    end
+
+    it "records and returns the last error for the current thread" do
+      error = StandardError.new("boom")
+
+      _(subject.record_error(error)).must_equal(error)
+      _(subject.last_error).must_equal(error)
+    end
+
+    given "an error_handler is configured" do
+      before do
+        ObjectInspector.configuration.error_handler =
+          ->(exception, object:) {
+            @error_handler_result = { exception:, object: }
+          }
+      end
+
+      let(:object1) { Object.new }
+
+      it "calls the handler with exception, object:" do
+        exception = StandardError.new("boom")
+        subject.record_error(exception, object: object1)
+
+        _(@error_handler_result).must_equal({ exception:, object: object1 })
+      end
+    end
+  end
+
+  describe ".last_error" do
+    subject { ObjectInspector }
+
+    after do
+      subject.clear_error
+    end
+
+    given "an error has been recorded" do
+      before do
+        subject.record_error(error1)
+      end
+
+      let(:error1) { StandardError.new("boom") }
+
+      it "returns the last error for the current thread" do
+        _(subject.last_error).must_equal(error1)
+      end
+    end
+
+    given "no error has been recorded" do
+      it "returns nil" do
+        _(subject.last_error).must_be_nil
+      end
+    end
+  end
+
+  describe ".clear_error" do
+    subject { ObjectInspector }
+
+    after do
+      subject.clear_error
+    end
+
+    given "an error has been recorded" do
+      before do
+        subject.record_error(StandardError.new("boom"))
+      end
+
+      it "clears the last error" do
+        subject.clear_error
+
+        _(subject.last_error).must_be_nil
+      end
+    end
+  end
+
   describe "Configuration" do
     before do
       MuchStub.on_call($stdout, :puts) { |call| @puts_call = call }

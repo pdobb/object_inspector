@@ -71,6 +71,7 @@ ObjectInspector.configure do |config|
   config.flags_separator = " / "
   config.issues_separator = " | "
   config.info_separator = " | "
+  config.error_handler = ->(exception, object:) {}
 end
 ```
 
@@ -521,6 +522,24 @@ See examples:
 
 - [ObjectInspector::TemplatingFormatter]
 - [ObjectInspector::CombiningFormatter]
+
+## Handling Errors
+
+When `#inspect` raises any `StandardError`, Object Inspector falls back to the original `#inspect` method and records the error in `ObjectInspector.last_error`:
+
+```ruby
+user = User.select(:id).first
+user.inspect
+# => #<User id: 1>
+
+ObjectInspector.last_error
+# => #<ActiveModel::MissingAttributeError: missing attribute: ...>
+puts ObjectInspector.last_error.full_message
+# ...: undefined local variable or method 'asdf' for an instance of Game (NameError)
+# ...
+
+ObjectInspector.clear_error
+```
 
 ## Help
 

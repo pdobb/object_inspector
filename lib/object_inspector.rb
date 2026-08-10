@@ -3,6 +3,9 @@
 # Defines the base namespace for all modules/classes used by the
 # object_inspector gem.
 module ObjectInspector
+  LAST_ERROR_THREAD_KEY = :object_inspector_last_error
+  private_constant :LAST_ERROR_THREAD_KEY
+
   # Accessor for the {ObjectInspector::Configuration} object.
   def self.configuration
     @configuration ||= Configuration.new
@@ -21,6 +24,40 @@ module ObjectInspector
     @configuration = Configuration.new
   end
 
+  # Remember the given exception--which will have caused inspect to fall back to
+  # the original `#inspect`. Stored per-thread/fiber so concurrent use does not
+  # clobber it.
+  #
+  # Calls {Configuration#error_handler} with `exception, object:` after
+  # recording.
+  #
+  # @param exception [Exception]
+  # @param object [Object, nil] The object being inspected, when known.
+  #
+  # @return [Exception]
+  def self.record_error(exception, object: nil)
+    Thread.current[LAST_ERROR_THREAD_KEY] = exception
+
+    configuration.error_handler.(exception, object:)
+
+    exception
+  end
+
+  # The most recent exception passed to {record_error} on this thread/fiber.
+  # Cleared by {clear_error} (including after a successful gem inspect).
+  #
+  # @return [Exception, nil]
+  def self.last_error
+    Thread.current[LAST_ERROR_THREAD_KEY]
+  end
+
+  # Clear {#last_error} for the current thread/fiber.
+  #
+  # @return [nil]
+  def self.clear_error
+    Thread.current[LAST_ERROR_THREAD_KEY] = nil
+  end
+
   # :reek:TooManyInstanceVariables, :reek:TooManyMethods
 
   # ObjectInspector::Configuration stores the default configuration options for
@@ -36,7 +73,8 @@ module ObjectInspector
                 :name_separator,
                 :flags_separator,
                 :issues_separator,
-                :info_separator
+                :info_separator,
+                :error_handler
 
     # :reek:LongParameterList, :reek:BooleanParameter
     def initialize( # rubocop:disable Metrics/MethodLength, Metrics/ParameterLists
@@ -50,7 +88,8 @@ module ObjectInspector
       name_separator: " - ",
       flags_separator: " / ",
       issues_separator: " | ",
-      info_separator: " | "
+      info_separator: " | ",
+      error_handler: ->(exception, object:) {}
     )
       @enabled = enabled
       @formatter_class = formatter_class
@@ -63,6 +102,7 @@ module ObjectInspector
       @flags_separator = flags_separator
       @issues_separator = issues_separator
       @info_separator = info_separator
+      self.error_handler = error_handler
     end
 
     # @param value [Object] Coerced to a Boolean with `!!value`.
@@ -135,6 +175,21 @@ module ObjectInspector
 
     def info_separator=(value)
       @info_separator = value.to_s.freeze
+    end
+
+    # :reek:ManualDispatch
+
+    # A callable, invoked by {ObjectInspector.record_error}.
+    #
+    # Expected signature: `->(exception, object:) { ... }`.
+    #
+    # @param value [#call]
+    def error_handler=(value)
+      unless value.respond_to?(:call)
+        raise(TypeError, "error_handler must be callable")
+      end
+
+      @error_handler = value
     end
   end
 end

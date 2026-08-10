@@ -63,6 +63,43 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
         )
       end
     end
+
+    given "an inspect hook raises a StandardError" do
+      subject { RaisingTestObject.new }
+
+      after do
+        ObjectInspector.clear_error
+      end
+
+      it "falls back to the original #inspect" do
+        _(subject.inspect).must_match(
+          /#<ObjectInspector::InspectBehaviorsTest::RaisingTestObject:0x\w+>/,
+        )
+      end
+
+      it "records the error as ObjectInspector.last_error" do
+        subject.inspect
+
+        _(ObjectInspector.last_error).must_be_instance_of(StandardError)
+        _(ObjectInspector.last_error.message).must_equal("TEST ERROR")
+      end
+    end
+
+    given "inspect succeeds after a previous error" do
+      before do
+        RaisingTestObject.new.inspect
+      end
+
+      after do
+        ObjectInspector.clear_error
+      end
+
+      it "clears ObjectInspector.last_error" do
+        _(ObjectInspector.last_error).wont_be_nil
+        simple_object1.inspect
+        _(ObjectInspector.last_error).must_be_nil
+      end
+    end
   end
 
   describe "#inspect!" do
@@ -114,6 +151,27 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
         )
       end
     end
+
+    given "an inspect hook raises a StandardError" do
+      subject { RaisingTestObject.new }
+
+      after do
+        ObjectInspector.clear_error
+      end
+
+      it "falls back to the original #inspect" do
+        _(subject.inspect!).must_match(
+          /#<ObjectInspector::InspectBehaviorsTest::RaisingTestObject:0x\w+>/,
+        )
+      end
+
+      it "records the error as ObjectInspector.last_error" do
+        subject.inspect!
+
+        _(ObjectInspector.last_error).must_be_instance_of(StandardError)
+        _(ObjectInspector.last_error.message).must_equal("TEST ERROR")
+      end
+    end
   end
 
   describe "#custom_inspect_method_defined?" do
@@ -142,6 +200,16 @@ class ObjectInspector::InspectBehaviorsTest < Minitest::Spec
 
   class SimpleTestObject
     include ObjectInspector::InspectBehaviors
+  end
+
+  class RaisingTestObject
+    include ObjectInspector::InspectBehaviors
+
+    private
+
+    def inspect_name
+      raise(StandardError, "TEST ERROR")
+    end
   end
 
   # :reek:RepeatedConditional
